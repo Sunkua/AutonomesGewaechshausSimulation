@@ -1,3 +1,4 @@
+package gewaeshaus.logic;
 
 public class Bedienterminal {
 

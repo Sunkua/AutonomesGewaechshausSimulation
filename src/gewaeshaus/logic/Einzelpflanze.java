@@ -1,3 +1,4 @@
+package gewaeshaus.logic;
 import java.util.Date;
 
 public class Einzelpflanze {
