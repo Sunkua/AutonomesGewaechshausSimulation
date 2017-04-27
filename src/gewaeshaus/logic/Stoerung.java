@@ -1,5 +1,16 @@
 package gewaeshaus.logic;
 
 public class Stoerung extends Meldung {
-	int fehlercode;
+    private int fehlercode;
+
+    public Stoerung(int fehlercode) {
+        this.fehlercode = fehlercode;
+    }
+
+    public int getFehlercode() {
+        return fehlercode;
+    }
+
+
+
 }

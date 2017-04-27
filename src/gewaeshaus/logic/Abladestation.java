@@ -1,4 +1,5 @@
 package gewaeshaus.logic;
+
 public class Abladestation {
     private int fuellstand;
     private int Status;

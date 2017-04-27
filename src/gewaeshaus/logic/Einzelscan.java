@@ -1,4 +1,5 @@
 package gewaeshaus.logic;
+
 public class Einzelscan extends Unterauftrag {
 
     public Einzelscan() {

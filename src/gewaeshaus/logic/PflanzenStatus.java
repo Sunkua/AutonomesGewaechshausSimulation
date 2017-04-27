@@ -1,6 +1,6 @@
 package gewaeshaus.logic;
 
 public enum PflanzenStatus {
-	eReif, eUnreif, eFaul, eKeine
+    eReif, eUnreif, eFaul, eKeine
 
 }

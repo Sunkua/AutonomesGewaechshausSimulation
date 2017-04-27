@@ -1,4 +1,5 @@
 package gewaeshaus.logic;
+
 public class AkkuLaden extends Unterauftrag {
 
     public AkkuLaden() {

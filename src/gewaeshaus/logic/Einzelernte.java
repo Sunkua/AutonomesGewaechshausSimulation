@@ -1,4 +1,5 @@
 package gewaeshaus.logic;
+
 public class Einzelernte extends Unterauftrag {
 
     public Einzelernte() {
@@ -7,6 +8,6 @@ public class Einzelernte extends Unterauftrag {
 
     @Override
     public void ausfuehren() {
-        
+
     }
 }
