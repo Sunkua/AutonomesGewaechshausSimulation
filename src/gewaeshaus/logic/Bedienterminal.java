@@ -2,7 +2,7 @@ package gewaeshaus.logic;
 
 public class Bedienterminal {
 
-	Meldungen meldung;
+	Meldung meldung;
 
 	public void starteEintelernteVonPosition(Position p) {
 
