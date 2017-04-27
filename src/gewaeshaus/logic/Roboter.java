@@ -4,33 +4,40 @@ public class Roboter {
 	private double Batteriestatus;
 	private double Fuellstand;
 	private RoboterStatus Status;
-	private Roboterleitsystem roboterleitsystem
+	private Roboterleitsystem roboterleitsystem;
 	
 	private boolean GoTo (RelativePosition RelativePos) {
+		return false;
 		
 	}
 	
 	private boolean Greife () {
+		return false;
 		
 	}
 	
 	private boolean Schneide () {
+		return false;
 		
 	}
 	
 	private boolean Lade_Auf() {
+		return false;
 		
 	}
 	
 	private RelativePosition GetPosition () {
+		return null;
 		
 	}
 	
 	private Pflanzenverwaltung pflanzeAnalysieren () {
+		return null;
 		
 	}
 	
 	private double getGewicht() {
+		return Batteriestatus;
 		
 	}
 	
@@ -47,6 +54,7 @@ public class Roboter {
 	}
 	
 	public RoboterStatus GetStatus() {
+		return Status;
 		
 	}
 	

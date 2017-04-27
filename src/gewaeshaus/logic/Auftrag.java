@@ -1,5 +1,6 @@
-import java.util.List;
 package gewaeshaus.logic;
+import java.util.List;
+
 public class Auftrag {
 
     private int id;
@@ -12,6 +13,7 @@ public class Auftrag {
 
 
     public Unterauftrag holeUnterauftrag() {
+		return null;
 
     }
 

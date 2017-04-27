@@ -12,14 +12,17 @@ public class Pflanzenverwaltung {
 	}
 	
 	public Einzelpflanze[] holePflanzenVonArt(PflanzenArt pa) {
+		return null;
 		
 	}
 	
 	public Einzelpflanze[] holePflanzenVonStatus(PflanzenStatus ps) {
+		return null;
 		
 	}
 	
 	public Einzelpflanze holePflanzeVonPosition(Position p) {
+		return null;
 		
 	}
 	

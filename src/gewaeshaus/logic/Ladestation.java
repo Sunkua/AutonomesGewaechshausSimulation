@@ -12,12 +12,14 @@ public class Ladestation {
 
     public String getStatus()
     {
+		return null;
 
     }
 
 
     public boolean verbinden()
     {
+		return frei;
 
     }
 

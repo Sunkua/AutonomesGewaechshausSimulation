@@ -1,10 +1,11 @@
+package gewaeshaus.logic;
 import java.rmi.UnexpectedException;
 import java.util.List;
-package gewaeshaus.logic;
+
 public class Roboterleitsystem {
 
 private List<Roboter> roboterListe;
-private List<Auftraege> auftragsListe;
+private List<Auftrag> auftragsListe;
 private Abladestation abladestation;
 private Ladestation ladestation;
 private Abladestation abladestation2;
@@ -28,12 +29,13 @@ public void abladeStationDefinieren()
 
 public Unterauftrag getUnterauftrag(int ID)
 {
+	return null;
 
 
 }
 
 
-public void setRoboterStatus(Roboter roboter, Roboterstatus status)
+public void setRoboterStatus(Roboter roboter, RoboterStatus status)
 {
 
 }
@@ -41,13 +43,10 @@ public void setRoboterStatus(Roboter roboter, Roboterstatus status)
 
 public int neuerAuftrag(Auftrag auftrag)
 {
+	return 0;
 
 }
 
-public Unterauftrag getUnterauftrag(int ID)
-{
-
-}
 
 private void warte()
 {
@@ -60,7 +59,7 @@ private void sendeMeldung()
 }
 
 
-public void addAuftrag(Autrag auftrag)
+public void addAuftrag(Auftrag auftrag)
 {
 
 }
