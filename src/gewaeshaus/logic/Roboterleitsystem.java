@@ -1,9 +1,6 @@
 import java.rmi.UnexpectedException;
 import java.util.List;
-
-/**
- * Created by sunku on 24.04.2017.
- */
+package gewaeshaus.logic;
 public class Roboterleitsystem {
 
 private List<Roboter> roboterListe;

@@ -1,14 +1,14 @@
-/**
- * Created by sunku on 24.04.2017.
- */
+package gewaeshaus.logic;
+
 public abstract class Unterauftrag {
 
     private Position position;
+
     public Unterauftrag() {
 
     }
-    public void ausfuehren()
-    {
+
+    public void ausfuehren() {
 
     }
 
