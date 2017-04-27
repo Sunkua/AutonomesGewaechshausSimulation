@@ -11,6 +11,7 @@ public class Gitter {
 	}
 	
 	public Position kuerzesterWegNach() {
+		return null;
 		
 	}
 	
