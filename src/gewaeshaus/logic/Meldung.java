@@ -8,7 +8,7 @@ public class Meldung {
     Date Zeitstempel;
     Class Melder;
 
-    public Meldung(string text, Class from) {
+    public Meldung(String text, Class from) {
         Meldung = text;
         Zeitstempel = new Date();
         Melder = from;
