@@ -1,10 +1,21 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
+import java.util.logging.*;
+
 public class Roboter {
+	
+	private static final Logger log = Logger.getLogger( Roboter.class.getName() );
+	
     private double Batteriestatus;
     private double Fuellstand;
     private RoboterStatus Status;
     private Roboterleitsystem roboterleitsystem;
+    
+    public Roboter() throws SecurityException, IOException {
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
+    }
 
     private boolean GoTo(RelativePosition RelativePos) {
         return false;

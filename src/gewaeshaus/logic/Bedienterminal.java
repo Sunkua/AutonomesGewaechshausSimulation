@@ -1,14 +1,21 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
+
+import java.util.logging.*;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
 public class Bedienterminal {
+	
+	private static final Logger log = Logger.getLogger( Bedienterminal.class.getName() );
 
     Meldung meldung;
 
-    public void starteEintelernteVonPosition(Position p) {
-
+    public void starteEintelernteVonPosition(Position p) throws SecurityException, IOException {
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
     }
 
     public void starteErnteVonArt(PflanzenArt pa) {

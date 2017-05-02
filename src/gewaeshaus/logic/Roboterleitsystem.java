@@ -1,9 +1,13 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
+import java.util.logging.*;
 
 public class Roboterleitsystem {
+	
+	private static final Logger log = Logger.getLogger( Roboterleitsystem.class.getName() );
 
     private List<Roboter> roboterListe;
     private List<Auftrag> auftragsListe;
@@ -12,8 +16,9 @@ public class Roboterleitsystem {
     private Abladestation abladestation2;
 
 
-    public Roboterleitsystem() {
-
+    public Roboterleitsystem() throws SecurityException, IOException {
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
     }
 
     public boolean operationAbbrechen(int ID) {

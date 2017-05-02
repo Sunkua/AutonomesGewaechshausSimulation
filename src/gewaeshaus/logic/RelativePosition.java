@@ -1,11 +1,20 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+
 public class RelativePosition extends Position {
+	
+	private static final Logger log = Logger.getLogger( RelativePosition.class.getName() );
 
     int SpaltenID;
     int ReihenID;
 
-    public RelativePosition() {
+    public RelativePosition() throws SecurityException, IOException {
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
         // TODO Auto-generated constructor stub
     }
 

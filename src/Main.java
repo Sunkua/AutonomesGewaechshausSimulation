@@ -7,13 +7,21 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import java.util.logging.*;
+
 import gewaeshaus.logic.Bedienterminal;
 import gewaeshaus.logic.Pflanzenverwaltung;
 import gewaeshaus.logic.Roboterleitsystem;
+import gewaeshaus.logic.Settings;
 
 public class Main {
+	
+	private static final Logger log = Logger.getLogger( Main.class.getName() );
 
 	public static void main(String[] args) throws JAXBException, IOException {
+		Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
+		
 		// TODO Auto-generated method stub
 		Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
 		Roboterleitsystem leitSystem = new Roboterleitsystem();

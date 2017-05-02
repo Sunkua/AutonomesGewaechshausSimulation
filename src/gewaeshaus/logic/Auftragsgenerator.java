@@ -1,9 +1,16 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
+
+import java.util.logging.*;
+
 public class Auftragsgenerator {
 
-    public Auftragsgenerator() {
-
+	private static final Logger log = Logger.getLogger( Auftragsgenerator.class.getName() );
+	
+    public Auftragsgenerator() throws SecurityException, IOException {
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
     }
 
     public int erstelleAuftragScan(Einzelpflanze[] pflanzen) {

@@ -1,12 +1,20 @@
 package gewaeshaus.logic;
 
+import java.io.IOException;
+import java.util.logging.*;
+
 public class Ladestation {
+	
+	private static final Logger log = Logger.getLogger( Ladestation.class.getName() );
 
     private boolean frei;
     private Position gridPosition;
     private int Status;
 
-    public Ladestation(Position pos) {
+    public Ladestation(Position pos) throws SecurityException, IOException {    	
+    	Handler handler = new FileHandler( Settings.loggingFilePath );
+		log.addHandler( handler );
+		
         frei = true;
         gridPosition = pos;
     }
