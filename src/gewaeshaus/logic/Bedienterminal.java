@@ -1,5 +1,8 @@
 package gewaeshaus.logic;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(namespace = "gewaeshaus.logic")
 public class Bedienterminal {
 
     Meldung meldung;
