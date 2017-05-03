@@ -8,17 +8,17 @@ public class Meldung {
 	
 	private static final Logger log = Logger.getLogger( Meldung.class.getName() );
 
-    String Meldung;
-    Date Zeitstempel;
-    Class Melder;
+    String meldung;
+    Date zeitstempel;
+    Class melder;
 
     public Meldung(String text, Class from) throws SecurityException, IOException {
     	Handler handler = new FileHandler( Settings.loggingFilePath );
 		log.addHandler( handler );
 		
-        Meldung = text;
-        Zeitstempel = new Date();
-        Melder = from;
+        meldung = text;
+        zeitstempel = new Date();
+        melder = from;
     }
 
 }
