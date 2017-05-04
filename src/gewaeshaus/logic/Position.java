@@ -7,8 +7,8 @@ public class Position {
 	
 	private static final Logger log = Logger.getLogger( Position.class.getName() );
 
-    float x;
-    float y;
+    double x;
+    double y;
 
     public Position() throws SecurityException, IOException {
     	Handler handler = new FileHandler( Settings.loggingFilePath );
@@ -16,19 +16,19 @@ public class Position {
         // TODO Auto-generated constructor stub
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 

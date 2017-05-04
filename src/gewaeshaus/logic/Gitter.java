@@ -8,7 +8,7 @@ public class Gitter {
 	
 	private static final Logger log = Logger.getLogger( Gitter.class.getName() );
 
-    int[][] gitter;
+    Positionsbelegung[][] gitter;
     double gitterhoehe;
     double gitterbreite;
 
@@ -16,18 +16,18 @@ public class Gitter {
     	Handler handler = new FileHandler( Settings.loggingFilePath );
 		log.addHandler( handler );
 		
-    	gitter = new int[horizontalFieldCount][verticalFieldCount];
+    	gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
         gitterhoehe = hoehe;
         gitterbreite = breite;
     }
 
-    public void toKarthesisch(Position p) {
-
+    public void toKarthesisch(RelativePosition p) {
+    	p.berechneReihenPosition(gitter[0].length, gitterhoehe);
+    	p.berechneSpaltenPosition(gitter.length, gitterbreite);
     }
 
     public Position kuerzesterWegNach() {
         return null;
-
     }
 
     public void nachGitter(Position p) {
