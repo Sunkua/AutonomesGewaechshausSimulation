@@ -5,6 +5,10 @@ import java.rmi.UnexpectedException;
 import java.util.List;
 import java.util.logging.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+
+@XmlRootElement(namespace = "gewaeshaus.logic")
 public class Roboterleitsystem {
 	
 	private static final Logger log = Logger.getLogger( Roboterleitsystem.class.getName() );

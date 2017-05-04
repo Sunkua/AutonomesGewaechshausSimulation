@@ -6,7 +6,7 @@ import java.util.logging.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(namespace = "gewaeshaus.logic")
+
 public class Bedienterminal {
 	
 	private static final Logger log = Logger.getLogger( Bedienterminal.class.getName() );

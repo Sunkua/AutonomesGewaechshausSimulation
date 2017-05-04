@@ -3,6 +3,10 @@ package gewaeshaus.logic;
 import java.io.IOException;
 import java.util.logging.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+
+@XmlRootElement(namespace = "gewaeshaus.logic")
 public class Pflanzenverwaltung {
 	
 	private static final Logger log = Logger.getLogger( Pflanzenverwaltung.class.getName() );

@@ -30,25 +30,39 @@ public class Main {
 		GUI gui = new GUI();
 		
 		
-		
-		
-
 	}
 	
-	public void saveStateToFile(String filename, Bedienterminal bedienTerminal) throws JAXBException
+	public void pflanzenverwaltungZustandInDateiSpeichern(String filename, Pflanzenverwaltung pflanzenverwaltung) throws JAXBException
 	{
-		JAXBContext context = JAXBContext.newInstance(Bedienterminal.class);
+		JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
 		Marshaller m = context.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(bedienTerminal, new File(filename));
+        m.marshal(pflanzenverwaltung, new File(filename));
 	}
 	
-	public Bedienterminal readStateFromFile(String filename) throws IOException, JAXBException
+	public void leitsystemZustandInDateiSpeichern(String filename, Roboterleitsystem roboterLeitsystem) throws JAXBException
+	{
+		JAXBContext context = JAXBContext.newInstance(Roboterleitsystem.class);
+		Marshaller m = context.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        m.marshal(roboterLeitsystem, new File(filename));
+	}
+	
+	public Roboterleitsystem leitsystemZustandAusDateiLesen(String filename) throws IOException, JAXBException
 	{
 		JAXBContext context = JAXBContext.newInstance(Bedienterminal.class);
 		Unmarshaller m = context.createUnmarshaller();
-		Bedienterminal bedienterminal = (Bedienterminal) m.unmarshal(new FileReader(filename));
-		return bedienterminal;
+		Roboterleitsystem leitsystem = (Roboterleitsystem) m.unmarshal(new FileReader(filename));
+		return leitsystem;
 	}
+	public Pflanzenverwaltung pflanzenVerwaltungZustandAusDateiLesen(String filename) throws IOException, JAXBException
+	{
+		JAXBContext context = JAXBContext.newInstance(Bedienterminal.class);
+		Unmarshaller m = context.createUnmarshaller();
+		Pflanzenverwaltung pflanzenverwaltung = (Pflanzenverwaltung) m.unmarshal(new FileReader(filename));
+		return pflanzenverwaltung;
+	}
+	
+	
 
 }
