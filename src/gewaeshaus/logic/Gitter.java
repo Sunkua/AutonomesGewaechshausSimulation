@@ -5,36 +5,41 @@ import java.io.IOException;
 import java.util.logging.*;
 
 public class Gitter {
-	
-	private static final Logger log = Logger.getLogger( Gitter.class.getName() );
 
-    Positionsbelegung[][] gitter;
-    double gitterhoehe;
-    double gitterbreite;
+	private static final Logger log = Logger.getLogger(Gitter.class.getName());
 
-    public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount) throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
-		
-    	gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
-        gitterhoehe = hoehe;
-        gitterbreite = breite;
-    }
+	Positionsbelegung[][] gitter;
+	double gitterhoehe;
+	double gitterbreite;
 
-    public void toKarthesisch(RelativePosition p) {
-    	p.berechneReihenPosition(gitter[0].length, gitterhoehe);
-    	p.berechneSpaltenPosition(gitter.length, gitterbreite);
-    }
+	public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount)
+			throws SecurityException, IOException {
+		Handler handler = new FileHandler(Settings.loggingFilePath);
+		log.addHandler(handler);
+		gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
+		for (int i = 0; i < horizontalFieldCount; i++) {
+			for (int j = 0; j < verticalFieldCount; j++) {
+				gitter[i][j] = Positionsbelegung.frei;
+			}
+		}
+		gitterhoehe = hoehe;
+		gitterbreite = breite;
+	}
 
-    public Position kuerzesterWegNach() {
-        return null;
-    }
+	public void toKarthesisch(RelativePosition p) {
+		p.berechneReihenPosition(gitter[0].length, gitterhoehe);
+		p.berechneSpaltenPosition(gitter.length, gitterbreite);
+	}
 
-    public void nachGitter(Position p) {
+	public Position kuerzesterWegNach() {
+		return null;
+	}
 
-    }
+	public void nachGitter(Position p) {
 
-    public void positionStatus(Position p) {
+	}
 
-    }
+	public void positionStatus(Position p) {
+
+	}
 }
