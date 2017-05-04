@@ -33,6 +33,14 @@ public class RelativePosition extends Position {
     public void setReihenID(int reihenID) {
         ReihenID = reihenID;
     }
-
-
+    
+    public void berechneReihenPosition(int maxReihen, float maxHoehe) {
+    	float reihenHoehe = maxHoehe / maxReihen;
+    	this.ReihenID = Math.round(this.y / reihenHoehe);
+    }
+    
+    public void berechneSpaltenPosition(int maxSpalten, float maxBreite) {
+    	float spaltenBreite = maxBreite / maxSpalten;
+    	this.ReihenID = Math.round(this.y / spaltenBreite);
+    }
 }
