@@ -43,4 +43,6 @@ public class RelativePosition extends Position {
     	double spaltenBreite = maxBreite / maxSpalten;
     	this.ReihenID = (int) Math.round(this.y / spaltenBreite);
     }
+    
+    
 }

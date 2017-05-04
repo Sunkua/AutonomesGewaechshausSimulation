@@ -1,7 +1,7 @@
 package gewaeshaus.logic;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.logging.*;
 
 public class Gitter {
@@ -31,15 +31,22 @@ public class Gitter {
 		p.berechneSpaltenPosition(gitter.length, gitterbreite);
 	}
 
-	public Position kuerzesterWegNach() {
-		return null;
+	
+	/**
+	 * Lee's Algorithmus zur Wegfindung impementieren
+	 * @param von Position XY
+	 * @param zu Position XY
+	 * @return Liste von Gridpositionen die der Reihe nach abgefahren werden müssen
+	 */
+	public ArrayList<Position> kuerzesterWegNach(RelativePosition von, RelativePosition zu) {
+		ArrayList<RelativePosition> positionsListe = new ArrayList<RelativePosition>();
+		
+		
+		return positionsListe;
 	}
 
-	public void nachGitter(Position p) {
-
-	}
 
 	public void positionStatus(Position p) {
-
+		
 	}
 }
