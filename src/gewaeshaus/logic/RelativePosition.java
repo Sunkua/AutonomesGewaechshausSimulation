@@ -34,12 +34,5 @@ public class RelativePosition extends Position {
         ReihenID = reihenID;
     }
 
-    public int getX() {
-        return 0;
-    }
-
-    public int getY() {
-        return 0;
-    }
 
 }
