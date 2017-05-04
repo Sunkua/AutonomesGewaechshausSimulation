@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.logging.*;
 
 /**
- * Implementierung der Akkufunktionalit‰t.
+ * Implementierung der Akkufunktionalit√§t.
  */
 public class Akku {
 	

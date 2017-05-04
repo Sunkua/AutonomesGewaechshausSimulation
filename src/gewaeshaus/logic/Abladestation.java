@@ -6,7 +6,7 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 /**
- * Implementiert die Funktionalität der Abladestation für Früchte.
+ * Implementiert die Funktionalitï¿½t der Abladestation fï¿½r Frï¿½chte.
  */
 public class Abladestation {
 	
@@ -22,16 +22,16 @@ public class Abladestation {
     }
 
     /**
-     * Aktualisiert den Füllstand der Abladestation.
-     * @param fuellstand Neuer Füllstand
+     * Aktualisiert den FÃ¼llstand der Abladestation.
+     * @param fuellstand Neuer FÃ¼llstand
      */
     public void updateFuellstand(int fuellstand) {
 
     }
 
     /**
-     * Gibt den Füllstand der Abladestation zurück.
-     * @return Aktueller Füllstand
+     * Gibt den FÃ¼llstand der Abladestation zurÃ¼ck.
+     * @return Aktueller FÃ¼llstand
      */
     public int getFuellstand() {
         return fuellstand;

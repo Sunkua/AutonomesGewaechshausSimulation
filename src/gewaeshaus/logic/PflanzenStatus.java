@@ -1,7 +1,7 @@
 package gewaeshaus.logic;
 
 /**
- * Definiert eine Liste der Zustände mit den Reifegraden der Früchte.
+ * Definiert eine Liste der ZustÃ¤nde mit den Reifegraden der FrÃ¼chte.
  */
 public enum PflanzenStatus {
     eReif, eUnreif, eFaul, eKeine

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.*;
 
 /**
- * Implementiert die Verwaltung von Aufträgen in Unteraufträgen.
+ * Implementiert die Verwaltung von AuftrÃ¤gen in UnterauftrÃ¤gen.
  */
 public class Auftrag {
 
@@ -20,7 +20,7 @@ public class Auftrag {
     }
 
     /**
-     * Gibt einen einzelnen Unterauftrag zurück.	
+     * Gibt einen einzelnen Unterauftrag zurÃ¼ck.	
      * @return Einzelner Unterauftrag
      */
     public Unterauftrag holeUnterauftrag() {
@@ -29,16 +29,16 @@ public class Auftrag {
     }
 
     /**
-     * Liefert die Liste von Unteraufträgen zurück.
-     * @return Unteraufträge
+     * Liefert die Liste von UnterauftrÃ¤gen zurÃ¼ck.
+     * @return Unterauftrï¿½ge
      */
 	public List getUnterauftraege() {
 		return unterauftraege;
 	}
 
 	/**
-	 * Ersetzt die komplette Liste von Unteraufträgen.
-	 * @param unterauftraege Neue Unteraufträge
+	 * Ersetzt die komplette Liste von UnterauftrÃ¤gen.
+	 * @param unterauftraege Neue UnterauftrÃ¤ge
 	 */
 	public void setUnterauftraege(List unterauftraege) {
 		this.unterauftraege = unterauftraege;

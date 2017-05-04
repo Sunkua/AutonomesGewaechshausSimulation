@@ -17,7 +17,7 @@ public class AkkuLaden extends Unterauftrag {
     }
 
     /**
-     * Startet die Ausführung des Auftrags. 
+     * Startet die AusfÃ¼hrung des Auftrags. 
      */
     @Override
     public void ausfuehren() {
