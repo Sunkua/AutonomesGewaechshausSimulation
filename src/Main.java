@@ -7,6 +7,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import Gewaechshaus.gui.GUI;
+
 import java.util.logging.*;
 
 import gewaeshaus.logic.Bedienterminal;
@@ -25,6 +27,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
 		Roboterleitsystem leitSystem = new Roboterleitsystem();
+		GUI gui = new GUI();
 		
 		
 		
