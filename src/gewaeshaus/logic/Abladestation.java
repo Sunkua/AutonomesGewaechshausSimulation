@@ -6,7 +6,7 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 /**
- * Implementiert die Funktionalit�t der Abladestation f�r Fr�chte.
+ * Implementiert die Funktionalität der Abladestation für Früchte.
  */
 public class Abladestation {
 	
