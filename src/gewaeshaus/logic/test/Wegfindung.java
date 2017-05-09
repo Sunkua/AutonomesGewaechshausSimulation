@@ -17,25 +17,20 @@ public class Wegfindung {
 		Gitter g = new Gitter(10f,10f, 5,5);
 		RelativePosition von = new RelativePosition();
 		RelativePosition zu = new RelativePosition();
-		von.setReihenID(2);
-		von.setSpaltenID(2);
+		von.setReihenID(0);
+		von.setSpaltenID(0);
 		zu.setReihenID(4);
 		zu.setSpaltenID(4);
-				
-		ArrayList<RelativePosition> erwartet = new ArrayList<RelativePosition>();
-		RelativePosition p1 = new RelativePosition();
-		p1.setReihenID(1);
-		p1.setSpaltenID(0);
-		erwartet.add(zu);
-		erwartet.add(p1);
+
+		
+		
+		int erwarteteSchrittzahl = 8;
 		
 		
 		
 		ArrayList<RelativePosition> pList = g.kuerzesterWegNach(von, zu);
-		if(erwartet.equals(pList)) {
-			System.out.println("erfolg");
-		}
-		assertEquals(erwartet, pList);
+		assertEquals(pList.size()-1, erwarteteSchrittzahl);
+
 		
 		
 		
