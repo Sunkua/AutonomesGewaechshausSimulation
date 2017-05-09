@@ -212,20 +212,20 @@ public class Gitter implements e {
 		// ist
 		int i = 0;
 		bearbeitung.add(current);
-		//while (!((bearbeitung.isEmpty()) || (current.equals(zu)))) {
-		while(!current.equals(zu)) {	
-		// Abstand zum Ursprung
+		// while (!((bearbeitung.isEmpty()) || (current.equals(zu)))) {
+		while (!current.equals(zu)) {
+			// Abstand zum Ursprung
 			i++;
 			if (bearbeitung.isEmpty()) {
 				break;
 			}
 			current = bearbeitung.get(0);
-			
+
 			// Nachbarn aller Knoten
 			List<RelativePosition> nachbarn = getNachbarn(current);
 			for (RelativePosition aktuellePosition : bearbeitung) {
 				nachbarn.addAll(getNachbarn(aktuellePosition));
-				
+
 			}
 			bearbeitung.clear();
 
@@ -252,23 +252,21 @@ public class Gitter implements e {
 		// Backtrack
 		current = zu;
 		positionsListe.add(current);
-		
+
 		Integer currentValue = pfadArray[zu.getSpaltenID()][zu.getReihenID()];
-		while(!current.equals(von)) {
-			// Finde kleiner bewertete Position
-			
+		RelativePosition vorherigePos = current;
+		while (!current.equals(von)) {
 			List<RelativePosition> nachbarn = getNachbarn(current);
 			for(RelativePosition p : nachbarn) {
-				if (pfadArray[p.getSpaltenID()][p.getReihenID()] == currentValue-1) {
-					currentValue = pfadArray[p.getSpaltenID()][p.getReihenID()];
-					positionsListe.add(p);
+				if(pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()])
+				{
 					current = p;
+					positionsListe.add(p);
 					break;
 				}
-				
 			}
+			
 		}
-		
 
 		return positionsListe;
 	}
