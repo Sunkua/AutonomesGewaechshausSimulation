@@ -11,7 +11,10 @@ public class RelativePosition extends Position {
 
     int SpaltenID;
     int ReihenID;
-
+    
+    
+    
+    
     public RelativePosition() throws SecurityException, IOException {
     	Handler handler = new FileHandler( Settings.loggingFilePath );
 		log.addHandler( handler );
