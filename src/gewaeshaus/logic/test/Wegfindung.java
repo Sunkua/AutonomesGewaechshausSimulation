@@ -14,13 +14,13 @@ public class Wegfindung {
 
 	@Test
 	public void test() throws SecurityException, IOException {
-		Gitter g = new Gitter(10f,10f, 4,4);
+		Gitter g = new Gitter(10f,10f, 5,5);
 		RelativePosition von = new RelativePosition();
 		RelativePosition zu = new RelativePosition();
-		von.setReihenID(0);
-		von.setSpaltenID(0);
-		zu.setReihenID(2);
-		zu.setSpaltenID(2);
+		von.setReihenID(2);
+		von.setSpaltenID(2);
+		zu.setReihenID(4);
+		zu.setSpaltenID(4);
 				
 		ArrayList<RelativePosition> erwartet = new ArrayList<RelativePosition>();
 		RelativePosition p1 = new RelativePosition();

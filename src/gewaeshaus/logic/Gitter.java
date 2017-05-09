@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.logging.*;
+import java.util.stream.IntStream;
 
 import javafx.util.Pair;
 
@@ -194,7 +195,7 @@ public class Gitter implements e {
 	 */
 	public ArrayList<RelativePosition> kuerzesterWegNach(RelativePosition von, RelativePosition zu) {
 		ArrayList<RelativePosition> positionsListe = new ArrayList<RelativePosition>();
-		int[][] pfadArray = new int[gitter.length][gitter[0].length];
+		Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
 		for (int i = 0; i < pfadArray.length; i++) {
 			for (int j = 0; j < pfadArray[0].length; j++) {
 				pfadArray[i][j] = -1;
@@ -211,46 +212,63 @@ public class Gitter implements e {
 		// ist
 		int i = 0;
 		bearbeitung.add(current);
-		while (!(bearbeitung.isEmpty()) && !(current == zu)) {
-			// Abstand zum Ursprung
+		//while (!((bearbeitung.isEmpty()) || (current.equals(zu)))) {
+		while(!current.equals(zu)) {	
+		// Abstand zum Ursprung
 			i++;
+			if (bearbeitung.isEmpty()) {
+				break;
+			}
 			current = bearbeitung.get(0);
+			
+			// Nachbarn aller Knoten
 			List<RelativePosition> nachbarn = getNachbarn(current);
-			if (!nachbarn.isEmpty()) {
-				for (RelativePosition pos : nachbarn) {
-					// Wenn kein Hindernis, dann füge Nachbarn der
-					// Bearbeitungsliste
-					// hinzu
+			for (RelativePosition aktuellePosition : bearbeitung) {
+				nachbarn.addAll(getNachbarn(aktuellePosition));
+				
+			}
+			bearbeitung.clear();
 
-					if ((gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei)
-							&& pfadArray[pos.getSpaltenID()][pos.getReihenID()] == -1) {
-						pfadArray[pos.getSpaltenID()][pos.getReihenID()] = i;
-						bearbeitung.add(pos);
-					}
+			for (RelativePosition pos : nachbarn) {
+				// Wenn kein Hindernis, dann füge Nachbarn der
+				// Bearbeitungsliste
+				// hinzu
+
+				if ((gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei)
+						&& pfadArray[pos.getSpaltenID()][pos.getReihenID()] == -1) {
+					pfadArray[pos.getSpaltenID()][pos.getReihenID()] = i;
+					bearbeitung.add(pos);
 				}
 			}
-			bearbeitung.remove(current);
+		}
 
+		for (int z = 0; z < pfadArray.length; z++) {
+			for (int j = 0; j < pfadArray[0].length; j++) {
+				System.out.printf("%5d ", pfadArray[z][j]);
+			}
+			System.out.println();
 		}
 
 		// Backtrack
 		current = zu;
 		positionsListe.add(current);
-		int minimum = pfadArray[zu.getSpaltenID()][zu.getReihenID()];
-		while (current.getReihenID() != von.getReihenID() && current.getSpaltenID() != von.getSpaltenID()) {
-			List<RelativePosition> currentNachbarn = getNachbarn(current);
+		
+		Integer currentValue = pfadArray[zu.getSpaltenID()][zu.getReihenID()];
+		while(!current.equals(von)) {
+			// Finde kleiner bewertete Position
 			
-			for (RelativePosition r : currentNachbarn) {
-				int wert = pfadArray[r.getSpaltenID()][r.getReihenID()];
-				if (pfadArray[r.getSpaltenID()][r.getReihenID()] < minimum) {
-					minimum = pfadArray[r.getSpaltenID()][r.getReihenID()];
-					current = r;
-					positionsListe.add(current);
+			List<RelativePosition> nachbarn = getNachbarn(current);
+			for(RelativePosition p : nachbarn) {
+				if (pfadArray[p.getSpaltenID()][p.getReihenID()] == currentValue-1) {
+					currentValue = pfadArray[p.getSpaltenID()][p.getReihenID()];
+					positionsListe.add(p);
+					current = p;
 					break;
 				}
+				
 			}
-
 		}
+		
 
 		return positionsListe;
 	}
