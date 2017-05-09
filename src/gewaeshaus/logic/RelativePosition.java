@@ -6,46 +6,52 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 public class RelativePosition extends Position {
-	
-	private static final Logger log = Logger.getLogger( RelativePosition.class.getName() );
 
-    int SpaltenID;
-    int ReihenID;
-    
-    
-    
-    
-    public RelativePosition() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
-        // TODO Auto-generated constructor stub
-    }
+	// private static final Logger log = Logger.getLogger(
+	// RelativePosition.class.getName() );
 
-    public int getSpaltenID() {
-        return SpaltenID;
-    }
+	private int SpaltenID;
+	private int ReihenID;
 
-    public void setSpaltenID(int spaltenID) {
-        SpaltenID = spaltenID;
-    }
+	public RelativePosition() throws SecurityException, IOException {
+		// Handler handler = new FileHandler( Settings.loggingFilePath );
+		// log.addHandler( handler );
+		// TODO Auto-generated constructor stub
+	}
 
-    public int getReihenID() {
-        return ReihenID;
-    }
+	public int getSpaltenID() {
+		return SpaltenID;
+	}
 
-    public void setReihenID(int reihenID) {
-        ReihenID = reihenID;
-    }
-    
-    public void berechneReihenPosition(int maxReihen, double maxHoehe) {
-    	double reihenHoehe = maxHoehe / maxReihen;
-    	this.ReihenID = (int) Math.round(this.y / reihenHoehe);
-    }
-    
-    public void berechneSpaltenPosition(int maxSpalten, double maxBreite) {
-    	double spaltenBreite = maxBreite / maxSpalten;
-    	this.ReihenID = (int) Math.round(this.y / spaltenBreite);
-    }
-    
-    
+	public void setSpaltenID(int spaltenID) {
+		SpaltenID = spaltenID;
+	}
+
+	public int getReihenID() {
+		return ReihenID;
+	}
+
+	public void setReihenID(int reihenID) {
+		ReihenID = reihenID;
+	}
+
+	public void berechneReihenPosition(int maxReihen, double maxHoehe) {
+		double reihenHoehe = maxHoehe / maxReihen;
+		this.ReihenID = (int) Math.round(this.y / reihenHoehe);
+	}
+
+	public void berechneSpaltenPosition(int maxSpalten, double maxBreite) {
+		double spaltenBreite = maxBreite / maxSpalten;
+		this.ReihenID = (int) Math.round(this.y / spaltenBreite);
+	}
+
+	public boolean equals(Object object2) {
+		RelativePosition p1 = (RelativePosition) object2;
+		if (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
