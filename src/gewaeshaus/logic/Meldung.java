@@ -8,9 +8,9 @@ public class Meldung {
 	
 	private static final Logger log = Logger.getLogger( Meldung.class.getName() );
 
-    String meldung;
-    Date zeitstempel;
-    Class melder;
+    private String meldung;
+    private Date zeitstempel;
+    private Class melder;
 
     public Meldung(String text, Class from) throws SecurityException, IOException {
     	Handler handler = new FileHandler( Settings.loggingFilePath );

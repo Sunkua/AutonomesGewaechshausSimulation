@@ -30,7 +30,7 @@ public class Auftrag {
 
     /**
      * Liefert die Liste von Unteraufträgen zurück.
-     * @return Unterauftr�ge
+     * @return Unteraufträge
      */
 	public List getUnterauftraege() {
 		return unterauftraege;

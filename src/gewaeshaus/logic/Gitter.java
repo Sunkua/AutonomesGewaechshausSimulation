@@ -2,6 +2,7 @@ package gewaeshaus.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -16,21 +17,22 @@ public class Gitter implements e {
 
 	private static final Logger log = Logger.getLogger(Gitter.class.getName());
 
-	Positionsbelegung[][] gitter;
-	double gitterhoehe;
-	double gitterbreite;
+	private Positionsbelegung[][] gitter;
+	private final double gitterhoehe;
+	private final double gitterbreite;
 
 	/**
 	 * 
 	 * @param hoehe
+	 *            Reale HÃ¶he des Gitters
 	 * @param breite
+	 *            Reale Breite des Gitters
 	 * @param horizontalFieldCount
+	 *            Anzahl der Felder auf der X-Achse
 	 * @param verticalFieldCount
+	 *            Anzahl der Felder auf der Y-Achse
 	 * @throws SecurityException
-	 * @throws IOException
-	 * 
-	 *             Gitteraufbau: x123 1 2 3 y
-	 * 
+	 * @throws IOException*
 	 */
 	public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount)
 			throws SecurityException, IOException {
@@ -64,7 +66,7 @@ public class Gitter implements e {
 	 *            X-Koordinate vom Ausgangspunkt
 	 * @param y
 	 *            Y-Koordinate vom Ausgangspunkt
-	 * @return x,y Koordinate von der Gridkoordinate darüber Wenn schon drüber,
+	 * @return x,y Koordinate von der Gridkoordinate darï¿½ber Wenn schon drï¿½ber,
 	 *         dann wird die Ziel-y-Koordinate auf -1 gesetzt
 	 * @throws IOException
 	 * @throws SecurityException
@@ -152,7 +154,7 @@ public class Gitter implements e {
 
 	/**
 	 * @todo Try Catch kann eventuell ersetzt werden wenn bei Koordinaten der
-	 *       Position auf < 0 oder >= gitterbreite geprüft wird
+	 *       Position auf < 0 oder >= gitterbreite geprï¿½ft wird
 	 * 
 	 * @param pos
 	 *            Position von der aus Nachbarn gesucht werden sollen
@@ -190,13 +192,13 @@ public class Gitter implements e {
 	 * @param zu
 	 *            Position XY
 	 * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
-	 *         müssen
+	 *         mï¿½ssen
 	 */
 	public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) {
 		ArrayList<Position> wegListe = new ArrayList<Position>();
 		Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
-		
-		// Array mit -1 füllen
+
+		// Array mit -1 fï¿½llen
 		for (int i = 0; i < pfadArray.length; i++) {
 			for (int j = 0; j < pfadArray[0].length; j++) {
 				pfadArray[i][j] = -1;
@@ -205,28 +207,27 @@ public class Gitter implements e {
 
 		// Liste mit zu bearbeitenden Positionen (zuletzt gewertete Felder)
 		ArrayList<Position> bearbeitung = new ArrayList<Position>();
-		
+
 		// Setze von-Position in value-Array auf leer und auf init-Position
 		if (gitter[von.getSpaltenID()][von.getReihenID()] == Positionsbelegung.frei)
 			pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
 		Position current = von;
 
-		
 		int i = 0;
 		bearbeitung.add(current);
-		
+
 		// Berechne bis die Zielposition erreicht ist
 		while (!current.equals(zu)) {
 			// Abstand zum Ursprung
 			i++;
-			
+
 			// Sollte die Liste leer sein (Kein Pfad gefunden)
 			if (bearbeitung.isEmpty()) {
 				break;
 			}
 			current = bearbeitung.get(0);
 
-			// Nachbarn aller Knoten zur Bearbeitung einfügen
+			// Nachbarn aller Knoten zur Bearbeitung einfï¿½gen
 			List<Position> nachbarn = getNachbarn(current);
 			for (Position aktuellePosition : bearbeitung) {
 				nachbarn.addAll(getNachbarn(aktuellePosition));
@@ -235,7 +236,7 @@ public class Gitter implements e {
 			bearbeitung.clear();
 
 			for (Position pos : nachbarn) {
-				// Wenn kein Hindernis, dann füge Nachbarn der
+				// Wenn kein Hindernis, dann fï¿½ge Nachbarn der
 				// Bearbeitungsliste
 				// hinzu
 
@@ -246,16 +247,25 @@ public class Gitter implements e {
 				}
 			}
 		}
-
-		// Den Pfad zurück laufen. Immer eine kleineren Wert im Array finden und diesen in die Wegliste einfügen
+		for (int z = 0; z < pfadArray.length; z++) {
+			for (int j = 0; j < pfadArray[0].length; j++) {
+				if (pfadArray[z][j] == -1) {
+					System.out.print("X  ");
+				} else {
+					System.out.print(pfadArray[z][j] + "  ");
+				}
+			}
+			System.out.println();
+		}
+		// Den Pfad zurï¿½ck laufen. Immer eine kleineren Wert im Array finden und
+		// diesen in die Wegliste einfï¿½gen
 		current = zu;
 		wegListe.add(current);
 
 		while (!current.equals(von)) {
 			List<Position> nachbarn = getNachbarn(current);
-			for(Position p : nachbarn) {
-				if(pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()])
-				{
+			for (Position p : nachbarn) {
+				if (pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()] && (pfadArray[p.getSpaltenID()][p.getReihenID()] != -1)) {
 					current = p;
 					wegListe.add(p);
 					break;
@@ -266,17 +276,22 @@ public class Gitter implements e {
 	}
 
 	/**
-	 * Trägt eine bestimmte Belegung an der Position ein
-	 * @param belegung gewünschte Positionsbelegung
-	 * @param p Position an der die Belegung eingetragen werden soll
+	 * Trï¿½gt eine bestimmte Belegung an der Position ein
+	 * 
+	 * @param belegung
+	 *            gewï¿½nschte Positionsbelegung
+	 * @param p
+	 *            Position an der die Belegung eingetragen werden soll
 	 */
 	public void setPosition(Positionsbelegung belegung, Position p) {
 		this.gitter[p.getSpaltenID()][p.getReihenID()] = belegung;
 	}
-	
+
 	/**
 	 * Liest die Belegung der Position aus
-	 * @param p Position von der die Belegung gelesen werden soll
+	 * 
+	 * @param p
+	 *            Position von der die Belegung gelesen werden soll
 	 * @return Positionsbelegung des Positionsparameters
 	 */
 	public Positionsbelegung getPositionsbelegung(Position p) {
