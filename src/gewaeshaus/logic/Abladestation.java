@@ -21,7 +21,7 @@ public class Abladestation {
 	private AblageTyp ablagetyp;
 
 	/**
-	 * Initialisiert eine Abladestation ohne Ablagetyp und leerem Füllstand.
+	 * Initialisiert eine Abladestation ohne Ablagetyp, Art und leerem Füllstand.
 	 * 
 	 * @param position Position im Gewächtshaus
 	 * @throws SecurityException
@@ -34,6 +34,7 @@ public class Abladestation {
 		this.gridPosition = position;
 		fuellstand = 0;
 		pflanzenart = null;
+		ablagetyp = null;
 	}
 
 	/**
