@@ -247,16 +247,7 @@ public class Gitter implements e {
 				}
 			}
 		}
-		for (int z = 0; z < pfadArray.length; z++) {
-			for (int j = 0; j < pfadArray[0].length; j++) {
-				if (pfadArray[z][j] == -1) {
-					System.out.print("X  ");
-				} else {
-					System.out.print(pfadArray[z][j] + "  ");
-				}
-			}
-			System.out.println();
-		}
+
 		// Den Pfad zur�ck laufen. Immer eine kleineren Wert im Array finden und
 		// diesen in die Wegliste einf�gen
 		current = zu;

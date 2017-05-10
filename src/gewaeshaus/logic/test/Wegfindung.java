@@ -49,7 +49,6 @@ public class Wegfindung {
 		zu.setSpaltenID(2);		
 		g.setPosition(Positionsbelegung.ladestation, hindernis1);
 		g.setPosition(Positionsbelegung.pflanze, hindernis2);
-		
 		int erwarteteSchrittzahl = 6;	
 		ArrayList<Position> pList = g.kuerzesterWegNach(von, zu);
 		assertEquals(pList.size()-1, erwarteteSchrittzahl);	
