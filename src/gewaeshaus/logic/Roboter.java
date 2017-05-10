@@ -17,7 +17,7 @@ public class Roboter {
 		log.addHandler( handler );
     }
 
-    private boolean GoTo(RelativePosition RelativePos) {
+    private boolean GoTo(Position RelativePos) {
         return false;
 
     }
@@ -37,7 +37,7 @@ public class Roboter {
 
     }
 
-    private RelativePosition GetPosition() {
+    private Position GetPosition() {
         return null;
 
     }
