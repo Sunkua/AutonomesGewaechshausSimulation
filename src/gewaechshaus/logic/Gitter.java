@@ -11,7 +11,6 @@ import java.util.Stack;
 import java.util.logging.*;
 import java.util.stream.IntStream;
 
-import javafx.util.Pair;
 
 public class Gitter implements e {
 
