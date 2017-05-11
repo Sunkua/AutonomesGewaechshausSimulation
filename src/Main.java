@@ -1,20 +1,20 @@
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import Gewaechshaus.gui.GUI;
-
-import java.util.logging.*;
-
-import gewaeshaus.logic.Bedienterminal;
-import gewaeshaus.logic.Pflanzenverwaltung;
-import gewaeshaus.logic.Roboterleitsystem;
-import gewaeshaus.logic.Settings;
+import gewaechshaus.gui.GUI;
+import gewaechshaus.logic.Bedienterminal;
+import gewaechshaus.logic.Pflanzenverwaltung;
+import gewaechshaus.logic.Roboterleitsystem;
+import gewaechshaus.logic.Settings;
 
 public class Main {
 	
