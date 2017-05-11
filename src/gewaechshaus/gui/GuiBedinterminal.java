@@ -47,7 +47,7 @@ public class GuiBedinterminal extends JPanel{
 		
 		// Fill background
 		g2d.setColor(Color.lightGray);
-        g2d.fillRect(border, border, getWidth()-4*border, getHeight()-2*border);
+        g2d.fillRect(border, border, getWidth()-2*border, getHeight()-2*border);
 
 	}
 	public void init(){
