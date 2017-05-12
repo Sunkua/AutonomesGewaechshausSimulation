@@ -1,10 +1,5 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
-
 public class Position {
 
 	// private static final Logger log = Logger.getLogger(
@@ -15,7 +10,7 @@ public class Position {
 	private double x;
 	private double y;
 
-	public Position() throws SecurityException, IOException {
+	public Position() {
 		// Handler handler = new FileHandler( Settings.loggingFilePath );
 		// log.addHandler( handler );
 		// TODO Auto-generated constructor stub
@@ -107,11 +102,7 @@ public class Position {
 
 	public boolean equals(Object object2) {
 		Position p1 = (Position) object2;
-		if (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID()) {
-			return true;
-		} else {
-			return false;
-		}
+		return p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID();
 	}
 
 }

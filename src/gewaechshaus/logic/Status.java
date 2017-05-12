@@ -1,7 +1,9 @@
 package gewaechshaus.logic;
 
 import java.io.IOException;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 public class Status {
 	

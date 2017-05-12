@@ -1,11 +1,11 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
-import java.rmi.UnexpectedException;
-import java.util.List;
-import java.util.logging.*;
-
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")

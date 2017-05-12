@@ -2,289 +2,257 @@ package gewaechshaus.logic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.logging.*;
-import java.util.stream.IntStream;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 
 public class Gitter implements e {
 
-	private static final Logger log = Logger.getLogger(Gitter.class.getName());
+    private static final Logger log = Logger.getLogger(Gitter.class.getName());
 
-	private Positionsbelegung[][] gitter;
-	private final double gitterhoehe;
-	private final double gitterbreite;
+    private Positionsbelegung[][] gitter;
+    private final double gitterhoehe;
+    private final double gitterbreite;
 
-	/**
-	 * 
-	 * @param hoehe
-	 *            Reale Höhe des Gitters
-	 * @param breite
-	 *            Reale Breite des Gitters
-	 * @param horizontalFieldCount
-	 *            Anzahl der Felder auf der X-Achse
-	 * @param verticalFieldCount
-	 *            Anzahl der Felder auf der Y-Achse
-	 * @throws SecurityException
-	 * @throws IOException*
-	 */
-	public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount)
-			throws SecurityException, IOException {
-		Handler handler = new FileHandler(Settings.loggingFilePath);
-		log.addHandler(handler);
-		gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
-		for (int i = 0; i < horizontalFieldCount; i++) {
-			for (int j = 0; j < verticalFieldCount; j++) {
-				gitter[i][j] = Positionsbelegung.frei;
-			}
-		}
-		gitterhoehe = hoehe;
-		gitterbreite = breite;
-	}
+    /**
+     * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten Gitterkoordinaten
+     * @param hoehe                Reale Höhe des Gitters
+     * @param breite               Reale Breite des Gitters
+     * @param horizontalFieldCount Anzahl der Felder auf der X-Achse
+     * @param verticalFieldCount   Anzahl der Felder auf der Y-Achse
+     */
+    public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount) {
+        try {
+            Handler handler = new FileHandler(Settings.loggingFilePath);
+            log.addHandler(handler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
+        for (int i = 0; i < horizontalFieldCount; i++) {
+            for (int j = 0; j < verticalFieldCount; j++) {
+                gitter[i][j] = Positionsbelegung.frei;
+            }
+        }
+        gitterhoehe = hoehe;
+        gitterbreite = breite;
+    }
 
-	/**
-	 * Berechnet die Gitterkoordinaten der eingegebenen Position auf Basis der
-	 * realen Koordinaten
-	 * 
-	 * @param p
-	 *            Position deren karthesische Koordinaten berechnet werden
-	 *            sollen
-	 */
-	public void toKarthesisch(Position p) {
-		p.berechneReihenPosition(gitter[0].length, gitterhoehe);
-		p.berechneSpaltenPosition(gitter.length, gitterbreite);
-	}
+    /**
+     * Berechnet die Gitterkoordinaten der eingegebenen Position auf Basis der
+     * realen Koordinaten
+     *
+     * @param p Position deren karthesische Koordinaten berechnet werden
+     *          sollen
+     */
+    public void toKarthesisch(Position p) {
+        p.berechneReihenPosition(gitter[0].length, gitterhoehe);
+        p.berechneSpaltenPosition(gitter.length, gitterbreite);
+    }
 
-	/**
-	 * @param x
-	 *            X-Koordinate vom Ausgangspunkt
-	 * @param y
-	 *            Y-Koordinate vom Ausgangspunkt
-	 * @return x,y Koordinate von der Gridkoordinate dar�ber Wenn schon dr�ber,
-	 *         dann wird die Ziel-y-Koordinate auf -1 gesetzt
-	 * @throws IOException
-	 * @throws SecurityException
-	 */
-	public Position getPositionOben(Position pos) throws SecurityException, IOException {
-		int zielKoordX = pos.getSpaltenID();
-		int zielKoordY = (pos.getReihenID());
-		zielKoordY--;
+    /**
+     * Gibt die Position über einer Position zurück
+     * @param pos Ursprungsposition
+     * @return obere Position vom Ursprung
+     */
+    public Position getPositionOben(Position pos) {
+        int zielKoordX = pos.getSpaltenID();
+        int zielKoordY = (pos.getReihenID());
+        zielKoordY--;
 
-		if (zielKoordY < 0) {
-			throw new IndexOutOfBoundsException("Ursprung bereits ganz oben");
-		}
-		Position zielKoordinaten = new Position();
-		zielKoordinaten.setReihenID(zielKoordY);
-		zielKoordinaten.setSpaltenID(zielKoordX);
-		return zielKoordinaten;
-	}
+        if (zielKoordY < 0) {
+            throw new IndexOutOfBoundsException("Ursprung bereits ganz oben");
+        }
+        Position zielKoordinaten = new Position();
+        zielKoordinaten.setReihenID(zielKoordY);
+        zielKoordinaten.setSpaltenID(zielKoordX);
+        return zielKoordinaten;
+    }
 
-	/**
-	 * @param x
-	 *            X-Koordinate vom Ausgangspunkt
-	 * @param y
-	 *            Y-Koordinate vom Ausgangspunkt
-	 * @return x,y Gridkoordinate links vom Ursprungspunkt
-	 * @throws IOException
-	 * @throws SecurityException
-	 */
-	public Position getPositionLinks(Position pos) throws SecurityException, IOException {
-		int zielKoordX = pos.getSpaltenID();
-		int zielKoordY = pos.getReihenID();
-		zielKoordX--;
-		if (zielKoordX < 0) {
-			throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
-		}
-		Position zielKoordinaten = new Position();
-		zielKoordinaten.setReihenID(zielKoordY);
-		zielKoordinaten.setSpaltenID(zielKoordX);
-		return zielKoordinaten;
-	}
+    /**
+     * Gibt die Position links von einer Position zurück
+     * @param pos Ursprungsposition
+     * @return linke Position vom Ursprung
+     */
+    public Position getPositionLinks(Position pos) {
+        int zielKoordX = pos.getSpaltenID();
+        int zielKoordY = pos.getReihenID();
+        zielKoordX--;
+        if (zielKoordX < 0) {
+            throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
+        }
+        Position zielKoordinaten = new Position();
+        zielKoordinaten.setReihenID(zielKoordY);
+        zielKoordinaten.setSpaltenID(zielKoordX);
+        return zielKoordinaten;
+    }
 
-	/**
-	 * @param x
-	 *            X-Koordinate vom Ausgangspunkt
-	 * @param y
-	 *            Y-Koordinate vom Ausgangspunkt
-	 * @return x,y Gridkoordinate rechts vom Ursprungspunkt
-	 * @return
-	 * @throws IOException
-	 * @throws SecurityException
-	 */
-	public Position getPositionRechts(Position pos) throws SecurityException, IOException {
-		int zielKoordX = pos.getSpaltenID();
-		int zielKoordY = pos.getReihenID();
-		zielKoordX++;
-		if (zielKoordX >= gitter.length) {
-			throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
-		}
-		Position zielKoordinaten = new Position();
-		zielKoordinaten.setReihenID(zielKoordY);
-		zielKoordinaten.setSpaltenID(zielKoordX);
-		return zielKoordinaten;
-	}
+    /**
+     * Gibt die Position rechts von einer Position zurück
+     * @param pos Ursprungsposition
+     * @return rechte Position vom Ursprung
+     */
+    public Position getPositionRechts(Position pos) {
+        int zielKoordX = pos.getSpaltenID();
+        int zielKoordY = pos.getReihenID();
+        zielKoordX++;
+        if (zielKoordX >= gitter.length) {
+            throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
+        }
+        Position zielKoordinaten = new Position();
+        zielKoordinaten.setReihenID(zielKoordY);
+        zielKoordinaten.setSpaltenID(zielKoordX);
+        return zielKoordinaten;
+    }
 
-	/**
-	 * @param x
-	 *            X-Koordinate vom Ausgangspunkt
-	 * @param y
-	 *            Y-Koordinate vom Ausgangspunkt
-	 * @return x,y Gridkoordinate unter dem Ursprungspunkt
-	 * @throws IOException
-	 * @throws SecurityException
-	 */
-	public Position getPositionUnten(Position pos) throws SecurityException, IOException {
-		int zielKoordX = pos.getSpaltenID();
-		int zielKoordY = pos.getReihenID();
-		zielKoordY++;
-		if (zielKoordY >= gitter[0].length) {
-			throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
-		}
-		Position zielKoordinaten = new Position();
-		zielKoordinaten.setReihenID(zielKoordY);
-		zielKoordinaten.setSpaltenID(zielKoordX);
-		return zielKoordinaten;
-	}
+    /**
+     * Gibt die Position unter einer Position zurück
+     * @param pos Ursprungsposition
+     * @return untere Position vom Ursprung
+     */
+    public Position getPositionUnten(Position pos) {
+        int zielKoordX = pos.getSpaltenID();
+        int zielKoordY = pos.getReihenID();
+        zielKoordY++;
+        if (zielKoordY >= gitter[0].length) {
+            throw new IndexOutOfBoundsException("Ursprung bereits ganz links");
+        }
+        Position zielKoordinaten = new Position();
+        zielKoordinaten.setReihenID(zielKoordY);
+        zielKoordinaten.setSpaltenID(zielKoordX);
+        return zielKoordinaten;
+    }
 
-	/**
-	 * @todo Try Catch kann eventuell ersetzt werden wenn bei Koordinaten der
-	 *       Position auf < 0 oder >= gitterbreite gepr�ft wird
-	 * 
-	 * @param pos
-	 *            Position von der aus Nachbarn gesucht werden sollen
-	 * @return Collection der Nachbarknoten wenn vorhanden
-	 */
-	private List<Position> getNachbarn(Position pos) {
-		List<Position> nachbarn = new ArrayList<Position>();
-		try {
-			Position links = getPositionLinks(pos);
-			nachbarn.add(links);
-		} catch (Exception e) {
-		}
-		try {
-			Position rechts = getPositionRechts(pos);
-			nachbarn.add(rechts);
-		} catch (Exception e) {
-		}
-		try {
-			Position oben = getPositionOben(pos);
-			nachbarn.add(oben);
-		} catch (Exception e) {
-		}
-		try {
-			Position unten = getPositionUnten(pos);
-			nachbarn.add(unten);
-		} catch (Exception e) {
-		}
-		return nachbarn;
-	}
+    /**
+     * Gibt die Nachbarn einer Position zurück
+     * @param pos Position von der aus Nachbarn gesucht werden sollen
+     * @return Collection der Nachbarknoten wenn vorhanden
+     * Position auf < 0 oder >= gitterbreite geprüft wird
+     */
+    private List<Position> getNachbarn(Position pos) {
+        List<Position> nachbarn = new ArrayList<Position>();
+        try {
+            Position links = getPositionLinks(pos);
+            nachbarn.add(links);
+        } catch (Exception e) {
+        }
+        try {
+            Position rechts = getPositionRechts(pos);
+            nachbarn.add(rechts);
+        } catch (Exception e) {
+        }
+        try {
+            Position oben = getPositionOben(pos);
+            nachbarn.add(oben);
+        } catch (Exception e) {
+        }
+        try {
+            Position unten = getPositionUnten(pos);
+            nachbarn.add(unten);
+        } catch (Exception e) {
+        }
+        return nachbarn;
+    }
 
-	/**
-	 * @todo Lee-Algorithmus implementieren
-	 * @param von
-	 *            Position XY
-	 * @param zu
-	 *            Position XY
-	 * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
-	 *         m�ssen
-	 */
-	public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) {
-		ArrayList<Position> wegListe = new ArrayList<Position>();
-		Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
 
-		// Array mit -1 f�llen
-		for (int i = 0; i < pfadArray.length; i++) {
-			for (int j = 0; j < pfadArray[0].length; j++) {
-				pfadArray[i][j] = -1;
-			}
-		}
+    /**
+     * Berechnet den kürzesten Pfad zwischen 2 Positionen mittels Lee-Algorithmus
+     * @param von Position XY
+     * @param zu  Position XY
+     * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
+     * müssen
+     */
+    public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) {
+        ArrayList<Position> wegListe = new ArrayList<Position>();
+        Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
 
-		// Liste mit zu bearbeitenden Positionen (zuletzt gewertete Felder)
-		ArrayList<Position> bearbeitung = new ArrayList<Position>();
+        // Array mit -1 f�llen
+        for (int i = 0; i < pfadArray.length; i++) {
+            for (int j = 0; j < pfadArray[0].length; j++) {
+                pfadArray[i][j] = -1;
+            }
+        }
 
-		// Setze von-Position in value-Array auf leer und auf init-Position
-		if (gitter[von.getSpaltenID()][von.getReihenID()] == Positionsbelegung.frei)
-			pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
-		Position current = von;
+        // Liste mit zu bearbeitenden Positionen (zuletzt gewertete Felder)
+        ArrayList<Position> bearbeitung = new ArrayList<Position>();
 
-		int i = 0;
-		bearbeitung.add(current);
+        // Setze von-Position in value-Array auf leer und auf init-Position
+        if (gitter[von.getSpaltenID()][von.getReihenID()] == Positionsbelegung.frei)
+            pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
+        Position current = von;
 
-		// Berechne bis die Zielposition erreicht ist
-		while (!current.equals(zu)) {
-			// Abstand zum Ursprung
-			i++;
+        int i = 0;
+        bearbeitung.add(current);
 
-			// Sollte die Liste leer sein (Kein Pfad gefunden)
-			if (bearbeitung.isEmpty()) {
-				break;
-			}
-			current = bearbeitung.get(0);
+        // Berechne bis die Zielposition erreicht ist
+        while (!current.equals(zu)) {
+            // Abstand zum Ursprung
+            i++;
 
-			// Nachbarn aller Knoten zur Bearbeitung einf�gen
-			List<Position> nachbarn = getNachbarn(current);
-			for (Position aktuellePosition : bearbeitung) {
-				nachbarn.addAll(getNachbarn(aktuellePosition));
+            // Sollte die Liste leer sein (Kein Pfad gefunden)
+            if (bearbeitung.isEmpty()) {
+                break;
+            }
+            current = bearbeitung.get(0);
 
-			}
-			bearbeitung.clear();
+            // Nachbarn aller Knoten zur Bearbeitung einf�gen
+            List<Position> nachbarn = getNachbarn(current);
+            for (Position aktuellePosition : bearbeitung) {
+                nachbarn.addAll(getNachbarn(aktuellePosition));
 
-			for (Position pos : nachbarn) {
-				// Wenn kein Hindernis, dann f�ge Nachbarn der
-				// Bearbeitungsliste
-				// hinzu
+            }
+            bearbeitung.clear();
 
-				if ((gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei)
-						&& pfadArray[pos.getSpaltenID()][pos.getReihenID()] == -1) {
-					pfadArray[pos.getSpaltenID()][pos.getReihenID()] = i;
-					bearbeitung.add(pos);
-				}
-			}
-		}
+            for (Position pos : nachbarn) {
+                // Wenn kein Hindernis, dann f�ge Nachbarn der
+                // Bearbeitungsliste
+                // hinzu
 
-		// Den Pfad zur�ck laufen. Immer eine kleineren Wert im Array finden und
-		// diesen in die Wegliste einf�gen
-		current = zu;
-		wegListe.add(current);
+                if ((gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei)
+                        && pfadArray[pos.getSpaltenID()][pos.getReihenID()] == -1) {
+                    pfadArray[pos.getSpaltenID()][pos.getReihenID()] = i;
+                    bearbeitung.add(pos);
+                }
+            }
+        }
 
-		while (!current.equals(von)) {
-			List<Position> nachbarn = getNachbarn(current);
-			for (Position p : nachbarn) {
-				if (pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()] && (pfadArray[p.getSpaltenID()][p.getReihenID()] != -1)) {
-					current = p;
-					wegListe.add(p);
-					break;
-				}
-			}
-		}
-		return wegListe;
-	}
+        // Den Pfad zur�ck laufen. Immer eine kleineren Wert im Array finden und
+        // diesen in die Wegliste einf�gen
+        current = zu;
+        wegListe.add(current);
 
-	/**
-	 * Tr�gt eine bestimmte Belegung an der Position ein
-	 * 
-	 * @param belegung
-	 *            gew�nschte Positionsbelegung
-	 * @param p
-	 *            Position an der die Belegung eingetragen werden soll
-	 */
-	public void setPosition(Positionsbelegung belegung, Position p) {
-		this.gitter[p.getSpaltenID()][p.getReihenID()] = belegung;
-	}
+        while (!current.equals(von)) {
+            List<Position> nachbarn = getNachbarn(current);
+            for (Position p : nachbarn) {
+                if (pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()] && (pfadArray[p.getSpaltenID()][p.getReihenID()] != -1)) {
+                    current = p;
+                    wegListe.add(p);
+                    break;
+                }
+            }
+        }
+        return wegListe;
+    }
 
-	/**
-	 * Liest die Belegung der Position aus
-	 * 
-	 * @param p
-	 *            Position von der die Belegung gelesen werden soll
-	 * @return Positionsbelegung des Positionsparameters
-	 */
-	public Positionsbelegung getPositionsbelegung(Position p) {
-		return gitter[p.getSpaltenID()][p.getReihenID()];
-	}
+    /**
+     * Trägt eine bestimmte Belegung an der Position ein
+     *
+     * @param belegung gewünschte Positionsbelegung
+     * @param p        Position an der die Belegung eingetragen werden soll
+     */
+    public void setPosition(Positionsbelegung belegung, Position p) {
+        this.gitter[p.getSpaltenID()][p.getReihenID()] = belegung;
+    }
+
+    /**
+     * Liest die Belegung der Position aus
+     *
+     * @param p Position von der die Belegung gelesen werden soll
+     * @return Positionsbelegung des Positionsparameters
+     */
+    public Positionsbelegung getPositionsbelegung(Position p) {
+        return gitter[p.getSpaltenID()][p.getReihenID()];
+    }
 }

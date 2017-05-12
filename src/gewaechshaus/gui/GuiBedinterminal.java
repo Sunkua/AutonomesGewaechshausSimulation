@@ -1,20 +1,8 @@
 package gewaechshaus.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Paint;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import com.sun.xml.internal.ws.api.Component;
 
 
 enum GuiBedinterminalStatus{
@@ -24,15 +12,16 @@ enum GuiBedinterminalStatus{
 	scanne, scannePflanze, scanneSorte,
 	hinzufuegen,
 	entfernen
-};
+}
+
 enum GuiBedinterminalEvents{
 	start
-};
+}
 
 public class GuiBedinterminal extends JPanel{
 
 	private int border = 8;
-	
+
 	private GuiBedinterminalStatus status = GuiBedinterminalStatus.none;
 	private ArrayList<JButton> button;
 	BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);

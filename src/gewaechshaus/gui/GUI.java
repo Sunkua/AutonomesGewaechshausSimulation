@@ -1,18 +1,10 @@
 package gewaechshaus.gui;
 
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Toolkit;
-
-enum GuiState { idle, initDone, run};
+enum GuiState { idle, initDone, run}
 
 public class GUI  extends JFrame {
 	

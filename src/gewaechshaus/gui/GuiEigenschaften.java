@@ -1,15 +1,7 @@
 package gewaechshaus.gui;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.geom.Line2D;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class GuiEigenschaften extends JPanel{
 

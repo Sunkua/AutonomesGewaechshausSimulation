@@ -1,15 +1,14 @@
 package gewaechshaus.logic.test;
 
-import static org.junit.Assert.*;
+import gewaechshaus.logic.Gitter;
+import gewaechshaus.logic.Position;
+import gewaechshaus.logic.Positionsbelegung;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Test;
-
-import gewaechshaus.logic.Gitter;
-import gewaechshaus.logic.Position;
-import gewaechshaus.logic.Positionsbelegung;
+import static org.junit.Assert.assertEquals;
 
 public class Wegfindung {
 
