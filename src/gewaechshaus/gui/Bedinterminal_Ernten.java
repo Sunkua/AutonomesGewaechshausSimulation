@@ -15,23 +15,23 @@ public class Bedinterminal_Ernten extends JPanel {
 	public Bedinterminal_Ernten(GuiBedinterminal t) {
 		Terminal = t;
 		
-		JButton btnErnten = new JButton("Alle einer Sorte");
-		btnErnten.addActionListener(new ActionListener() {
+		JButton btnArt = new JButton("Alle einer Art");
+		btnArt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Terminal.toggleEvent(GuiBedinterminalEvents.BtnSorte);
 			}
 		});
 		
-		JButton btnScannen = new JButton("Alle mit gleicher Reife");
-		btnScannen.addActionListener(new ActionListener() {
+		JButton btnReife = new JButton("Alle mit gleicher Reife");
+		btnReife.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		
-		JButton btnHinzufgen = new JButton("Alle");
+		JButton btnAlle = new JButton("Alle");
 		
-		JButton btnEntfernen = new JButton("<< Abbrechen");
-		btnEntfernen.addActionListener(new ActionListener() {
+		JButton btnAbbrechen = new JButton("<< Abbrechen");
+		btnAbbrechen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Terminal.toggleEvent(GuiBedinterminalEvents.abbruch);
 			}
@@ -51,17 +51,17 @@ public class Bedinterminal_Ernten extends JPanel {
 							.addComponent(lblWonachWollenSie, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnErnten, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+							.addComponent(btnArt, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
 							.addGap(10)
-							.addComponent(btnScannen, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+							.addComponent(btnReife, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnEntfernen, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+							.addComponent(btnAbbrechen, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
 							.addGap(234))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnEineBestimmte, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
 							.addGap(12)
-							.addComponent(btnHinzufgen, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+							.addComponent(btnAlle, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
 							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
@@ -71,14 +71,14 @@ public class Bedinterminal_Ernten extends JPanel {
 					.addComponent(lblWonachWollenSie)
 					.addGap(24)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
-						.addComponent(btnErnten)
-						.addComponent(btnScannen))
+						.addComponent(btnArt)
+						.addComponent(btnReife))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnHinzufgen)
+						.addComponent(btnAlle)
 						.addComponent(btnEineBestimmte))
 					.addPreferredGap(ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
-					.addComponent(btnEntfernen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnAbbrechen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		setLayout(groupLayout);

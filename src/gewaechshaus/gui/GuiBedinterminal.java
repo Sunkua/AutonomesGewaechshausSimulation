@@ -101,12 +101,12 @@ public class GuiBedinterminal extends Panel{
 			break;
 		case ernte:	
 			if(GuiBedinterminalEvents.BtnSorte == e){
-				GeheZurSeite(new Bedinterminal_WähleSorte(this));	
+				GeheZurSeite(new Bedinterminal_WähleArt(this));	
 			}
 			break;
 		case scanne:
 			if(GuiBedinterminalEvents.BtnSorte == e){
-				GeheZurSeite(new Bedinterminal_WähleSorte(this));	
+				GeheZurSeite(new Bedinterminal_WähleArt(this));	
 			}	
 			break;
 		case hinzufuegen:
