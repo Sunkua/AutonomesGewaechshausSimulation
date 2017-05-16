@@ -29,8 +29,18 @@ public class Bedinterminal_Idle extends JPanel {
 		});
 		
 		JButton btnHinzufgen = new JButton("Hinzufügen");
+		btnHinzufgen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Terminal.toggleEvent(GuiBedinterminalEvents.BtnHinzufügen);
+			}
+		});
 		
 		JButton btnEntfernen = new JButton("Entfernen");
+		btnEntfernen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Terminal.toggleEvent(GuiBedinterminalEvents.BtnEntfernen);
+			}
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

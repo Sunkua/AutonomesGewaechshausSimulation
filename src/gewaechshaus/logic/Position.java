@@ -15,6 +15,11 @@ public class Position {
 		// log.addHandler( handler );
 		// TODO Auto-generated constructor stub
 	}
+	public Position(int spalte, int zeile) {
+		SpaltenID = spalte;
+		ReihenID = zeile;
+	}
+	
 
 	/**
 	 * Gibt die reale X-Koordinate als Flie�kommawert zur�ck

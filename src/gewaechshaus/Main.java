@@ -28,7 +28,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
 		Roboterleitsystem leitSystem = new Roboterleitsystem();
-		GUI gui = new GUI();
+		GUI gui = new GUI(pVerwaltung);
 		
 		
 	}

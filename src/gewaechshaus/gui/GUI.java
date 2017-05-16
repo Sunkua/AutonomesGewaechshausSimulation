@@ -3,6 +3,8 @@ package gewaechshaus.gui;
 
 import javax.swing.*;
 
+import gewaechshaus.logic.Pflanzenverwaltung;
+
 import java.awt.*;
 
 enum GuiState { idle, initDone, run}
@@ -17,10 +19,15 @@ public class GUI  extends JFrame {
 	private GuiGewaechshaus guiGewaechshaus;
 	private GuiEigenschaften guiEigenschaften;
 	private GuiBedinterminal guiBedinterminal;
+	
+	private Pflanzenverwaltung pflanzenverwaltung;
 
 
-	public GUI() {
+	public GUI(Pflanzenverwaltung p) {
 		// TODO Auto-generated constructor stub
+		
+		pflanzenverwaltung = p;
+		
         setTitle(title);//size of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -52,7 +59,7 @@ public class GUI  extends JFrame {
         RightPanel.setLayout( new GridLayout(2,1));
 
         // füqe Bedinterminal hinzu      	
-        guiBedinterminal = new GuiBedinterminal("Bedinterminal");
+        guiBedinterminal = new GuiBedinterminal("Bedinterminal",pflanzenverwaltung);
         guiBedinterminal.setPreferredSize(new Dimension( getWidth() * 1/3, getHeight()*1/2));
         RightPanel.add(guiBedinterminal);
 

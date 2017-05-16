@@ -23,12 +23,15 @@ public class Pflanzenverwaltung {
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
     }
 
-    public void pflanzeHinzufuegen(Einzelpflanze ep) throws SecurityException, IOException {
+    public void pflanzeHinzufuegen(Einzelpflanze ep)/* throws SecurityException, IOException*/ {
+    	/* ToDo Prüfe pflanze -> dann füge sie hinzu
         Handler handler = new FileHandler(Settings.loggingFilePath);
         log.addHandler(handler);
+        */
     }
 
     public void pflanzeEntfernen(Position p) {
+    	// ToDo Entferne die Pflanze
         Einzelpflanze pflanze  = pflanzenListe.get(p);
     }
 

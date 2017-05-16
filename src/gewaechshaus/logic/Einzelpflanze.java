@@ -42,6 +42,10 @@ public class Einzelpflanze {
 		this.reifegrad = stat;
 	}
 	
+	public void setPflanzenart(PflanzenArt art) {
+		this.art = art;
+	}
+	
 	public void setPosition(Position p) {
 		this.position = p;
 	}
