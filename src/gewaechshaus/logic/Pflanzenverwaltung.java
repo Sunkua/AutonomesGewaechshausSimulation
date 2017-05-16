@@ -18,9 +18,17 @@ public class Pflanzenverwaltung {
      * Hält die Liste von Pflanzen inkl. deren Positionen
      */
     private HashMap<Position, Einzelpflanze> pflanzenListe;
-
+    private Position maxGröße;
+    
     public Pflanzenverwaltung() {
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
+    }
+    
+    public void setMaxGröße(int zeilen, int spalten){
+    	maxGröße = new Position(zeilen, spalten);
+    }
+    public Position getMaxGröße(){
+    	return maxGröße;
     }
 
     public void pflanzeHinzufuegen(Einzelpflanze ep)/* throws SecurityException, IOException*/ {

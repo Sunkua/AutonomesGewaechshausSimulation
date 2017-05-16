@@ -47,7 +47,7 @@ public class GUI  extends JFrame {
         getContentPane().add(mainPanel);
         
         // füge Gewächhaus hinzu
-        guiGewaechshaus = new GuiGewaechshaus("Gewächshaus");
+        guiGewaechshaus = new GuiGewaechshaus("Gewächshaus", pflanzenverwaltung);
         guiGewaechshaus.setPreferredSize(new Dimension( getWidth() * 2/3, getHeight()));
         mainPanel.add(guiGewaechshaus, BorderLayout.LINE_START);
         

@@ -3,6 +3,8 @@ package gewaechshaus.gui;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
+import gewaechshaus.logic.Pflanzenverwaltung;
+
 import java.awt.*;
 
 enum GuiGewaechshausStatus{
@@ -17,11 +19,13 @@ enum GuiGewaechshausEvents{
 
 public class GuiGewaechshaus extends Panel{
 
-	private Canvas canvas;
+	private GewächshausCanvas canvas;
+	private Pflanzenverwaltung pflanzenverwaltung;
 	private GuiGewaechshausStatus status = GuiGewaechshausStatus.none;
 
-	public GuiGewaechshaus(String Name) {
+	public GuiGewaechshaus(String Name, Pflanzenverwaltung p) {
 		super(Name);
+		pflanzenverwaltung = p;
 	}
 
 	public void init(){
@@ -32,8 +36,7 @@ public class GuiGewaechshaus extends Panel{
 		switch(status){
 		case none:
 			if(GuiGewaechshausEvents.start == e){
-				canvas = new Canvas();
-				JButton b = new JButton("hallo");
+				canvas = new GewächshausCanvas(pflanzenverwaltung);
 				GroupLayout groupLayout = new GroupLayout(MainFrame);
 				groupLayout.setHorizontalGroup(
 						groupLayout.createParallelGroup(Alignment.LEADING)
@@ -50,6 +53,7 @@ public class GuiGewaechshaus extends Panel{
 								.addContainerGap())
 					);
 				MainFrame.setLayout(groupLayout);
+				canvas.init();
 				
 			}
 			break;
