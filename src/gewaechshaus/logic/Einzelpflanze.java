@@ -27,17 +27,20 @@ public class Einzelpflanze {
 	public double getGewicht() {
 		return gewicht;
 	}
-	
-	public void setGewicht(double gewicht)
-	{
+	public void setGewicht(double gewicht) {
 		this.gewicht = gewicht;
 	}
 	
-	public PflanzenStatus getPflanzenstatus()
-	{
-		return reifegrad;
+	public Date getReifezeit() {
+		return reifezeit;
+	}
+	public void setReifezeit(Date reifezeit) {
+		this.reifezeit = reifezeit;
 	}
 	
+	public PflanzenStatus getPflanzenstatus() {
+		return reifegrad;
+	}
 	public void setPflanzenstatus(PflanzenStatus stat) {
 		this.reifegrad = stat;
 	}
@@ -49,14 +52,14 @@ public class Einzelpflanze {
 	public void setPosition(Position p) {
 		this.position = p;
 	}
-	
 	public Position getPosition() {
 		return position;
 	}
-	
-	
-	
-	
-	
 
+	public PflanzenArt getArt() {
+		return art;
+	}
+	public void setArt(PflanzenArt art) {
+		this.art = art;
+	}
 }

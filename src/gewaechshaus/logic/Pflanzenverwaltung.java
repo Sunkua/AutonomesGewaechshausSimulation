@@ -3,7 +3,9 @@ package gewaechshaus.logic;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -19,35 +21,59 @@ public class Pflanzenverwaltung {
      */
     private HashMap<Position, Einzelpflanze> pflanzenListe;
 
-    public Pflanzenverwaltung() {
+    public Pflanzenverwaltung() throws SecurityException, IOException {
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
-    }
-
-    public void pflanzeHinzufuegen(Einzelpflanze ep)/* throws SecurityException, IOException*/ {
-    	/* ToDo Prüfe pflanze -> dann füge sie hinzu
         Handler handler = new FileHandler(Settings.loggingFilePath);
         log.addHandler(handler);
-        */
+        
+        log.info("Pflanzenverwaltun initialisiert.");
+    }
+
+    public void pflanzeHinzufuegen(Einzelpflanze ep) {
+    	pflanzenListe.put(ep.getPosition(), ep);
+    	
+    	log.info("Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
     }
 
     public void pflanzeEntfernen(Position p) {
     	// ToDo Entferne die Pflanze
         Einzelpflanze pflanze  = pflanzenListe.get(p);
+        
+        log.info("Pflanze " + pflanze.toString() + " an Position " + p.toString() + " entfernt.");
     }
 
-    public Einzelpflanze[] holePflanzenVonArt(PflanzenArt pa) {
-        return null;
-
+    public ArrayList<Einzelpflanze> holePflanzenVonArt(PflanzenArt pa) {
+    	ArrayList<Einzelpflanze> einzelpflanzen = new ArrayList<Einzelpflanze>();
+    	
+    	for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
+    		Einzelpflanze pflanze = entry.getValue();
+    		if (pflanze.getArt() == pa) {
+    			einzelpflanzen.add(pflanze);
+    		}
+    	}
+    	
+        return einzelpflanzen;
     }
 
-    public Einzelpflanze[] holePflanzenVonStatus(PflanzenStatus ps) {
-        return null;
-
+    public ArrayList<Einzelpflanze> holePflanzenVonStatus(PflanzenStatus ps) {
+    	ArrayList<Einzelpflanze> einzelpflanzen = new ArrayList<Einzelpflanze>();
+        
+    	for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
+    		Einzelpflanze pflanze = entry.getValue();
+    		if (pflanze.getPflanzenstatus() == ps) {
+    			einzelpflanzen.add(pflanze);
+    		}
+    	}
+    	
+        return einzelpflanzen;
     }
 
     public Einzelpflanze holePflanzeVonPosition(Position p) {
-        return null;
-
+		Einzelpflanze pflanze  = pflanzenListe.get(p);
+        
+        log.info("Pflanze an Position " + p.toString() + " geladen.");
+        
+        return pflanze;
     }
 
 }
