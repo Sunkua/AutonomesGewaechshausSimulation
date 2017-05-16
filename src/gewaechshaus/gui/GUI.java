@@ -77,5 +77,9 @@ public class GUI  extends JFrame {
         guistate = GuiState.initDone;        
                 
 	}
+	
+	public void updateGewächshaus(){
+		guiGewaechshaus.Update();
+	}
 
 }

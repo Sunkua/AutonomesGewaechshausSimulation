@@ -53,7 +53,6 @@ public class GuiGewaechshaus extends Panel{
 								.addContainerGap())
 					);
 				MainFrame.setLayout(groupLayout);
-				canvas.init();
 				
 			}
 			break;
@@ -61,5 +60,9 @@ public class GuiGewaechshaus extends Panel{
 
 			break;
 		}
+	}
+
+	public void Update() {
+		canvas.repaint();
 	}
 }

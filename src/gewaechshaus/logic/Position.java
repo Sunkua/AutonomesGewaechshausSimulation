@@ -1,12 +1,12 @@
 package gewaechshaus.logic;
 
-public class Position {
+public class Position implements Comparable<Position>{
 
 	// private static final Logger log = Logger.getLogger(
 	// RelativePosition.class.getName() );
 
-	private int SpaltenID;
-	private int ReihenID;
+	private Integer SpaltenID;
+	private Integer ReihenID;
 	private double x;
 	private double y;
 
@@ -19,8 +19,8 @@ public class Position {
 		SpaltenID = spalte;
 		ReihenID = zeile;
 	}
-	
 
+	
 	/**
 	 * Gibt die reale X-Koordinate als Flie�kommawert zur�ck
 	 * @return 
@@ -105,9 +105,25 @@ public class Position {
 		this.ReihenID = (int) Math.round(this.y / spaltenBreite);
 	}
 
-	public boolean equals(Object object2) {
-		Position p1 = (Position) object2;
-		return p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID();
+	public boolean equals(Object o) {
+       if (!(o instanceof Position))
+            return false;
+		Position p1 = (Position) o;
+		return (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID());
+	}
+	@Override
+	public int compareTo(Position o) {
+		// TODO Auto-generated method stub
+		if(o == this)return 0;
+		int i = SpaltenID.compareTo(o.getSpaltenID());
+		if (i != 0) return i;
+		return ReihenID.compareTo(o.getReihenID());
+	}
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		//return super.hashCode();
+		return SpaltenID.hashCode() + 31*ReihenID.hashCode();
 	}
 
 }

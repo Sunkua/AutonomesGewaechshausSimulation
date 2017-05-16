@@ -27,8 +27,10 @@ public class Main {
 		
 		// TODO Auto-generated method stub
 		Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
+		pVerwaltung.setMaxGröße(6, 20);
 		Roboterleitsystem leitSystem = new Roboterleitsystem();
 		GUI gui = new GUI(pVerwaltung);
+		pVerwaltung.setGui(gui);
 		
 		
 	}
