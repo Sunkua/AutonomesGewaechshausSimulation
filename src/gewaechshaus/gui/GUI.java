@@ -2,13 +2,14 @@ package gewaechshaus.gui;
 
 
 import javax.swing.*;
+
 import java.awt.*;
 
 enum GuiState { idle, initDone, run}
 
 public class GUI  extends JFrame {
 	
-	private String title = "SE2 Gew�chshaus";	// The application title
+	private String title = "SE2 Gewächshaus";	// The application title
 	
 	private JPanel mainPanel;				// Everything we draw will be put into this panel
 	private GuiState guistate = GuiState.idle;
@@ -32,35 +33,42 @@ public class GUI  extends JFrame {
         setSize(WindowSize);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
+        // erstelle MainPanel
         mainPanel = new JPanel();
-        mainPanel.setLayout(null);
+        mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.DARK_GRAY);
-        mainPanel.setToolTipText("The main panel container");
         getContentPane().add(mainPanel);
         
+        // füge Gewächhaus hinzu
+        guiGewaechshaus = new GuiGewaechshaus("Gewächshaus");
+        guiGewaechshaus.setPreferredSize(new Dimension( getWidth() * 2/3, getHeight()));
+        mainPanel.add(guiGewaechshaus, BorderLayout.LINE_START);
+        
+        // füqe ein temp panel hinzu
+        JPanel RightPanel = new JPanel();
+        RightPanel.setBackground(Color.DARK_GRAY);
+        RightPanel.setPreferredSize(new Dimension( getWidth() * 1/3, getHeight()));
+        mainPanel.add(RightPanel, BorderLayout.LINE_END);
+        RightPanel.setLayout( new GridLayout(2,1));
 
-        guiGewaechshaus = new GuiGewaechshaus();
-        guiEigenschaften = new GuiEigenschaften();
-        guiBedinterminal = new GuiBedinterminal();
+        // füqe Bedinterminal hinzu      	
+        guiBedinterminal = new GuiBedinterminal("Bedinterminal");
+        guiBedinterminal.setPreferredSize(new Dimension( getWidth() * 1/3, getHeight()*1/2));
+        RightPanel.add(guiBedinterminal);
 
-        guiGewaechshaus.setBounds(0, 0, getWidth() * 2/3, getHeight() -40); // todo 40 ist die h�he des Headers
-        guiGewaechshaus.setToolTipText("Gew�chshaus Demo");
-        mainPanel.add(guiGewaechshaus);
+        // füqe Eigenschaftenfenster hinzu  
+        guiEigenschaften = new GuiEigenschaften("Eigenschaften");
+        guiEigenschaften.setPreferredSize(new Dimension( getWidth() * 1/3, getHeight()*1/2));
+        RightPanel.add(guiEigenschaften);
 
-        guiBedinterminal.setBounds(getWidth() * 2/3, 0, getWidth()*1/3, getHeight()*1/2);
-        guiBedinterminal.setToolTipText("Bedinterminal Demo");
-        mainPanel.add(guiBedinterminal);
 
-        guiEigenschaften.setBounds(getWidth() * 2/3, getHeight()*1/2, getWidth()*1/3, getHeight()*1/2 - 25); // todo 25 .. angenommeen
-        guiEigenschaften.setToolTipText("Eigenschaften Demo");
-        mainPanel.add(guiEigenschaften);
-
+        
         guiGewaechshaus.init();
-        guiBedinterminal.init();        
+        guiBedinterminal.init();   
+        setVisible(true);
         
         guistate = GuiState.initDone;        
                 
-        setVisible(true);
 	}
 
 }

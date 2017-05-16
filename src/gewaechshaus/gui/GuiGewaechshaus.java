@@ -1,6 +1,8 @@
 package gewaechshaus.gui;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+
 import java.awt.*;
 
 enum GuiGewaechshausStatus{
@@ -13,25 +15,15 @@ enum GuiGewaechshausEvents{
 	start
 }
 
-public class GuiGewaechshaus extends JPanel{
+public class GuiGewaechshaus extends Panel{
 
-	private int border = 8;
-	private int canvisBorder = 10;
 	private Canvas canvas;
 	private GuiGewaechshausStatus status = GuiGewaechshausStatus.none;
 
-	public GuiGewaechshaus() {
-		// TODO Auto-generated constructor stub
+	public GuiGewaechshaus(String Name) {
+		super(Name);
 	}
-	public void paintComponent(Graphics g) {
 
-		// We need a bit more control over gfx here. Casting to advanced class. This is ok.
-		Graphics2D g2d = (Graphics2D) g;
-		
-		// Fill background
-		g2d.setColor( Color.lightGray);
-        g2d.fillRect(border, border, getWidth()-2*border, getHeight()-2*border);
-	}
 	public void init(){
 		toggleEvent(GuiGewaechshausEvents.start);		
 	}
@@ -41,8 +33,24 @@ public class GuiGewaechshaus extends JPanel{
 		case none:
 			if(GuiGewaechshausEvents.start == e){
 				canvas = new Canvas();
-				canvas.setBounds(border+canvisBorder, border+canvisBorder, getWidth()-2*border-canvisBorder, getHeight()-2*border-canvisBorder);	
-				add(canvas);			
+				JButton b = new JButton("hallo");
+				GroupLayout groupLayout = new GroupLayout(MainFrame);
+				groupLayout.setHorizontalGroup(
+						groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(canvas, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+								.addContainerGap())
+					);
+					groupLayout.setVerticalGroup(
+						groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(canvas, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+								.addContainerGap())
+					);
+				MainFrame.setLayout(groupLayout);
+				
 			}
 			break;
 		case initDone:			

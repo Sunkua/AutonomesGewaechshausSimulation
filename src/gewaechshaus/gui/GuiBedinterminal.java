@@ -1,11 +1,14 @@
 package gewaechshaus.gui;
 
 import javax.swing.*;
-import java.awt.*;
+
+import gewaechshaus.gui.Panel;
+
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 
-enum GuiBedinterminalStatus{
+enum TerminalStatus{
 	none,
 	idle,
 	ernte, erntePflanze, ernteSorte, ernteReif,
@@ -14,62 +17,90 @@ enum GuiBedinterminalStatus{
 	entfernen
 }
 
-enum GuiBedinterminalEvents{
-	start
+enum AuswahlStatus{
+	
 }
 
-public class GuiBedinterminal extends JPanel{
+enum GuiBedinterminalEvents{
+	start,
+	abbruch,
+	weiter,
+	BtnErnten,
+	BtnScannen,
+	BtnHinzufügen,
+	BtnEntfernen,
+	BtnSorte
+}
 
-	private int border = 8;
+public class GuiBedinterminal extends Panel{
 
-	private GuiBedinterminalStatus status = GuiBedinterminalStatus.none;
-	private ArrayList<JButton> button;
+	private TerminalStatus status = TerminalStatus.none;
 	BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+	private JPanel AktPanel;
 
-	public GuiBedinterminal() {
-		// TODO Auto-generated constructor stub
+	public GuiBedinterminal(String Name) {
+		super(Name);
+		MainFrame.setLayout(new BorderLayout());
 	}
 	
-	public void paintComponent(Graphics g) {
-		// We need a bit more control over gfx here. Casting to advanced class. This is ok.
-		Graphics2D g2d = (Graphics2D) g;
-		
-		// Fill background
-		g2d.setColor(Color.lightGray);
-        g2d.fillRect(border, border, getWidth()-2*border, getHeight()-2*border);
-
-	}
 	public void init(){
 		toggleEvent(GuiBedinterminalEvents.start);		
 	}
+	public void GeheZurSeite(JPanel Seite){
+		if(AktPanel != null){
+			MainFrame.remove(AktPanel);
+			MainFrame.revalidate();
+			MainFrame.repaint();
+		}
+		AktPanel = Seite;
+		MainFrame.add(AktPanel, BorderLayout.CENTER);
+		MainFrame.repaint();	
+	}
 	
-	private void toggleEvent(GuiBedinterminalEvents e){
+	public void toggleEvent(GuiBedinterminalEvents e){
+		if(GuiBedinterminalEvents.abbruch == e ){
+			status = TerminalStatus.idle;
+			GeheZurSeite(new Bedinterminal_Idle(this));		
+		}
 		switch(status){
 		case none:
 			if(GuiBedinterminalEvents.start == e){
-				status = GuiBedinterminalStatus.idle;
-				JButton b1 = new JButton("Ernten");
-				JButton b2 = new JButton("Scanen");
-				JButton b3 = new JButton("Hinzufuegen");
-				JButton b4 = new JButton("Entfernen");
-				add(Box.createVerticalGlue());	
-				add(b1);
-				add(Box.createVerticalGlue());	
-				add(b2);
-				add(Box.createVerticalGlue());	
-				add(b3);	
-				add(Box.createVerticalGlue());
-				add(b4);
-				add(Box.createVerticalGlue());
-				b1.setAlignmentX(JButton.CENTER_ALIGNMENT);
-				b2.setAlignmentX(JButton.CENTER_ALIGNMENT);
-				b3.setAlignmentX(JButton.CENTER_ALIGNMENT);
-				b4.setAlignmentX(JButton.CENTER_ALIGNMENT);
-				setLayout(Layout);
+				status = TerminalStatus.idle;
+				GeheZurSeite(new Bedinterminal_Idle(this));	
 			}
 			break;
 		case idle:			
-
+				if(GuiBedinterminalEvents.BtnErnten == e){
+					status = TerminalStatus.ernte;
+					GeheZurSeite(new Bedinterminal_Ernten(this));		
+				}
+				else if(GuiBedinterminalEvents.BtnScannen == e){
+					status = TerminalStatus.scanne;
+					GeheZurSeite(new Bedinterminal_Scannen(this));	
+					
+				}
+				else if(GuiBedinterminalEvents.BtnHinzufügen == e){
+					status = TerminalStatus.hinzufuegen;
+					
+				}
+				else if(GuiBedinterminalEvents.BtnEntfernen == e){
+					status = TerminalStatus.entfernen;
+					
+				}
+			break;
+		case ernte:	
+			if(GuiBedinterminalEvents.BtnSorte == e){
+				GeheZurSeite(new Bedinterminal_WähleSorte(this));	
+			}
+			break;
+		case scanne:
+			if(GuiBedinterminalEvents.BtnSorte == e){
+				GeheZurSeite(new Bedinterminal_WähleSorte(this));	
+			}	
+			break;
+		case hinzufuegen:	
+			break;
+		case entfernen:	
 			break;
 		}
 	}
