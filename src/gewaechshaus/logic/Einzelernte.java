@@ -12,9 +12,21 @@ public class Einzelernte extends Unterauftrag {
 	
 	private static final Logger log = Logger.getLogger( Einzelernte.class.getName() );
 
-    public Einzelernte() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
+    private Roboter roboter;
+    private Einzelpflanze ep;
+
+    public Einzelernte(Einzelpflanze ep) {
+        try {
+            Handler handler = new FileHandler(Settings.loggingFilePath);
+            log.addHandler(handler);
+        } catch (Exception e) {
+
+        }
+        this.ep = ep;
+    }
+
+    public void setRoboter(Roboter roboter) {
+        this.roboter = roboter;
     }
 
     /**

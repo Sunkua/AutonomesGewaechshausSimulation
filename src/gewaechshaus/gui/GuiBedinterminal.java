@@ -31,15 +31,16 @@ enum GuiBedinterminalEvents{
 	BtnScannen,
 	BtnHinzufügen,
 	BtnEntfernen,
-	BtnSorte
+    BtnSorte,
+    speichereZustand,
+    ladeZustand
 }
 
 public class GuiBedinterminal extends Panel{
-	
-	private Pflanzenverwaltung pflanzenverwaltung;
 
+    BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+    private Pflanzenverwaltung pflanzenverwaltung;
 	private TerminalStatus status = TerminalStatus.none;
-	BoxLayout Layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 	private JPanel AktPanel;
 
 	public GuiBedinterminal(String Name, Pflanzenverwaltung p) {
@@ -94,10 +95,14 @@ public class GuiBedinterminal extends Panel{
 				else if(GuiBedinterminalEvents.BtnEntfernen == e){
 					status = TerminalStatus.entfernen;
 					if(GuiBedinterminalEvents.BtnEntfernen == e){
-						GeheZurSeite(new Bedinterminal_Entfernen(this));	
-					}
-					
-				}
+                        GeheZurSeite(new Bedinterminal_Entfernen(this));
+                    }
+
+                } else if (GuiBedinterminalEvents.speichereZustand == e) {
+                    pflanzenverwaltung.pflanzenverwaltungZustandInDateiSpeichern();
+                } else if (GuiBedinterminalEvents.ladeZustand == e) {
+                    pflanzenverwaltung.pflanzenVerwaltungZustandAusDateiLesen();
+                }
 			break;
 		case ernte:	
 			if(GuiBedinterminalEvents.BtnSorte == e){

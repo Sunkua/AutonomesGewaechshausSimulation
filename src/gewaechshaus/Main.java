@@ -39,8 +39,8 @@ public class Main {
 	{
 		JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
 		Marshaller m = context.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(pflanzenverwaltung, new File(filename));
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		m.marshal(pflanzenverwaltung, new File(filename));
 	}
 	
 	public void leitsystemZustandInDateiSpeichern(String filename, Roboterleitsystem roboterLeitsystem) throws JAXBException

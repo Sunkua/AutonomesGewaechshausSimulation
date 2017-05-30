@@ -11,18 +11,18 @@ import java.util.logging.Logger;
  */
 public class Auftrag {
 
-	private static final Logger log = Logger.getLogger( Auftrag.class.getName() );
-	
+    private static final Logger log = Logger.getLogger(Auftrag.class.getName());
+
     private int id;
     private List unterauftraege;
 
-    public Auftrag() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
+    public Auftrag() {
+
     }
 
     /**
-     * Gibt einen einzelnen Unterauftrag zurück.	
+     * Gibt einen einzelnen Unterauftrag zurück.
+     *
      * @return Einzelner Unterauftrag
      */
     public Unterauftrag holeUnterauftrag() {
@@ -32,28 +32,30 @@ public class Auftrag {
 
     /**
      * Liefert die Liste von Unteraufträgen zurück.
+     *
      * @return Unteraufträge
      */
-	public List getUnterauftraege() {
-		return unterauftraege;
-	}
+    public List getUnterauftraege() {
+        return unterauftraege;
+    }
 
-	/**
-	 * Ersetzt die komplette Liste von Unteraufträgen.
-	 * @param unterauftraege Neue Unteraufträge
-	 */
-	public void setUnterauftraege(List unterauftraege) {
-		this.unterauftraege = unterauftraege;
-	}
-
-
-	public int getId() {
-		return id;
-	}
+    /**
+     * Ersetzt die komplette Liste von Unteraufträgen.
+     *
+     * @param unterauftraege Neue Unteraufträge
+     */
+    public void setUnterauftraege(List unterauftraege) {
+        this.unterauftraege = unterauftraege;
+    }
 
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 }

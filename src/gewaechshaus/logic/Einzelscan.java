@@ -12,9 +12,19 @@ public class Einzelscan extends Unterauftrag {
 	
 	private static final Logger log = Logger.getLogger( Einzelscan.class.getName() );
 
-    public Einzelscan() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
+    private Roboter roboter;
+    private Einzelpflanze ep;
+
+    public Einzelscan(Einzelpflanze ep) {
+        this.ep = ep;
+    }
+
+    public void setRoboter(Roboter roboter) {
+        this.roboter = roboter;
+    }
+
+    public Roboter getRoboter(Roboter roboter) {
+        return roboter;
     }
 
     /**

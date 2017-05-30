@@ -11,10 +11,15 @@ import java.util.logging.Logger;
 public class AkkuLaden extends Unterauftrag {
 
 	private static final Logger log = Logger.getLogger( AkkuLaden.class.getName() );
-	
-    public AkkuLaden() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
+
+    private Roboter roboter;
+    private Ladestation ladestation;
+
+    public AkkuLaden(Roboter roboter, Ladestation ladestation) throws SecurityException, IOException {
+        Handler handler = new FileHandler( Settings.loggingFilePath );
 		log.addHandler( handler );
+        this.roboter = roboter;
+        this.ladestation = ladestation;
     }
 
     /**

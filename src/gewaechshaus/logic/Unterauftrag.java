@@ -11,9 +11,8 @@ public abstract class Unterauftrag {
 
     private Position position;
 
-    public Unterauftrag() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
+    public Unterauftrag() {
+
     }
 
     public void ausfuehren() {
