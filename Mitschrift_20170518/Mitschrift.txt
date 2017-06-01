@@ -1,0 +1,195 @@
+Klassenverteilung:
+	Janik:
+		Enums
+		datatypes
+		
+	Benjamin:
+		Bedienterminal
+		Pflanzenverwaltung
+		Einzelpflanze
+		Meldung
+		Stoerung
+		Gitter
+
+	Nick:		
+		Roboter
+		Akku
+
+	Paul:
+		Auftragsgenerator	x
+		Roboterleitsystem	x
+		Ladestation
+		Abladestation	
+		Auftrag 			x
+		Unterauftrag		
+
+
+
+
+JAXB 	JavaXML-Binding
+JSON
+
+Config-File für Gewächshausconfig / Persistenz		Paul
+Java-Doc											Benjamin
+Logging												Nick	
+GUI													Janick
+
+
+
+Zitate:
+(Minimieren Sie What the fucks / minute)
+
+27.04.17
+
+Anmerkung yoda-condition (pascal erlaubt if(5 = size))
+
+Leserschaft
+80%
+Verständlichkeit
+Verlasse jeden Lagerplatz sauberer als Du ihn vorgefunden hast
+Programmierstil
+Java
+Ägyptische Klammerung
+4 Leerzeichen
+if( 5 = size)
+Horizontale Distanz
+Vertikale Distanz 
+120 Zeichen
+gleichen Präfix
+Don't be cute
+Ausdrucksstark
+Konzept
+Name
+Do not repeat yourself
+Feature Envy
+Klassen < 500 LOC
+Methoden < 20 LOC
+NinjaComments
+Scary Noise
+Selbsterklärender Quelltext
+Sinnvolle Kommentare
+Pokemon Exception Handling
+null
+Exception Handling benutzen
+Logging
+Wenige Argumente verwenden
+Zwischenergebnisse
+Aufzählungstypen
+Vorzeitige Optimierung
+
+
+Generator
+Eingabedaten 
+Konfiguration
+Code
+wiederverwendbare Struktur
+Platzhalter
+Klassenrümpfe
+public B b;
+public A a;
+
+public D d;
+
+
+public ArrayList<F> f
+public E e
+
+public ArrayList<H> h
+public G g
+
+std::vector<H*> _h;
+G* _g;
+
+std::vector<H> _h;
+G& _g;
+
+// Kompositionen in Java nicht ausdrückbar
+
+selbst zuständig
+
+Konstruktor
+
+Dependency Injection über setter
+
+IDLE, PLAYING, PAUSING
+IDLE
+
+Event
+
+
+Wächterbedingungen
+a++;
+State
+
+
+Vorlesung 3:
+Funktion
+Ort
+Monolithisch
+Pipeline
+Plug-In
+Ereignibetriebens System
+Client-Server
+Peer-to-Peer
+Blackboard
+Mobile Agenten
+Drei-Schichten
+Kopplung
+testen
+Kohäsion
+Lose Kopplung
+Fork
+Stair
+Publish / Subscribe
+
+
+Vorlesung 4:
+Gang of Four
+Schnittstelle
+-
+Abhängigkeiten
+Fassade
+lose Kopplung
+referenzieren
+Subjekt
+Beobachter
+Lose Kopplung
+unbekannte
+Befehl
+Auslösung
+Umsetzung
+
+
+
+
+
+// Uebung 3
+Pflanzenverwaltung und Roboterleitsystem kriegen eigene JAXB-Dateien
+Enum für Positionsbelegung
+
+@todo
+Log-Handler als param übergeben. Ansonsten kann der handler die datei nicht locken weil lock schon gesetzt
+
+Auftragsabarbeitungsoptimierung: 
+Alle Abstände berechnen und in Priorityqueue einfügen. Minimale Distanz wählen für nächstes Ziel
+
+Log-Level:
+API
+Akku kritischer Ladestand exception (Eventbus / Exception)
+Abladestation Status (z.B. besetzt, in Wartung etc.) 
+
+Roboterleitsystem : Roboter hinzufügen
+Roboter :   Position zuweisen
+			Position auslesen
+
+Controller einbauen
+
+Pflanzverwaltung :  Pflanzen hinzufügen
+					Pflanzenposition auslesen
+
+// Pflanzen ins Grid einfügen
+// Roboter ins Grid einfügen
+// Ablage ins Grid einfügen
+// Ladestation ins Grid einfügen
+
+

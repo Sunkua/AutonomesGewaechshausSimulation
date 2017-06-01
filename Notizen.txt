@@ -1,0 +1,5 @@
+Persistenz der Pflanzenverwaltuing getestet und funktioniert. GUI muss jedoch einmal updaten nachdem Zustand geladen wurde.
+Buttons zum Laden und Speichern müssten noch ins Layout eingepflegt werden. Eventuell Layout auf JAVAFX Basis noch einmal neu erstellen. Package mit FXGUI-Konzept habe ich erstellt.
+Logger muss neu implementiert werden. Am besten in einer eigenen Log-Klasse mit static void log. Dann kann jedes Objekt auf diese Methode zugreifen und schreibt in die selbe Datei, ohne dass Exceptions wegen gleichzeitigem Dateizugriff geworfen werden. 
+Pflanzenverwaltung enthält jetzt Methoden zum Filtern der Hashmap nach Typ und Status. Enum für Reifegrad muss noch eingebaut werden für diesen Filter. Auftragsgenerator kann schon Ernten und Scannen-Aufträge erstellen.
+

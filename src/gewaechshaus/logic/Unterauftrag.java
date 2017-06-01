@@ -11,6 +11,8 @@ public abstract class Unterauftrag {
 
     private Position position;
 
+    private Roboter roboter;
+
     public Unterauftrag() {
 
     }

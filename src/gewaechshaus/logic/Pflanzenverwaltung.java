@@ -96,17 +96,13 @@ public class Pflanzenverwaltung {
 
     public Map<Position, Einzelpflanze> getPflanzenMapVonTyp(PflanzenArt pArt) {
         return pflanzenListe.entrySet().stream()
-                .filter(map -> {
-                    return map.getValue().getArt().equals(pArt);
-                })
+                .filter(map -> map.getValue().getArt().equals(pArt))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public Map<Position, Einzelpflanze> getPflanzenMapVonStatus(PflanzenStatus pStatus) {
         return pflanzenListe.entrySet().stream()
-                .filter(map -> {
-                    return map.getValue().getPflanzenstatus().equals(pStatus);
-                })
+                .filter(map -> map.getValue().getPflanzenstatus().equals(pStatus))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 

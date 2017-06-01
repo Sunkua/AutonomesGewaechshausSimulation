@@ -18,9 +18,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
-/**
- * Created by sunku on 24.05.2017.
- */
+
 public class FXGUI extends Application {
     public static void main(String[] args) {
         launch(args);

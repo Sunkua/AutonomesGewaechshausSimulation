@@ -6,9 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-/**
- * Created by sunku on 25.05.2017.
- */
+
 public class ErntenGrid extends GridPane {
 
     public ErntenGrid() {

@@ -10,9 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-/**
- * Created by sunku on 25.05.2017.
- */
+
 public class PflanzeHinzufuegen extends GridPane {
 
     public PflanzeHinzufuegen() {
@@ -38,7 +36,6 @@ public class PflanzeHinzufuegen extends GridPane {
         final ComboBox comboBox = new ComboBox(options);
 
         ComboBox cb_Spalte = new ComboBox();
-
 
         Button nachArtErnten = new Button("Eine Art ernten");
         Button nachReifegradErnten = new Button("Nach Reifegrad ernten");

@@ -9,8 +9,8 @@ import java.util.logging.Logger;
  * Erstellt einen Auftrag zum Erfassen einer einzelnen Pflanze.
  */
 public class Einzelscan extends Unterauftrag {
-	
-	private static final Logger log = Logger.getLogger( Einzelscan.class.getName() );
+
+    private static final Logger log = Logger.getLogger(Einzelscan.class.getName());
 
     private Roboter roboter;
     private Einzelpflanze ep;
@@ -28,10 +28,13 @@ public class Einzelscan extends Unterauftrag {
     }
 
     /**
-     * Startet die Ausführung des Auftrags. 
+     * Startet die Ausführung des Auftrags.
      */
     @Override
     public void ausfuehren() {
+        if (roboter != null) {
+
+        }
 
     }
 }
