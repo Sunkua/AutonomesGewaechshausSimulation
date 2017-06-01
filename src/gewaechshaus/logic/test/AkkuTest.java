@@ -1,42 +1,45 @@
 package gewaechshaus.logic.test;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import gewaechshaus.logic.Akku;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by sunku on 01.06.2017.
  */
-@RunWith(Arquillian.class)
 public class AkkuTest {
+    Akku akku;
+
+    @Rule
+    public ExpectedException exceptions = ExpectedException.none();
+
+
+    @Before
+    public void init() {
+        akku = new Akku(100,50);
+    }
 
     @Test
     public void getLadestand() throws Exception {
+fail();
 
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void setLadestand() throws Exception {
-        assertTrue()
+        exceptions.expect(IllegalArgumentException.class);
+        akku.setLadestand(200);
 
     }
 
     @Test
     public void istKritisch() throws Exception {
-    }
-
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(gewaechshaus.logic.Akku.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        fail();
     }
 
 }
