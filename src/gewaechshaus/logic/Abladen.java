@@ -13,19 +13,17 @@ public class Abladen extends Unterauftrag {
     private static final Logger log = Logger.getLogger(Abladen.class.getName());
 
 
-    private Roboter roboter;
-
-    public Abladen(Roboter roboter) throws SecurityException, IOException {
+    public Abladen() throws SecurityException, IOException {
         Handler handler = new FileHandler(Settings.loggingFilePath);
         log.addHandler(handler);
-        this.roboter = roboter;
+
     }
 
     /**
      * Startet die Ausführung des Auftrags.
      */
     @Override
-    public void ausfuehren() {
+    public void ausfuehren(Roboter roboter) {
 
     }
 }

@@ -3,6 +3,7 @@ package gewaechshaus.logic;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -36,21 +37,23 @@ public class Akku {
         return this.ladestand;
     }
 
-    private boolean istLadestandImGrenzbereich(double ladestand) {
-        return (ladestand <= 100 && ladestand >= 0);
-    }
-
     /**
      * Setzt den aktuellen Ladezustand
      *
      * @param ladestand Neuer Ladezustand
      */
     public void setLadestand(double ladestand) {
+        
         if (istLadestandImGrenzbereich(ladestand)) {
             this.ladestand = ladestand;
         } else {
             throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
+    }
+
+    private boolean istLadestandImGrenzbereich(double ladestand) {
+
+        return (ladestand <= 100 && ladestand >= 0);
     }
 
     /**

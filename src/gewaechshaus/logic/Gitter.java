@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 
 public class Gitter implements e {
 
-    private static final Logger log = Logger.getLogger(Gitter.class.getName());
 
-    private Positionsbelegung[][] gitter;
+
     private final double gitterhoehe;
     private final double gitterbreite;
+    private Positionsbelegung[][] gitter;
 
     /**
      * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten Gitterkoordinaten
@@ -24,12 +24,7 @@ public class Gitter implements e {
      * @param verticalFieldCount   Anzahl der Felder auf der Y-Achse
      */
     public Gitter(double hoehe, double breite, int horizontalFieldCount, int verticalFieldCount) {
-        try {
-            Handler handler = new FileHandler(Settings.loggingFilePath);
-            log.addHandler(handler);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         gitter = new Positionsbelegung[horizontalFieldCount][verticalFieldCount];
         for (int i = 0; i < horizontalFieldCount; i++) {
             for (int j = 0; j < verticalFieldCount; j++) {

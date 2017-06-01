@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
  * Created by sunku on 01.06.2017.
  */
 public class AkkuTest {
-
     Akku akku;
 
     @Before
@@ -26,7 +25,8 @@ public class AkkuTest {
         akku.setLadestand(50);
         assertTrue(50f== akku.getLadestand());
     }
-    
+
+
     @Test(expected = IllegalArgumentException.class)
     public void setLadestandZuHoch() throws Exception {
         akku.setLadestand(200);

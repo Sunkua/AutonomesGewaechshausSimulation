@@ -20,6 +20,25 @@
                 </position>
             </value>
         </entry>
+        <entry>
+            <key>
+                <reihenID>3</reihenID>
+                <spaltenID>3</spaltenID>
+                <x>0.0</x>
+                <y>0.0</y>
+            </key>
+            <value>
+                <art>eTomate</art>
+                <gewicht>0.0</gewicht>
+                <pflanzenstatus>eReif</pflanzenstatus>
+                <position>
+                    <reihenID>3</reihenID>
+                    <spaltenID>3</spaltenID>
+                    <x>0.0</x>
+                    <y>0.0</y>
+                </position>
+            </value>
+        </entry>
     </pflanzenListe>
     <maxGröße>
         <reihenID>6</reihenID>

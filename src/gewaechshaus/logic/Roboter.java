@@ -19,8 +19,9 @@ public class Roboter {
 		log.addHandler( handler );
     }
 
-    private boolean GoTo(Position RelativePos) {
+    private boolean GeheZu(Position RelativePos) {
         return false;
+
 
     }
 
@@ -58,10 +59,6 @@ public class Roboter {
 
     }
 
-    private void AddStoerung(Stoerung stoerung) {
-
-    }
-
     public void setAuftrag(Unterauftrag unterauftrag) {
 
     }
@@ -71,7 +68,9 @@ public class Roboter {
 
     }
 
+
     private void ErledigeUnterauftrag() {
+
 
     }
 

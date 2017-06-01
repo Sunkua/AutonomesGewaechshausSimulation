@@ -25,15 +25,12 @@ public class Einzelernte extends Unterauftrag {
         this.ep = ep;
     }
 
-    public void setRoboter(Roboter roboter) {
-        this.roboter = roboter;
-    }
-
     /**
      * Startet die Ausführung des Auftrags. 
      */
     @Override
-    public void ausfuehren() {
+    public void ausfuehren(Roboter roboter) {
+
 
     }
 }

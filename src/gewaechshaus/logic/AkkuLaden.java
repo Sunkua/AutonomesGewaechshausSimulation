@@ -12,13 +12,11 @@ public class AkkuLaden extends Unterauftrag {
 
 	private static final Logger log = Logger.getLogger( AkkuLaden.class.getName() );
 
-    private Roboter roboter;
     private Ladestation ladestation;
 
-    public AkkuLaden(Roboter roboter, Ladestation ladestation) throws SecurityException, IOException {
+    public AkkuLaden(Ladestation ladestation) throws SecurityException, IOException {
         Handler handler = new FileHandler( Settings.loggingFilePath );
 		log.addHandler( handler );
-        this.roboter = roboter;
         this.ladestation = ladestation;
     }
 
@@ -26,7 +24,7 @@ public class AkkuLaden extends Unterauftrag {
      * Startet die Ausführung des Auftrags. 
      */
     @Override
-    public void ausfuehren() {
+    public void ausfuehren(Roboter roboter) {
 
     }
 }

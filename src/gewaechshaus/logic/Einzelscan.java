@@ -19,19 +19,13 @@ public class Einzelscan extends Unterauftrag {
         this.ep = ep;
     }
 
-    public void setRoboter(Roboter roboter) {
-        this.roboter = roboter;
-    }
 
-    public Roboter getRoboter(Roboter roboter) {
-        return roboter;
-    }
 
     /**
      * Startet die Ausführung des Auftrags.
      */
     @Override
-    public void ausfuehren() {
+    public void ausfuehren(Roboter roboter) {
         if (roboter != null) {
 
         }
