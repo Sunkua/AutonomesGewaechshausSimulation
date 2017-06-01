@@ -51,6 +51,7 @@ public class Pflanzenverwaltung {
         log.info("Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
     }
 
+    //
     public void pflanzeEntfernen(Position p) {
         // ToDo Entferne die Pflanze
         Einzelpflanze pflanze = pflanzenListe.get(p);

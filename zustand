@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:pflanzenverwaltung xmlns:ns2="gewaeshaus.logic">
+    <pflanzenListe>
+        <entry>
+            <key>
+                <reihenID>2</reihenID>
+                <spaltenID>2</spaltenID>
+                <x>0.0</x>
+                <y>0.0</y>
+            </key>
+            <value>
+                <art>eTomate</art>
+                <gewicht>0.0</gewicht>
+                <pflanzenstatus>eReif</pflanzenstatus>
+                <position>
+                    <reihenID>2</reihenID>
+                    <spaltenID>2</spaltenID>
+                    <x>0.0</x>
+                    <y>0.0</y>
+                </position>
+            </value>
+        </entry>
+    </pflanzenListe>
+    <maxGröße>
+        <reihenID>6</reihenID>
+        <spaltenID>20</spaltenID>
+        <x>0.0</x>
+        <y>0.0</y>
+    </maxGröße>
+</ns2:pflanzenverwaltung>
