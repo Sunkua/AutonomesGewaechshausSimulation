@@ -30,7 +30,8 @@ public class Main {
 		pVerwaltung.setMaxGröße(6, 20);
 		Roboterleitsystem leitSystem = new Roboterleitsystem();
 		GUI gui = new GUI(pVerwaltung);
-		pVerwaltung.setGui(gui);
+		pVerwaltung.addObserver(gui);
+
 		
 		
 	}

@@ -20,6 +20,7 @@ public class Roboter {
     }
 
     private boolean GeheZu(Position RelativePos) {
+
         return false;
 
 

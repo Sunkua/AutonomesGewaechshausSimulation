@@ -13,10 +13,7 @@ import gewaechshaus.gui.GUI;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
-public class Pflanzenverwaltung {
+public class Pflanzenverwaltung extends Observable {
 
     private static final Logger log = Logger.getLogger(Pflanzenverwaltung.class.getName());
     GUI gui;
@@ -36,29 +33,35 @@ public class Pflanzenverwaltung {
     @XmlElement
     private Position maxGröße = new Position(0, 0);
 
+    private ArrayList<Observer> observers = new ArrayList<>();
+
     public Pflanzenverwaltung() throws SecurityException, IOException {
+        super();
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
-        Handler handler = new FileHandler(Settings.loggingFilePath);
-        log.addHandler(handler);
+
 
         log.info("Pflanzenverwaltun initialisiert.");
     }
 
     public void pflanzeHinzufuegen(Einzelpflanze ep) {
         pflanzenListe.put(ep.getPosition(), ep);
-        gui.updateGewächshaus();
+        //  gui.updateGewächshaus();
 
         log.info("Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
+
+        setChanged();
+        notifyObservers();
     }
+
 
     //
     public void pflanzeEntfernen(Position p) {
         // ToDo Entferne die Pflanze
         Einzelpflanze pflanze = pflanzenListe.get(p);
         pflanzenListe.remove(p);
-        gui.updateGewächshaus();
-
         log.info("Pflanze " + pflanze.toString() + " an Position " + p.toString() + " entfernt.");
+        setChanged();
+        notifyObservers();
     }
 
     public void setMaxGröße(int zeilen, int spalten) {

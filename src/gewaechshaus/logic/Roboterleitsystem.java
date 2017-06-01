@@ -2,9 +2,7 @@ package gewaechshaus.logic;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -12,8 +10,9 @@ import java.util.logging.Logger;
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
 public class Roboterleitsystem {
-	
-	private static final Logger log = Logger.getLogger( Roboterleitsystem.class.getName() );
+
+    private static final Logger log = Logger.getLogger( Roboterleitsystem.class.getName() );
+
 
     private List<Roboter> roboterListe;
     private List<Auftrag> auftragsListe;
@@ -28,6 +27,10 @@ public class Roboterleitsystem {
 		log.addHandler( handler );
 		auftragsStack = new Stack<Auftrag>();
 
+    }
+
+    public List<Position> getPfadVonNach(Position a, Position b) {
+        return null;
     }
 
 

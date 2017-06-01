@@ -43,7 +43,7 @@ public class Akku {
      * @param ladestand Neuer Ladezustand
      */
     public void setLadestand(double ladestand) {
-        
+
         if (istLadestandImGrenzbereich(ladestand)) {
             this.ladestand = ladestand;
         } else {
@@ -52,7 +52,7 @@ public class Akku {
     }
 
     private boolean istLadestandImGrenzbereich(double ladestand) {
-
+        log.log(Level.INFO, "test from old logger");
         return (ladestand <= 100 && ladestand >= 0);
     }
 

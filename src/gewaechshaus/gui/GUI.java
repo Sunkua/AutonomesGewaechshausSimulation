@@ -6,12 +6,14 @@ import javax.swing.*;
 import gewaechshaus.logic.Pflanzenverwaltung;
 
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
 enum GuiState { idle, initDone, run}
 
-public class GUI  extends JFrame {
-	
-	private String title = "SE2 Gewächshaus";	// The application title
+public class GUI extends JFrame implements Observer {
+
+    private String title = "SE2 Gewächshaus";	// The application title
 	
 	private JPanel mainPanel;				// Everything we draw will be put into this panel
 	private GuiState guistate = GuiState.idle;
@@ -77,9 +79,13 @@ public class GUI  extends JFrame {
         guistate = GuiState.initDone;        
                 
 	}
-	
-	public void updateGewächshaus(){
-		guiGewaechshaus.Update();
-	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Pflanzenverwaltung) {
+            guiGewaechshaus.repaintCanvas();
+        }
+    }
+
 
 }

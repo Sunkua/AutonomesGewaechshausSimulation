@@ -11,7 +11,7 @@ public class Logging {
     static Logger logger;
     public Handler fileHandler;
 
-    public Logging() throws IOException {
+    public Logging(String className) throws IOException {
         //instance the logger
         logger = Logger.getLogger(Logging.class.getName());
         //instance the filehandler
@@ -20,20 +20,20 @@ public class Logging {
     }
 
 
-    private static Logger getLogger() {
-        if (logger == null) {
-            try {
-                new Logging();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    private static Logger getLogger(String className) throws IOException {
+        logger = Logger.getLogger(className);
+        //instance the filehandler
+        FileHandler fileHandler = new FileHandler("Log.txt", true);
+        logger.addHandler(fileHandler);
         return logger;
     }
 
-    public static void log(Level level, String msg) {
-        getLogger().log(level, msg);
+    public static void log(String className, Level level, String msg) {
+        try {
+            getLogger(className).log(level, msg);
+        } catch (Exception e) {
 
+        }
     }
 
 
