@@ -36,7 +36,7 @@ public class Akku {
         return this.ladestand;
     }
 
-    private boolean istLadestandImGrenzbereich(double Ladestand) {
+    private boolean istLadestandImGrenzbereich(double ladestand) {
         return (ladestand <= 100 && ladestand >= 0);
     }
 
@@ -48,6 +48,8 @@ public class Akku {
     public void setLadestand(double ladestand) {
         if (istLadestandImGrenzbereich(ladestand)) {
             this.ladestand = ladestand;
+        } else {
+            throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
     }
 

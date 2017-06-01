@@ -1,6 +1,7 @@
 package gewaechshaus.logic.test;
 
 import gewaechshaus.logic.Akku;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,34 +13,53 @@ import static org.junit.Assert.*;
  * Created by sunku on 01.06.2017.
  */
 public class AkkuTest {
+
     Akku akku;
-
-    @Rule
-    public ExpectedException exceptions = ExpectedException.none();
-
 
     @Before
     public void init() {
-        akku = new Akku(100,50);
+        akku = new Akku(100, 50);
     }
 
     @Test
     public void getLadestand() throws Exception {
-fail();
-
-
+        akku.setLadestand(50);
+        assertTrue(50f== akku.getLadestand());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void setLadestandZuHoch() throws Exception {
+        akku.setLadestand(200);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setLadestand() throws Exception {
-        exceptions.expect(IllegalArgumentException.class);
-        akku.setLadestand(200);
-
+    public void  setLadestandZuTief() throws Exception {
+        akku.setLadestand(-100);
+    }
+    @Test
+    public void setLadestandKorrekt() throws Exception {
+        akku.setLadestand(50f);
+        assertTrue(akku.getLadestand() == 50f);
     }
 
     @Test
-    public void istKritisch() throws Exception {
-        fail();
+    public void istKritischKorrekt() throws Exception {
+        akku = new Akku(40,50);
+        assertTrue(akku.istKritisch());
+    }
+
+    @Test
+    public void istKritischNichtKorrekt()
+    {
+        akku = new Akku(40,30);
+        assertFalse(akku.istKritisch());
+    }
+
+
+    @After
+    public void reset()
+    {
+        akku = null;
     }
 
 }
