@@ -3,6 +3,9 @@ package gewaechshaus.fxGUI;
 import gewaechshaus.gui.GewächshausCanvas;
 import gewaechshaus.logic.*;
 import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -10,6 +13,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -20,37 +24,43 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
-
 public class FXGUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
+
     @Override
     public void start(Stage stage) {
 
 
-
         // TODO Auto-generated method stub
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
-        pVerwaltung.setMaxGröße(6, 20);
-        Gitter gitter = new Gitter(10f,10f,10,10);
+        pVerwaltung.setMaxGröße(10, 10);
+        Gitter gitter = new Gitter(10f, 10f, 10, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
 
-        // Set Observers
+
         pVerwaltung.addObserver(leitSystem);
 
+        pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
+
         Roboter r = new Roboter(leitSystem);
 
-        leitSystem.roboterHinzufuegen(r,new Position(4,4));
+
+        Position roboPos = new Position(5f, 5f);
+        gitter.toKarthesisch(roboPos);
+        leitSystem.roboterHinzufuegen(r, roboPos);
+
+
+        r.addObserver(leitSystem);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-
 
         // Set width and height
         Scene scene = new Scene(grid, 500, 200, Color.BLACK);
@@ -73,12 +83,11 @@ public class FXGUI extends Application {
 
         grid.add(interaktionsGrid, 3, 2);
 
-
         // Canvas-Building, Event-Listeners redraw on rescale
-        Canvas canvas = new FXGewaechshausCanvas((int)Math.round(scene.getWidth() / 10),gitter, 500,500);
-
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
-
+        pVerwaltung.addObserver(canvas);
+        leitSystem.addObserver(canvas);
 
         // Stage building
         stage.setScene(scene);
@@ -90,11 +99,34 @@ public class FXGUI extends Application {
         stage.setY(primaryScreenBounds.getMinY());
         stage.setWidth(primaryScreenBounds.getWidth() - 150);
         stage.setHeight(primaryScreenBounds.getHeight() - 150);
+        Button testfahrt = new Button("Testfahrt");
+        testfahrt.setOnAction(
+                e -> {
+                    Position p = new Position(0f, 0f);
+                    p.setSpaltenID(0);
+                    p.setReihenID(0);
+                    r.fahreZu(p);
+                });
+        grid.add(testfahrt, 0,4);
+
+        for (int i = 0; i < gitter.getBreite(); i++)
+        {
+            for (int j = 0; j < gitter.getHoehe(); j++) {
+                if (i % 5 != 0 && j % 3 != 0) {
+                    Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(i, j), 0.5, PflanzenStatus.eReif, null);
+                    pVerwaltung.pflanzeHinzufuegen(t);
+                }
+            }
+        }
+
+        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
+        pVerwaltung.pflanzeHinzufuegen(t);
+
 
         stage.show();
     }
 
-    private void drawShapes(GraphicsContext gc) {
+    private static void runTestfahrt() {
 
 
     }

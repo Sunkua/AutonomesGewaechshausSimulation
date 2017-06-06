@@ -36,8 +36,6 @@ public class Main {
         leitSystem.addObserver(gitter);
         leitSystem.addObserver(gui);
 
-
-
         Roboter r = new Roboter(leitSystem);
 
         // important call with float values or set x and y position
@@ -46,7 +44,6 @@ public class Main {
         leitSystem.roboterHinzufuegen(r, roboPos);
 
         r.addObserver(leitSystem);
-
 
         // init Test-Pflanzen
         for (int i = 0; i < gitter.getBreite(); i++) {
@@ -58,7 +55,8 @@ public class Main {
             }
         }
 
-
+        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
+        pVerwaltung.pflanzeHinzufuegen(t);
 
         Clock clock = new Clock(2000);
         clock.addObserver(r);

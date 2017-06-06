@@ -127,13 +127,6 @@ public class Roboter extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Clock) {
 
-            Position ziel = new Position(0, 0);
-            ziel.setX(5f);
-            ziel.setY(4f);
-            if (canStep) {
-                fahreZu(ziel);
-            }
-            canStep = false;
         }
     }
 }

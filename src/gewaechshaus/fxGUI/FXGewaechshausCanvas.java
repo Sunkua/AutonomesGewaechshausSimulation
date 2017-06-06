@@ -1,28 +1,33 @@
 package gewaechshaus.fxGUI;
 
-import gewaechshaus.logic.Gitter;
-import gewaechshaus.logic.Pflanzenverwaltung;
-import gewaechshaus.logic.Positionsbelegung;
-import gewaechshaus.logic.Roboterleitsystem;
+import gewaechshaus.logic.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+
 /**
  * Created by sunku on 06.06.2017.
  */
-public class FXGewaechshausCanvas extends Canvas {
+public class FXGewaechshausCanvas extends Canvas implements Observer {
     private Gitter gitter;
     private int size;
     private GraphicsContext gc;
+    private Pflanzenverwaltung pflanzenverwaltung;
+    private Roboterleitsystem roboterleitsystem;
 
-    public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe) {
+    public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe, Pflanzenverwaltung pflanzenverwaltung, Roboterleitsystem roboterleitsystem) {
         super(breite, hoehe);
         this.gitter = g;
         this.size = size;
+        this.roboterleitsystem = roboterleitsystem;
+        this.pflanzenverwaltung = pflanzenverwaltung;
         gc = this.getGraphicsContext2D();
         paint();
-
     }
 
     public void paint() {
@@ -31,32 +36,31 @@ public class FXGewaechshausCanvas extends Canvas {
         gc.setLineWidth(5);
         int maxBreite = gitter.getBreite();
         int maxHoehe = gitter.getHoehe();
-        for (int i = 0; i < maxBreite; i++) {
-            for (int j = 0; j < maxHoehe; j++) {
-                switch (gitter.getPositionsbelegung(i, j)) {
-                    case frei:
-                        gc.setFill(Color.WHITE);
-                        gc.strokeRect(i * size, j * size, size, size);
-                        break;
-                    case pflanze:
-                        gc.setFill(Color.GREEN);
-                        gc.fillOval(i * size, j * size, size, size);
-                        break;
-                    case roboter:
-                        gc.setFill(Color.RED);
-                        gc.fillOval(i * size, j * size, size, size);
-                        break;
-                    case abladestation:
-                        gc.setFill(Color.ORANGE);
-                        gc.strokeOval(i * size, j * size, size, size);
-                        break;
-                    case ladestation:
-                        gc.setFill(Color.BLUE);
-                        gc.strokeOval(i * size, j * size, size, size);
-                        break;
-                }
-
+        for(int i = 0; i < maxBreite; i++) {
+            for(int j = 0; j < maxHoehe; j++) {
+                gc.strokeRect(i*size, j*size, size, size);
             }
+        }
+        Map<Position, Einzelpflanze> pflanzen = pflanzenverwaltung.getAllePflanzen();
+        for(Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
+            gc.setFill(Color.GREEN);
+            gc.fillOval(pflanze.getKey().getSpaltenID() * size, pflanze.getKey().getReihenID()*size, size, size);
+        }
+
+        // Draw Roboter
+        Set<Position> roboterPos = roboterleitsystem.getRoboterPositionen();
+        for(Position p : roboterPos) {
+            gc.setFill(Color.BLUE);
+            gc.fillRect(p.getSpaltenID() * size, p.getReihenID()*size, size, size);
+        }
+
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof Pflanzenverwaltung) {
+            this.paint();
         }
     }
 }
