@@ -1,5 +1,7 @@
 package gewaechshaus.fxGUI;
 
+import gewaechshaus.gui.GewächshausCanvas;
+import gewaechshaus.logic.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -27,6 +29,21 @@ public class FXGUI extends Application {
     @Override
     public void start(Stage stage) {
 
+
+
+        // TODO Auto-generated method stub
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
+        pVerwaltung.setMaxGröße(6, 20);
+        Gitter gitter = new Gitter(10f,10f,10,10);
+        Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
+
+        // Set Observers
+        pVerwaltung.addObserver(leitSystem);
+
+        leitSystem.addObserver(gitter);
+        Roboter r = new Roboter(leitSystem);
+
+        leitSystem.roboterHinzufuegen(r,new Position(4,4));
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
@@ -58,11 +75,8 @@ public class FXGUI extends Application {
 
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        Canvas canvas = new Canvas(900, 900);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
-        canvas.widthProperty().addListener(observable -> drawShapes(gc));
-        canvas.heightProperty().addListener(observable -> drawShapes(gc));
+        Canvas canvas = new FXGewaechshausCanvas((int)Math.round(scene.getWidth() / 10),gitter, 500,500);
+
         grid.add(canvas, 0, 3, 2, 2);
 
 

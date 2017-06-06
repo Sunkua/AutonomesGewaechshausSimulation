@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
 import gewaechshaus.logic.Pflanzenverwaltung;
+import gewaechshaus.logic.Roboterleitsystem;
 
 import java.awt.*;
 import java.util.Observable;
@@ -23,11 +24,13 @@ public class GuiGewaechshaus extends Panel {
 
     private GewächshausCanvas canvas;
     private Pflanzenverwaltung pflanzenverwaltung;
+    private Roboterleitsystem roboterleitsystem;
     private GuiGewaechshausStatus status = GuiGewaechshausStatus.none;
 
-    public GuiGewaechshaus(String Name, Pflanzenverwaltung p) {
+    public GuiGewaechshaus(String Name, Pflanzenverwaltung p, Roboterleitsystem rLeitsystem) {
         super(Name);
         pflanzenverwaltung = p;
+        this.roboterleitsystem = rLeitsystem;
     }
 
     public void init() {
@@ -38,7 +41,7 @@ public class GuiGewaechshaus extends Panel {
         switch (status) {
             case none:
                 if (GuiGewaechshausEvents.start == e) {
-                    canvas = new GewächshausCanvas(pflanzenverwaltung);
+                    canvas = new GewächshausCanvas(pflanzenverwaltung, roboterleitsystem);
                     GroupLayout groupLayout = new GroupLayout(MainFrame);
                     groupLayout.setHorizontalGroup(
                             groupLayout.createParallelGroup(Alignment.LEADING)

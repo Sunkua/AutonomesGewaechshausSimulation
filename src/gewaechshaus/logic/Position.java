@@ -1,129 +1,153 @@
 package gewaechshaus.logic;
 
-public class Position implements Comparable<Position>{
+public class Position implements Comparable<Position> {
 
-	// private static final Logger log = Logger.getLogger(
-	// RelativePosition.class.getName() );
+    // private static final Logger log = Logger.getLogger(
+    // RelativePosition.class.getName() );
 
-	private Integer SpaltenID;
-	private Integer ReihenID;
-	private double x;
-	private double y;
+    private Integer SpaltenID;
+    private Integer ReihenID;
 
-	public Position() {
-		// Handler handler = new FileHandler( Settings.loggingFilePath );
-		// log.addHandler( handler );
-		// TODO Auto-generated constructor stub
-	}
-	public Position(int spalte, int zeile) {
-		SpaltenID = spalte;
-		ReihenID = zeile;
-	}
+    private double x;
+    private double y;
 
-	
-	/**
-	 * Gibt die reale X-Koordinate als Flie�kommawert zur�ck
-	 * @return 
-	 */
-	public double getX() {
-		return x;
-	}
+    public Position() {
+        // Handler handler = new FileHandler( Settings.loggingFilePath );
+        // log.addHandler( handler );
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * Setzt die reale X-Koordinate
-	 * @param x
-	 */
-	public void setX(double x) {
-		this.x = x;
-	}
+    public Position(int spalte, int zeile) {
+        SpaltenID = spalte;
+        ReihenID = zeile;
+    }
 
-	/**
-	 * Gibt die reale Y-Koordinate zur�ck
-	 * @return
-	 */
-	public double getY() {
-		return y;
-	}
+    public Position(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	/**
-	 * Setzt die reale Y-Koordinate
-	 * @param y
-	 */
-	public void setY(double y) {
-		this.y = y;
-	}
 
-	/**
-	 * Gibt die SpaltenID (X-Koordinate) im Gitter zur�ck
-	 * @return
-	 */
-	public int getSpaltenID() {
-		return SpaltenID;
-	}
+    /**
+     * Gibt die reale X-Koordinate als Flie�kommawert zur�ck
+     *
+     * @return
+     */
+    public double getX() {
+        return x;
+    }
 
-	/**
-	 * Setzt die SpaltenID (X-Koordinate) im Gitter
-	 * @param spaltenID
-	 */
-	public void setSpaltenID(int spaltenID) {
-		SpaltenID = spaltenID;
-	}
+    /**
+     * Setzt die reale X-Koordinate
+     *
+     * @param x
+     */
+    public void setX(double x) {
+        this.x = x;
+    }
 
-	/**
-	 * Gibt die ReihenID (Y-Koordinate) im Gitter zur�ck
-	 * @return
-	 */
-	public int getReihenID() {
-		return ReihenID;
-	}
 
-	/**
-	 * Setzt die ReihenID (Y-Koordinate) im Gitter
-	 * @param reihenID
-	 */
-	public void setReihenID(int reihenID) {
-		ReihenID = reihenID;
-	}
+    /**
+     * Gibt die reale Y-Koordinate zur�ck
+     *
+     * @return
+     */
+    public double getY() {
+        return y;
+    }
 
-	/**
-	 * Berechnet die Reihenkoordinate (Y-Koordinate) im Gitter auf Basis der realen Koordinate
-	 * @param maxReihen Reihenanzahl des Gitters (Maximal Y-Koordinate + 1)
-	 * @param maxHoehe H�he des Gew�chshauses von oben betrachtet in m
-	 */
-	public void berechneReihenPosition(int maxReihen, double maxHoehe) {
-		double reihenHoehe = maxHoehe / maxReihen;
-		this.ReihenID = (int) Math.round(this.y / reihenHoehe);
-	}
+    /**
+     * Setzt die reale Y-Koordinate
+     *
+     * @param y
+     */
+    public void setY(double y) {
+        this.y = y;
+    }
 
-	/**
-	 * Berechnet die Spaltenkoordiante (X-Koordinate) im Gitter auf Basis der realen Koordinate
-	 * @param maxSpalten Spaltenanzahl im Gitter (Maximale X-Koordinate +1)
-	 * @param maxBreite Breite des Gew�chshauses von oben betrachtet in m
-	 */
-	public void berechneSpaltenPosition(int maxSpalten, double maxBreite) {
-		double spaltenBreite = maxBreite / maxSpalten;
-		this.ReihenID = (int) Math.round(this.y / spaltenBreite);
-	}
+    /**
+     * Gibt die SpaltenID (X-Koordinate) im Gitter zur�ck
+     *
+     * @return
+     */
+    public int getSpaltenID() {
+        return SpaltenID;
+    }
 
-	public boolean equals(Object o) {
-       if (!(o instanceof Position))
+    /**
+     * Setzt die SpaltenID (X-Koordinate) im Gitter
+     *
+     * @param spaltenID
+     */
+    public void setSpaltenID(int spaltenID) {
+        SpaltenID = spaltenID;
+    }
+
+    /**
+     * Gibt die ReihenID (Y-Koordinate) im Gitter zur�ck
+     *
+     * @return
+     */
+    public int getReihenID() {
+        return ReihenID;
+    }
+
+    /**
+     * Setzt die ReihenID (Y-Koordinate) im Gitter
+     *
+     * @param reihenID
+     */
+    public void setReihenID(int reihenID) {
+        ReihenID = reihenID;
+    }
+
+    /**
+     * Berechnet die Reihenkoordinate (Y-Koordinate) im Gitter auf Basis der realen Koordinate
+     *
+     * @param maxReihen Reihenanzahl des Gitters (Maximal Y-Koordinate + 1)
+     * @param maxHoehe  Höhe des Gewächshauses von oben betrachtet in m
+     */
+    public void berechneReihenPosition(int maxReihen, double maxHoehe) {
+        double reihenHoehe = maxHoehe / maxReihen;
+        this.ReihenID = (int) Math.round(this.y / reihenHoehe);
+
+    }
+
+    /**
+     * Berechnet die Spaltenkoordiante (X-Koordinate) im Gitter auf Basis der realen Koordinate
+     *
+     * @param maxSpalten Spaltenanzahl im Gitter (Maximale X-Koordinate +1)
+     * @param maxBreite  Breite des Gewächshauses von oben betrachtet in m
+     */
+    public void berechneSpaltenPosition(int maxSpalten, double maxBreite) {
+        double spaltenBreite = maxBreite / maxSpalten;
+        this.SpaltenID = (int) Math.round(this.x / spaltenBreite);
+    }
+
+
+    public boolean equals(Object o) {
+        if (!(o instanceof Position))
             return false;
-		Position p1 = (Position) o;
-		return (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID());
-	}
-	@Override
-	public int compareTo(Position o) {
-		// TODO Auto-generated method stub
-		if(o == this)return 0;
-		int i = SpaltenID.compareTo(o.getSpaltenID());
-		if (i != 0) return i;
-		return ReihenID.compareTo(o.getReihenID());
-	}
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		//return super.hashCode();
-		return SpaltenID.hashCode() + 31*ReihenID.hashCode();
-	}
+        Position p1 = (Position) o;
+        boolean reihenMatch = p1.getReihenID() == this.getReihenID();
+        boolean spaltenMatch = p1.getSpaltenID() == this.getSpaltenID();
+        return (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID());
+    }
+
+    @Override
+    public int compareTo(Position o) {
+        // TODO Auto-generated method stub
+        if (o == this) return 0;
+        int i = SpaltenID.compareTo(o.getSpaltenID());
+        if (i != 0) return i;
+        return ReihenID.compareTo(o.getReihenID());
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        //return super.hashCode();
+        return SpaltenID.hashCode() + 31 * ReihenID.hashCode();
+    }
 
 }

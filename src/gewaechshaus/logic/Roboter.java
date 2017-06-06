@@ -1,60 +1,108 @@
 package gewaechshaus.logic;
 
 import java.io.IOException;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-public class Roboter {
-	
-	private static final Logger log = Logger.getLogger( Roboter.class.getName() );
-	
-    private double Batteriestatus;
-    private double Fuellstand;
-    private RoboterStatus Status;
+public class Roboter extends Observable implements Observer {
+
+    private double batteriestatus;
+    private double fuellstand;
+    private RoboterStatus status;
     private Roboterleitsystem roboterleitsystem;
-    
-    public Roboter() throws SecurityException, IOException {
-    	Handler handler = new FileHandler( Settings.loggingFilePath );
-		log.addHandler( handler );
+    private Position position;
+    private static double schrittweite = 0.5f;
+    private boolean canStep = true;
+    private boolean stepTest;
+
+    public Roboter(Roboterleitsystem roboterleitsystem) {
+        this.roboterleitsystem = roboterleitsystem;
+        stepTest = false;
+
     }
 
-    private boolean GeheZu(Position RelativePos) {
+    public boolean GeheZu(Position RelativePos) {
+
 
         return false;
+    }
 
+    public boolean fahreSchritt(Position zielPosition) {
+
+        double xOffset = this.position.getX() - zielPosition.getX();
+        double yOffset = this.position.getY() - zielPosition.getY();
+        if (zielPosition.getReihenID() - this.position.getReihenID() == 0) {
+
+            if (xOffset > 0) {
+                this.position.setX(this.position.getX() - schrittweite);
+            } else {
+                this.position.setX(this.position.getX() + schrittweite);
+            }
+
+        } else if (zielPosition.getSpaltenID() - this.position.getSpaltenID() == 0) {
+
+            if (yOffset > 0) {
+                this.position.setY(this.position.getY() - schrittweite);
+            } else {
+                this.position.setY(this.position.getY() + schrittweite);
+            }
+
+        }
+        setChanged();
+        notifyObservers();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+
+        }
+        return this.position.equals(zielPosition);
+    }
+
+
+    public void fahreZu(Position zielPosition) {
+        ArrayList<Position> pfad = roboterleitsystem.getPfadVonNach(this.position, zielPosition);
+        Collections.reverse(pfad);
+        while (!this.position.equals(zielPosition)) {
+            while (!this.position.equals(pfad.get(0))) {
+                stepTest = fahreSchritt(pfad.get(0));
+
+            }
+            pfad.remove(0);
+
+        }
+    }
+
+    public PflanzenStatus scanne(Position p) {
+        return PflanzenStatus.eReif;
+    }
+
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public boolean greife() {
+        return true;
 
     }
 
-    private boolean Greife() {
-        return false;
+    public boolean schneide() {
+        return true;
 
     }
 
-    private boolean Schneide() {
-        return false;
-
+    public boolean lade_Auf() {
+        return true;
     }
 
-    private boolean Lade_Auf() {
-        return false;
 
+    public Position getPosition() {
+        return position;
     }
 
-    private Position GetPosition() {
-        return null;
-
-    }
-
-    private Pflanzenverwaltung pflanzeAnalysieren() {
-        return null;
-
-    }
-
-    private double getGewicht() {
-        return Batteriestatus;
-
-    }
 
     private void setFuellstand() {
 
@@ -64,22 +112,28 @@ public class Roboter {
 
     }
 
-    public RoboterStatus GetStatus() {
-        return Status;
+    public RoboterStatus getStatus() {
+        return status;
+    }
 
+    public void setRoboterStatus(RoboterStatus rStatus) {
+        this.status = rStatus;
+        hasChanged();
+        notifyObservers();
     }
 
 
-    private void ErledigeUnterauftrag() {
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Clock) {
 
-
-    }
-
-    private void BerechneWeg(Position position) {
-
-    }
-
-    private void NeuerAuftrag(Unterauftrag unterauftrag) {
-
+            Position ziel = new Position(0, 0);
+            ziel.setX(5f);
+            ziel.setY(4f);
+            if (canStep) {
+                fahreZu(ziel);
+            }
+            canStep = false;
+        }
     }
 }

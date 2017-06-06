@@ -30,6 +30,10 @@ public class Einzelernte extends Unterauftrag {
      */
     @Override
     public void ausfuehren(Roboter roboter) {
+        roboter.fahreZu(ep.getPosition());
+        if(roboter.scanne(ep.getPosition()) == PflanzenStatus.eReif) {
+           if( roboter.schneide());
+        }
 
 
     }

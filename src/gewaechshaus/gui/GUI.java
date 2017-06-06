@@ -4,6 +4,7 @@ package gewaechshaus.gui;
 import javax.swing.*;
 
 import gewaechshaus.logic.Pflanzenverwaltung;
+import gewaechshaus.logic.Roboterleitsystem;
 
 import java.awt.*;
 import java.util.Observable;
@@ -23,13 +24,14 @@ public class GUI extends JFrame implements Observer {
 	private GuiBedinterminal guiBedinterminal;
 	
 	private Pflanzenverwaltung pflanzenverwaltung;
+	private Roboterleitsystem roboterleitsystem;
 
 
-	public GUI(Pflanzenverwaltung p) {
+	public GUI(Pflanzenverwaltung p, Roboterleitsystem r) {
 		// TODO Auto-generated constructor stub
 		
 		pflanzenverwaltung = p;
-		
+		roboterleitsystem = r;
         setTitle(title);//size of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -49,7 +51,7 @@ public class GUI extends JFrame implements Observer {
         getContentPane().add(mainPanel);
         
         // füge Gewächhaus hinzu
-        guiGewaechshaus = new GuiGewaechshaus("Gewächshaus", pflanzenverwaltung);
+        guiGewaechshaus = new GuiGewaechshaus("Gewächshaus", pflanzenverwaltung,roboterleitsystem);
         guiGewaechshaus.setPreferredSize(new Dimension( getWidth() * 2/3, getHeight()));
         mainPanel.add(guiGewaechshaus, BorderLayout.LINE_START);
         
@@ -83,6 +85,9 @@ public class GUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Pflanzenverwaltung) {
+            guiGewaechshaus.repaintCanvas();
+        }
+        if  (o instanceof Roboterleitsystem) {
             guiGewaechshaus.repaintCanvas();
         }
     }

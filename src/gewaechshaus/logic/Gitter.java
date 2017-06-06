@@ -1,15 +1,14 @@
 package gewaechshaus.logic;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Gitter implements e {
-
+public class Gitter extends Observable implements Observer {
 
 
     private final double gitterhoehe;
@@ -18,6 +17,7 @@ public class Gitter implements e {
 
     /**
      * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten Gitterkoordinaten
+     *
      * @param hoehe                Reale Höhe des Gitters
      * @param breite               Reale Breite des Gitters
      * @param horizontalFieldCount Anzahl der Felder auf der X-Achse
@@ -49,6 +49,7 @@ public class Gitter implements e {
 
     /**
      * Gibt die Position über einer Position zurück
+     *
      * @param pos Ursprungsposition
      * @return obere Position vom Ursprung
      */
@@ -68,6 +69,7 @@ public class Gitter implements e {
 
     /**
      * Gibt die Position links von einer Position zurück
+     *
      * @param pos Ursprungsposition
      * @return linke Position vom Ursprung
      */
@@ -84,8 +86,11 @@ public class Gitter implements e {
         return zielKoordinaten;
     }
 
+
+
     /**
      * Gibt die Position rechts von einer Position zurück
+     *
      * @param pos Ursprungsposition
      * @return rechte Position vom Ursprung
      */
@@ -104,6 +109,7 @@ public class Gitter implements e {
 
     /**
      * Gibt die Position unter einer Position zurück
+     *
      * @param pos Ursprungsposition
      * @return untere Position vom Ursprung
      */
@@ -122,6 +128,7 @@ public class Gitter implements e {
 
     /**
      * Gibt die Nachbarn einer Position zurück
+     *
      * @param pos Position von der aus Nachbarn gesucht werden sollen
      * @return Collection der Nachbarknoten wenn vorhanden
      * Position auf < 0 oder >= gitterbreite geprüft wird
@@ -154,6 +161,7 @@ public class Gitter implements e {
 
     /**
      * Berechnet den kürzesten Pfad zwischen 2 Positionen mittels Lee-Algorithmus
+     *
      * @param von Position XY
      * @param zu  Position XY
      * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
@@ -201,11 +209,11 @@ public class Gitter implements e {
             bearbeitung.clear();
 
             for (Position pos : nachbarn) {
-                // Wenn kein Hindernis, dann f�ge Nachbarn der
+                // Wenn kein Hindernis, dann füge Nachbarn der
                 // Bearbeitungsliste
                 // hinzu
 
-                if ((gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei)
+                if (gitter[pos.getSpaltenID()][pos.getReihenID()] == Positionsbelegung.frei
                         && pfadArray[pos.getSpaltenID()][pos.getReihenID()] == -1) {
                     pfadArray[pos.getSpaltenID()][pos.getReihenID()] = i;
                     bearbeitung.add(pos);
@@ -213,13 +221,15 @@ public class Gitter implements e {
             }
         }
 
-        // Den Pfad zur�ck laufen. Immer eine kleineren Wert im Array finden und
-        // diesen in die Wegliste einf�gen
+        pfadArray[von.getSpaltenID()][von.getReihenID()]= 0;
+        // Den Pfad zurück laufen. Immer eine kleineren Wert im Array finden und
+        // diesen in die Wegliste einfügen
         current = zu;
         wegListe.add(current);
 
         while (!current.equals(von)) {
             List<Position> nachbarn = getNachbarn(current);
+            Logging.log(this.getClass().getName(), Level.INFO, nachbarn.toString());
             for (Position p : nachbarn) {
                 if (pfadArray[p.getSpaltenID()][p.getReihenID()] < pfadArray[current.getSpaltenID()][current.getReihenID()] && (pfadArray[p.getSpaltenID()][p.getReihenID()] != -1)) {
                     current = p;
@@ -228,7 +238,20 @@ public class Gitter implements e {
                 }
             }
         }
+
+        for(Position p : wegListe) {
+            p.setX(p.getSpaltenID());
+            p.setY(p.getReihenID());
+        }
         return wegListe;
+    }
+
+    public int getHoehe() {
+        return gitter[0].length;
+    }
+
+    public int getBreite() {
+        return gitter.length;
     }
 
     /**
@@ -250,4 +273,25 @@ public class Gitter implements e {
     public Positionsbelegung getPositionsbelegung(Position p) {
         return gitter[p.getSpaltenID()][p.getReihenID()];
     }
+    public Positionsbelegung getPositionsbelegung(int x, int y) {
+        return gitter[x][y];
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Pflanzenverwaltung) {
+            Pflanzenverwaltung p = (Pflanzenverwaltung) o;
+            Map<Position, Einzelpflanze> pflanzen = p.getAllePflanzen();
+            for(Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
+                this.setPosition(Positionsbelegung.pflanze,pflanze.getKey());
+            }
+        } else if(o instanceof Roboterleitsystem) {
+            Roboterleitsystem leitsystem = (Roboterleitsystem) o;
+            Set<Position> roboterPositionen = leitsystem.getRoboterPositionen();
+            for(Position pos : roboterPositionen) {
+                this.setPosition(Positionsbelegung.roboter, pos);
+                toKarthesisch(pos);
+            }
+        }
+    }
 }
+

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
-public class Pflanzenverwaltung extends Observable {
+public class Pflanzenverwaltung extends Observable{
 
     private static final Logger log = Logger.getLogger(Pflanzenverwaltung.class.getName());
     GUI gui;
@@ -32,10 +32,32 @@ public class Pflanzenverwaltung extends Observable {
     private HashMap<Position, Einzelpflanze> pflanzenListe;
     @XmlElement
     private Position maxGröße = new Position(0, 0);
+    private double realeBreite;
+    private double realeHoehe;
+    private int breite;
+
+    public int getBreite() {
+        return breite;
+    }
+
+    public void setBreite(int breite) {
+        this.breite = breite;
+    }
+
+    public int getHoehe() {
+        return hoehe;
+    }
+
+    public void setHoehe(int hoehe) {
+        this.hoehe = hoehe;
+    }
+
+    private int hoehe;
+
 
     private ArrayList<Observer> observers = new ArrayList<>();
 
-    public Pflanzenverwaltung() throws SecurityException, IOException {
+    public Pflanzenverwaltung() {
         super();
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
 
@@ -45,10 +67,7 @@ public class Pflanzenverwaltung extends Observable {
 
     public void pflanzeHinzufuegen(Einzelpflanze ep) {
         pflanzenListe.put(ep.getPosition(), ep);
-        //  gui.updateGewächshaus();
-
         log.info("Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
-
         setChanged();
         notifyObservers();
     }
@@ -151,5 +170,6 @@ public class Pflanzenverwaltung extends Observable {
     public void setGui(GUI g) {
         gui = g;
     }
+
 
 }
