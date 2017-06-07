@@ -39,7 +39,7 @@ public class Main {
         Roboter r = new Roboter(leitSystem);
 
         // important call with float values or set x and y position
-        Position roboPos = new Position(6f, 5f);
+        Position roboPos = new Position(5f, 5f);
         gitter.toKarthesisch(roboPos);
         leitSystem.roboterHinzufuegen(r, roboPos);
 
@@ -61,6 +61,14 @@ public class Main {
         Clock clock = new Clock(2000);
         clock.addObserver(r);
         clock.initTimer();
+        Position ziel = new Position(0,0);
+        gitter.toKarthesisch(ziel);
+        Runnable task = () -> {
+            r.fahreZu(ziel);
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+        System.out.println("test");
     }
 
 

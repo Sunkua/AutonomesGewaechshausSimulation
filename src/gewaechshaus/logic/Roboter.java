@@ -63,6 +63,7 @@ public class Roboter extends Observable implements Observer {
 
 
     public void fahreZu(Position zielPosition) {
+
         ArrayList<Position> pfad = roboterleitsystem.getPfadVonNach(this.position, zielPosition);
         Collections.reverse(pfad);
         while (!this.position.equals(zielPosition)) {

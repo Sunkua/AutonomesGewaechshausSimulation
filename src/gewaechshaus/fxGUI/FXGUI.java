@@ -102,10 +102,13 @@ public class FXGUI extends Application {
         Button testfahrt = new Button("Testfahrt");
         testfahrt.setOnAction(
                 e -> {
-                    Position p = new Position(0f, 0f);
-                    p.setSpaltenID(0);
-                    p.setReihenID(0);
-                    r.fahreZu(p);
+                    Position ziel = new Position(0,0);
+                    gitter.toKarthesisch(ziel);
+                    Runnable task = () -> {
+                        r.fahreZu(ziel);
+                    };
+                    Thread thread = new Thread(task);
+                    thread.start();
                 });
         grid.add(testfahrt, 0,4);
 

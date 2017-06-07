@@ -60,6 +60,15 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof Pflanzenverwaltung) {
+            gc.clearRect(0,0, this.getWidth(), this.getHeight());
+            this.paint();
+        }
+        if(o instanceof Roboterleitsystem) {
+            gc.clearRect(0,0, this.getWidth(), this.getHeight());
+            this.paint();
+        }
+        if(o instanceof Roboter) {
+            gc.clearRect(0,0, this.getWidth(), this.getHeight());
             this.paint();
         }
     }
