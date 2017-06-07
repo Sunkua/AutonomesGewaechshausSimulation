@@ -54,6 +54,12 @@ public class Roboterleitsystem extends Observable implements Observer {
         } else {
             return false;
         }
+    }
+
+    public void fahreRoboterZu(Roboter r, Position p) {
+      if(r.getStatus() == RoboterStatus.eBereit) {
+          r.fahreZu(p);
+      }
 
     }
 
