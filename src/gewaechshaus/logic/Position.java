@@ -1,5 +1,7 @@
 package gewaechshaus.logic;
 
+import java.util.logging.Level;
+
 public class Position implements Comparable<Position> {
 
     // private static final Logger log = Logger.getLogger(
@@ -12,9 +14,7 @@ public class Position implements Comparable<Position> {
     private double y;
 
     public Position() {
-        // Handler handler = new FileHandler( Settings.loggingFilePath );
-        // log.addHandler( handler );
-        // TODO Auto-generated constructor stub
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
     public Position(int spalte, int zeile) {

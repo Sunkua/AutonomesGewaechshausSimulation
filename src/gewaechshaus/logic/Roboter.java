@@ -1,10 +1,7 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Roboter extends Observable implements Observer {
 
@@ -20,6 +17,8 @@ public class Roboter extends Observable implements Observer {
     public Roboter(Roboterleitsystem roboterleitsystem) {
         this.roboterleitsystem = roboterleitsystem;
         stepTest = false;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
 
     }
 

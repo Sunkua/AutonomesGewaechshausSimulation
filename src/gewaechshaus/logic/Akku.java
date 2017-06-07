@@ -1,17 +1,11 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Implementierung der Akkufunktionalität.
  */
 public class Akku {
-
-    private static final Logger log = Logger.getLogger(Akku.class.getName());
 
     private double ladestand;
     private double kritischeGrenze;
@@ -28,8 +22,12 @@ public class Akku {
             this.kritischeGrenze = kritGrenze;
             this.ladestand = ladestand;
         } else {
+        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ladestand außerhalb des Gültigkeitsbereiches");
         }
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: "+ladestand+" Kritische Grenze: "+kritGrenze);
 
     }
 
@@ -46,13 +44,15 @@ public class Akku {
 
         if (istLadestandImGrenzbereich(ladestand)) {
             this.ladestand = ladestand;
+            
+            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ladestand gesetzt: "+ladestand);
         } else {
+        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Neuer Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
     }
 
     private boolean istLadestandImGrenzbereich(double ladestand) {
-        log.log(Level.INFO, "test from old logger");
         return (ladestand <= 100 && ladestand >= 0);
     }
 

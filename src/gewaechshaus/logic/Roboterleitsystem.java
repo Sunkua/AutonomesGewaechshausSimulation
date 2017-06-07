@@ -2,6 +2,7 @@ package gewaechshaus.logic;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
+import java.util.logging.Level;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
@@ -22,6 +23,8 @@ public class Roboterleitsystem extends Observable implements Observer {
         auftragsStack = new Stack<Auftrag>();
         roboterMap = new HashMap<>();
         this.gitter = g;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
 

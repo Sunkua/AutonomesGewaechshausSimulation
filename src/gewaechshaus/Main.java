@@ -10,18 +10,14 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Main {
 
-    private static final Logger log = Logger.getLogger(Main.class.getName());
-
     public static void main(String[] args) throws JAXBException, IOException {
-        Handler handler = new FileHandler(Settings.loggingFilePath);
-        log.addHandler(handler);
 
+        Logging.log("main", Level.INFO, "main gestartet");
+        
         // TODO Auto-generated method stub
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
         pVerwaltung.setMaxGröße(10, 10);

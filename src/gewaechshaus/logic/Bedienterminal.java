@@ -1,15 +1,14 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
+import java.util.logging.Level;
 
 
 public class Bedienterminal {
 
 
-    public void starteEintelernteVonPosition(Position p) throws SecurityException, IOException {
-
+    public void starteEintelernteVonPosition(Position p) {
+    	
+    	 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
     public void starteErnteVonArt(PflanzenArt pa) {

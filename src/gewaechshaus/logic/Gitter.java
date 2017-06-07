@@ -1,11 +1,7 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Gitter extends Observable implements Observer {
@@ -33,6 +29,9 @@ public class Gitter extends Observable implements Observer {
         }
         gitterhoehe = hoehe;
         gitterbreite = breite;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Hoehe: "+hoehe+" Breite: "+breite);
     }
 
     /**

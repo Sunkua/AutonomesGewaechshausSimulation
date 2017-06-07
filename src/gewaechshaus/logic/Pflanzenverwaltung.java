@@ -12,18 +12,14 @@ import gewaechshaus.gui.GUI;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
 public class Pflanzenverwaltung extends Observable{
 
-    private static final Logger log = Logger.getLogger(Pflanzenverwaltung.class.getName());
     GUI gui;
     /**
      * Hält die Liste von Pflanzen inkl. deren Positionen
@@ -42,6 +38,8 @@ public class Pflanzenverwaltung extends Observable{
 
     public void setBreite(int breite) {
         this.breite = breite;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: "+breite);
     }
 
     public int getHoehe() {
@@ -50,6 +48,8 @@ public class Pflanzenverwaltung extends Observable{
 
     public void setHoehe(int hoehe) {
         this.hoehe = hoehe;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: "+hoehe);
     }
 
     private int hoehe;
@@ -61,15 +61,15 @@ public class Pflanzenverwaltung extends Observable{
         super();
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
 
-
-        log.info("Pflanzenverwaltun initialisiert.");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
     public void pflanzeHinzufuegen(Einzelpflanze ep) {
         pflanzenListe.put(ep.getPosition(), ep);
-        log.info("Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
         setChanged();
         notifyObservers();
+        
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
     }
 
 
@@ -78,9 +78,10 @@ public class Pflanzenverwaltung extends Observable{
         // ToDo Entferne die Pflanze
         Einzelpflanze pflanze = pflanzenListe.get(p);
         pflanzenListe.remove(p);
-        log.info("Pflanze " + pflanze.toString() + " an Position " + p.toString() + " entfernt.");
         setChanged();
         notifyObservers();
+        
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + pflanze.toString() + " an Position " + p.toString() + " entfernt.");
     }
 
     public void setMaxGröße(int zeilen, int spalten) {
@@ -137,8 +138,7 @@ public class Pflanzenverwaltung extends Observable{
     public Einzelpflanze holePflanzeVonPosition(Position p) {
         Einzelpflanze pflanze = pflanzenListe.get(p);
 
-        log.info("Pflanze an Position " + p.toString() + " geladen.");
-
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze an Position " + p.toString() + " geladen.");
         return pflanze;
     }
 
@@ -149,7 +149,7 @@ public class Pflanzenverwaltung extends Observable{
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(this, new File("zustand"));
         } catch (Exception e) {
-            log.severe(e.getMessage());
+        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
     }
 
@@ -161,7 +161,7 @@ public class Pflanzenverwaltung extends Observable{
             this.pflanzenListe = pflanzenverwaltung.pflanzenListe;
             this.maxGröße = pflanzenverwaltung.maxGröße;
         } catch (Exception e) {
-            log.severe(e.getMessage());
+        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
 
     }
