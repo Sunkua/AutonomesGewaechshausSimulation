@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -99,21 +101,36 @@ public class FXGUI extends Application {
         stage.setY(primaryScreenBounds.getMinY());
         stage.setWidth(primaryScreenBounds.getWidth() - 150);
         stage.setHeight(primaryScreenBounds.getHeight() - 150);
+
+        TextField zeile = new TextField();
+        TextField spalte = new TextField();
+        Label lbZeile = new Label("Zeile");
+        Label lbSpalte = new Label("Spalte");
+
+        grid.add(lbZeile, 0, 6);
+        grid.add(zeile, 0, 7);
+        grid.add(lbSpalte, 1, 6);
+        grid.add(spalte, 1, 7);
+
+
         Button testfahrt = new Button("Testfahrt");
         testfahrt.setOnAction(
                 e -> {
-                    Position ziel = new Position(0,0);
+                    int x = Integer.parseInt(spalte.getText());
+                    int y = Integer.parseInt(zeile.getText());
+                    Position ziel = new Position((double) x, (double) y);
                     gitter.toKarthesisch(ziel);
                     Runnable task = () -> {
-                        r.fahreZu(ziel);
+                        if (r.getStatus() == RoboterStatus.eBereit) {
+
+                        }
                     };
                     Thread thread = new Thread(task);
                     thread.start();
                 });
-        grid.add(testfahrt, 0,4);
+        grid.add(testfahrt, 0, 5);
 
-        for (int i = 0; i < gitter.getBreite(); i++)
-        {
+        for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {
                 if (i % 5 != 0 && j % 3 != 0) {
                     Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(i, j), 0.5, PflanzenStatus.eReif, null);
@@ -127,11 +144,6 @@ public class FXGUI extends Application {
 
 
         stage.show();
-    }
-
-    private static void runTestfahrt() {
-
-
     }
 
 

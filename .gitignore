@@ -2,5 +2,6 @@
 /.idea/
 /.settings/
 /log.txt.1
-/log.txt
+/Log*
+/log*
 /Gewaechshaus.iml

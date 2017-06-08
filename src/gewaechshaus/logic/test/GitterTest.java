@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +39,7 @@ public class GitterTest {
         assertTrue(rel.equals(new Position(2,4)));
     }
 @Test
-    public void kuerzesterPfadLeerTest()  {
+public void kuerzesterPfadLeerTest() throws Exception {
         Position von = new Position();
         Position zu = new Position();
         von.setReihenID(0);
@@ -51,7 +52,43 @@ public class GitterTest {
     }
 
     @Test
-    public void kuerzesterPfadHindernis() {
+    public void getFreieNachbarn() {
+
+        // Alle Felder frei
+        Position testPosition = new Position(2, 2);
+        gitter.setPosition(Positionsbelegung.pflanze, testPosition);
+        gitter.setPosition(Positionsbelegung.frei, new Position(2, 3));
+        gitter.setPosition(Positionsbelegung.frei, new Position(2, 1));
+        gitter.setPosition(Positionsbelegung.frei, new Position(1, 2));
+        gitter.setPosition(Positionsbelegung.frei, new Position(3, 2));
+        Collection<Position> freieNachbarn = gitter.getFreieNachbarFelder(testPosition);
+        for (Position pos : freieNachbarn) {
+            assertTrue(gitter.getPositionsbelegung(pos).equals(Positionsbelegung.frei));
+        }
+
+        // 1 Feld frei
+        gitter.setPosition(Positionsbelegung.pflanze, testPosition);
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(2, 3));
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(2, 1));
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(1, 2));
+        gitter.setPosition(Positionsbelegung.frei, new Position(3, 2));
+        freieNachbarn = gitter.getFreieNachbarFelder(testPosition);
+        for (Position pos : freieNachbarn) {
+            assertTrue(gitter.getPositionsbelegung(pos).equals(Positionsbelegung.frei));
+        }
+
+        // kein Feld frei
+        gitter.setPosition(Positionsbelegung.pflanze, testPosition);
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(2, 3));
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(2, 1));
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(1, 2));
+        gitter.setPosition(Positionsbelegung.pflanze, new Position(3, 2));
+        freieNachbarn = gitter.getFreieNachbarFelder(testPosition);
+        assertTrue(freieNachbarn.size() == 0);
+    }
+
+    @Test
+    public void kuerzesterPfadHindernis() throws Exception {
         Position von = new Position();
         Position zu = new Position();
         Position hindernis1 = new Position();

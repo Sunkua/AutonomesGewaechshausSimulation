@@ -13,10 +13,11 @@ public class Auftragsgenerator {
     private static final Logger log = Logger.getLogger(Auftragsgenerator.class.getName());
 
     private Pflanzenverwaltung pVerwaltung;
+    private Roboterleitsystem roboterleitsystem;
 
-    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Gitter gitter) throws SecurityException, IOException {
+    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Roboterleitsystem roboterleitsystem, Gitter gitter) throws SecurityException, IOException {
         this.pVerwaltung = pVerwaltung;
-
+        this.roboterleitsystem = roboterleitsystem;
     }
 
     public Auftrag pflanzenVonArtScannen(PflanzenArt pArt) {
@@ -43,7 +44,7 @@ public class Auftragsgenerator {
         Auftrag auftrag = new Auftrag();
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonTyp(pflanzenArt);
-        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v)));
+        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v, roboterleitsystem)));
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }
@@ -52,7 +53,7 @@ public class Auftragsgenerator {
         Auftrag auftrag = new Auftrag();
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonStatus(pStatus);
-        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v)));
+        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v, roboterleitsystem)));
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }

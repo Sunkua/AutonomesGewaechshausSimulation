@@ -1,5 +1,7 @@
 package gewaechshaus.logic;
 
+import javafx.geometry.Pos;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
@@ -8,8 +10,7 @@ import java.util.*;
 public class Roboterleitsystem extends Observable implements Observer {
 
 
-
-    private Stack<Auftrag> auftragsStack;
+    private Queue<Auftrag> auftragsQueue;
     private Abladestation abladestation;
     private Ladestation ladestation;
     private Abladestation abladestation2;
@@ -17,19 +18,26 @@ public class Roboterleitsystem extends Observable implements Observer {
     private Gitter gitter;
 
 
-    public Roboterleitsystem(Gitter g)  {
+    public Roboterleitsystem(Gitter g) {
 
-        auftragsStack = new Stack<Auftrag>();
+        auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
         this.gitter = g;
     }
+
+
+    public Collection<Position> getFreieNachbarFelderVon(Position p) {
+        return gitter.getFreieNachbarFelder(p);
+    }
+
+
 
 
     public Set<Position> getRoboterPositionen() {
         return roboterMap.keySet();
     }
 
-    public ArrayList<Position> getPfadVonNach(Position a, Position b) {
+    public ArrayList<Position> getPfadVonNach(Position a, Position b) throws NoWayFoundException {
         return gitter.kuerzesterWegNach(a, b);
     }
 
@@ -48,6 +56,7 @@ public class Roboterleitsystem extends Observable implements Observer {
         if (gitter.getPositionsbelegung(p) == Positionsbelegung.frei) {
             roboterMap.put(p, r);
             r.setPosition(p);
+            r.setRoboterStatus(RoboterStatus.eBereit);
             setChanged();
             notifyObservers();
             return true;
@@ -56,28 +65,14 @@ public class Roboterleitsystem extends Observable implements Observer {
         }
     }
 
-    public void fahreRoboterZu(Roboter r, Position p) {
-      if(r.getStatus() == RoboterStatus.eBereit) {
-          r.fahreZu(p);
-      }
-
-    }
-
 
     public Unterauftrag getUnterauftrag(int ID) {
         return null;
-
-    }
-
-
-    public void setRoboterStatus(Roboter roboter, RoboterStatus status) {
-
     }
 
 
     public void auftragHinzufuegen(Auftrag auftrag) {
-        auftragsStack.push(auftrag);
-
+        auftragsQueue.add(auftrag);
     }
 
     public Roboter getRoboterAnPosition(Position p) {
@@ -89,10 +84,10 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     }
 
-    public Position getPositionvonRoboter(Roboter r ) {
+    public Position getPositionvonRoboter(Roboter r) {
         Set<Map.Entry<Position, Roboter>> rPosCollection = this.roboterMap.entrySet();
-        for(Map.Entry<Position, Roboter> roboP : rPosCollection) {
-            if(roboP.getValue().equals(r)) {
+        for (Map.Entry<Position, Roboter> roboP : rPosCollection) {
+            if (roboP.getValue().equals(r)) {
                 return roboP.getKey();
             }
         }
@@ -116,6 +111,8 @@ public class Roboterleitsystem extends Observable implements Observer {
             this.roboterMap.put(r.getPosition(), r);
             setChanged();
             notifyObservers();
+        } else if (o instanceof Clock) {
+
         }
     }
 }

@@ -58,13 +58,11 @@ public class Main {
         Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
         pVerwaltung.pflanzeHinzufuegen(t);
 
-        Clock clock = new Clock(2000);
-        clock.addObserver(r);
-        clock.initTimer();
+
         Position ziel = new Position(0,0);
         gitter.toKarthesisch(ziel);
         Runnable task = () -> {
-            r.fahreZu(ziel);
+
         };
         Thread thread = new Thread(task);
         thread.start();

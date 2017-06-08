@@ -53,8 +53,6 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
             gc.setFill(Color.BLUE);
             gc.fillRect(p.getSpaltenID() * size, p.getReihenID()*size, size, size);
         }
-
-
     }
 
     @Override

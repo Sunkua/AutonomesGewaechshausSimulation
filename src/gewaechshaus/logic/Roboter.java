@@ -6,83 +6,53 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-public class Roboter extends Observable implements Observer {
+public class Roboter extends Observable {
 
     private double batteriestatus;
     private double fuellstand;
     private RoboterStatus status;
-    private Roboterleitsystem roboterleitsystem;
     private Position position;
-    private static double schrittweite = 0.5f;
-    private boolean canStep = true;
-    private boolean stepTest;
+    private double schrittweite = 0.5f;
 
     public Roboter(Roboterleitsystem roboterleitsystem) {
-        this.roboterleitsystem = roboterleitsystem;
-        stepTest = false;
-
     }
 
-    public boolean GeheZu(Position RelativePos) {
 
-
-        return false;
+    public void setGeschwindigkeit(double geschwindigkeit) {
+        this.schrittweite = geschwindigkeit;
     }
 
-    public boolean fahreSchritt(Position zielPosition) {
-
-        double xOffset = this.position.getX() - zielPosition.getX();
-        double yOffset = this.position.getY() - zielPosition.getY();
-        if (zielPosition.getReihenID() - this.position.getReihenID() == 0) {
-
-            if (xOffset > 0) {
-                this.position.setX(this.position.getX() - schrittweite);
-            } else {
-                this.position.setX(this.position.getX() + schrittweite);
-            }
-
-        } else if (zielPosition.getSpaltenID() - this.position.getSpaltenID() == 0) {
-
-            if (yOffset > 0) {
-                this.position.setY(this.position.getY() - schrittweite);
-            } else {
-                this.position.setY(this.position.getY() + schrittweite);
-            }
-
-        }
+    public void fahreNachOben() {
+        this.position.setY(this.position.getY() - schrittweite);
         setChanged();
         notifyObservers();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-
-        }
-        return this.position.equals(zielPosition);
     }
 
-
-    public void fahreZu(Position zielPosition) {
-
-        ArrayList<Position> pfad = roboterleitsystem.getPfadVonNach(this.position, zielPosition);
-        Collections.reverse(pfad);
-        while (!this.position.equals(zielPosition)) {
-            while (!this.position.equals(pfad.get(0))) {
-                stepTest = fahreSchritt(pfad.get(0));
-
-            }
-            pfad.remove(0);
-
-        }
+    public void fahreNachUnten() {
+        this.position.setY(this.position.getY() + schrittweite);
+        setChanged();
+        notifyObservers();
     }
+
+    public void fahreNachLinks() {
+        this.position.setX(this.position.getX() - schrittweite);
+        setChanged();
+        notifyObservers();
+    }
+
+    public void fahreNachRechts() {
+        this.position.setX(this.position.getX() - schrittweite);
+        setChanged();
+        notifyObservers();
+    }
+
+    public void warte() {
+
+    }
+
 
     public PflanzenStatus scanne(Position p) {
         return PflanzenStatus.eReif;
-    }
-
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public boolean greife() {
@@ -90,20 +60,21 @@ public class Roboter extends Observable implements Observer {
 
     }
 
-    public boolean schneide() {
-        return true;
-
-    }
-
-    public boolean lade_Auf() {
+    public boolean schneide(Position p) {
         return true;
     }
 
+    public boolean ladePflanzeAuf(Einzelpflanze ep) {
+        return true;
+    }
 
     public Position getPosition() {
         return position;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 
     private void setFuellstand() {
 
@@ -124,10 +95,4 @@ public class Roboter extends Observable implements Observer {
     }
 
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Clock) {
-
-        }
-    }
 }

@@ -6,6 +6,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class Gitter extends Observable implements Observer {
@@ -87,7 +88,6 @@ public class Gitter extends Observable implements Observer {
     }
 
 
-
     /**
      * Gibt die Position rechts von einer Position zurück
      *
@@ -158,6 +158,13 @@ public class Gitter extends Observable implements Observer {
         return nachbarn;
     }
 
+    public Collection<Position> getFreieNachbarFelder(Position p) {
+        List<Position> freieNachbarn = getNachbarn(p);
+        return freieNachbarn.stream()
+                .filter(pos -> this.getPositionsbelegung(p).equals(Positionsbelegung.frei))
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * Berechnet den kürzesten Pfad zwischen 2 Positionen mittels Lee-Algorithmus
@@ -167,11 +174,11 @@ public class Gitter extends Observable implements Observer {
      * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
      * müssen
      */
-    public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) {
+    public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) throws NoWayFoundException {
         ArrayList<Position> wegListe = new ArrayList<Position>();
         Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
 
-        // Array mit -1 f�llen
+        // Array mit -1 füllen
         for (int i = 0; i < pfadArray.length; i++) {
             for (int j = 0; j < pfadArray[0].length; j++) {
                 pfadArray[i][j] = -1;
@@ -182,8 +189,8 @@ public class Gitter extends Observable implements Observer {
         ArrayList<Position> bearbeitung = new ArrayList<Position>();
 
         // Setze von-Position in value-Array auf leer und auf init-Position
-        if (gitter[von.getSpaltenID()][von.getReihenID()] == Positionsbelegung.frei)
-            pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
+
+        pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
         Position current = von;
 
         int i = 0;
@@ -221,13 +228,20 @@ public class Gitter extends Observable implements Observer {
             }
         }
 
-        pfadArray[von.getSpaltenID()][von.getReihenID()]= 0;
+        pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
         // Den Pfad zurück laufen. Immer eine kleineren Wert im Array finden und
         // diesen in die Wegliste einfügen
         current = zu;
         wegListe.add(current);
 
+        int cnt = pfadArray[0].length * pfadArray.length;
+        int counter = 0;
+        boolean error = false;
         while (!current.equals(von)) {
+            if (counter > cnt) {
+                error = true;
+                break;
+            }
             List<Position> nachbarn = getNachbarn(current);
             Logging.log(this.getClass().getName(), Level.INFO, nachbarn.toString());
             for (Position p : nachbarn) {
@@ -236,12 +250,16 @@ public class Gitter extends Observable implements Observer {
                     wegListe.add(p);
                     break;
                 }
+                counter++;
             }
         }
-
-        for(Position p : wegListe) {
-            p.setX(p.getSpaltenID());
-            p.setY(p.getReihenID());
+        if (!error) {
+            for (Position p : wegListe) {
+                p.setX(p.getSpaltenID());
+                p.setY(p.getReihenID());
+            }
+        } else {
+            throw new NoWayFoundException("Kein Weg konnte berechnet werden");
         }
         return wegListe;
     }
@@ -273,21 +291,23 @@ public class Gitter extends Observable implements Observer {
     public Positionsbelegung getPositionsbelegung(Position p) {
         return gitter[p.getSpaltenID()][p.getReihenID()];
     }
+
     public Positionsbelegung getPositionsbelegung(int x, int y) {
         return gitter[x][y];
     }
+
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Pflanzenverwaltung) {
             Pflanzenverwaltung p = (Pflanzenverwaltung) o;
             Map<Position, Einzelpflanze> pflanzen = p.getAllePflanzen();
-            for(Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
-                this.setPosition(Positionsbelegung.pflanze,pflanze.getKey());
+            for (Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
+                this.setPosition(Positionsbelegung.pflanze, pflanze.getKey());
             }
-        } else if(o instanceof Roboterleitsystem) {
+        } else if (o instanceof Roboterleitsystem) {
             Roboterleitsystem leitsystem = (Roboterleitsystem) o;
             Set<Position> roboterPositionen = leitsystem.getRoboterPositionen();
-            for(Position pos : roboterPositionen) {
+            for (Position pos : roboterPositionen) {
                 this.setPosition(Positionsbelegung.roboter, pos);
                 toKarthesisch(pos);
             }
