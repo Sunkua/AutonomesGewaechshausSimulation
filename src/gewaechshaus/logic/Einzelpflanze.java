@@ -1,6 +1,7 @@
 package gewaechshaus.logic;
 
 import java.util.Date;
+import java.util.logging.Level;
 
 /**
  * Definiert eine einzelne Pflanze und ihre Parameter
@@ -14,6 +15,7 @@ public class Einzelpflanze {
 
 	public Einzelpflanze() {
 
+		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
 	}
 	
 	public Einzelpflanze(PflanzenArt art, Position p, double gewicht, PflanzenStatus reifegrad, Date reifezeit) {
@@ -22,6 +24,8 @@ public class Einzelpflanze {
 		this.gewicht = gewicht;
 		this.reifegrad = reifegrad;
 		this.reifezeit = reifezeit;
+		
+		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
 	}
 
 	public double getGewicht() {

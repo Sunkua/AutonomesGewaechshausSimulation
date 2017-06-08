@@ -2,6 +2,7 @@ package gewaechshaus.logic;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 
 
 public class Clock extends java.util.Observable {
@@ -12,6 +13,8 @@ public class Clock extends java.util.Observable {
     public Clock(int schrittZeit) {
         this.schrittZeit = schrittZeit;
         this.timer = new Timer();
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" mit Abstand "+schrittZeit+" geladen");
 
     }
 
@@ -27,6 +30,8 @@ public class Clock extends java.util.Observable {
                 notifyObservers();
             }
         }, 0, schrittZeit);
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Timer initialisiert.");
     }
 
     public void startTimer() {
@@ -35,6 +40,7 @@ public class Clock extends java.util.Observable {
 
     public void setSchrittZeit(int schrittZeit) {
         this.schrittZeit = schrittZeit;
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Schrittzeit "+schrittZeit+" gesetzt.");
     }
 
 

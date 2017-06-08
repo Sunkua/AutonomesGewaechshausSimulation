@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
+import java.util.logging.Level;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
@@ -23,6 +24,8 @@ public class Roboterleitsystem extends Observable implements Observer {
         auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
         this.gitter = g;
+        
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
 
