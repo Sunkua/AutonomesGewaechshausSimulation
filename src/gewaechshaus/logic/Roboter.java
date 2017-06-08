@@ -5,12 +5,12 @@ import java.util.logging.Level;
 
 public class Roboter extends Observable implements Observer {
 
+    private static double schrittweite = 0.5f;
     private double batteriestatus;
     private double fuellstand;
     private RoboterStatus status;
     private Roboterleitsystem roboterleitsystem;
     private Position position;
-    private static double schrittweite = 0.5f;
     private boolean canStep = true;
     private boolean stepTest;
 
@@ -29,17 +29,14 @@ public class Roboter extends Observable implements Observer {
     }
 
     public boolean fahreSchritt(Position zielPosition) {
-
         double xOffset = this.position.getX() - zielPosition.getX();
         double yOffset = this.position.getY() - zielPosition.getY();
         if (zielPosition.getReihenID() - this.position.getReihenID() == 0) {
-
             if (xOffset > 0) {
                 this.position.setX(this.position.getX() - schrittweite);
             } else {
                 this.position.setX(this.position.getX() + schrittweite);
             }
-
         } else if (zielPosition.getSpaltenID() - this.position.getSpaltenID() == 0) {
 
             if (yOffset > 0) {
@@ -47,7 +44,6 @@ public class Roboter extends Observable implements Observer {
             } else {
                 this.position.setY(this.position.getY() + schrittweite);
             }
-
         }
         setChanged();
         notifyObservers();
@@ -55,33 +51,23 @@ public class Roboter extends Observable implements Observer {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-
         }
         return this.position.equals(zielPosition);
     }
 
-
     public void fahreZu(Position zielPosition) {
-
         ArrayList<Position> pfad = roboterleitsystem.getPfadVonNach(this.position, zielPosition);
         Collections.reverse(pfad);
         while (!this.position.equals(zielPosition)) {
             while (!this.position.equals(pfad.get(0))) {
                 stepTest = fahreSchritt(pfad.get(0));
-
             }
             pfad.remove(0);
-
         }
     }
 
     public PflanzenStatus scanne(Position p) {
         return PflanzenStatus.eReif;
-    }
-
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public boolean greife() {
@@ -98,11 +84,13 @@ public class Roboter extends Observable implements Observer {
         return true;
     }
 
-
     public Position getPosition() {
         return position;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 
     private void setFuellstand() {
 

@@ -33,19 +33,15 @@ public class FXGUI extends Application {
 
     private static void runTestfahrt() {
 
-
     }
 
     @Override
     public void start(Stage stage) {
-
-
         // TODO Auto-generated method stub
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
         pVerwaltung.setMaxGröße(10, 10);
         Gitter gitter = new Gitter(10f, 10f, 10, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
-
 
         pVerwaltung.addObserver(leitSystem);
 
@@ -54,11 +50,9 @@ public class FXGUI extends Application {
 
         Roboter r = new Roboter(leitSystem);
 
-
         Position roboPos = new Position(5f, 5f);
         gitter.toKarthesisch(roboPos);
         leitSystem.roboterHinzufuegen(r, roboPos);
-
 
         r.addObserver(leitSystem);
 
@@ -84,7 +78,6 @@ public class FXGUI extends Application {
         leftRightSeparator.setOrientation(Orientation.VERTICAL);
         grid.add(leftRightSeparator, 2, 2, 1, 10);
 
-
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
         grid.add(interaktionsGrid, 3, 2);
@@ -98,7 +91,6 @@ public class FXGUI extends Application {
         // Stage building
         stage.setScene(scene);
         stage.setTitle("Gewächshaus-Roboter");
-
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         //set Stage boundaries to visible bounds of the main screen
@@ -118,8 +110,6 @@ public class FXGUI extends Application {
         xLabel.setLabelFor(editSpalte);
         yLabel.setLabelFor(editReihe);
 
-
-
         testfahrt.setOnAction(
                 e -> {
                     double y = Double.parseDouble(editReihe.getText());
@@ -133,10 +123,7 @@ public class FXGUI extends Application {
                         Thread thread = new Thread(task);
                         thread.start();
                     }
-
-
                 });
-
 
         grid.add(testfahrt, 0, 6);
 
@@ -152,7 +139,6 @@ public class FXGUI extends Application {
 
         Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
         pVerwaltung.pflanzeHinzufuegen(t);
-
 
         stage.show();
     }
