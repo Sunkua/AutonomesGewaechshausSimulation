@@ -41,7 +41,7 @@ public class FXGUI extends Application {
         pVerwaltung.setMaxGröße(10, 10);
         Gitter gitter = new Gitter(10f, 10f, 10, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
-
+        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter);
 
         pVerwaltung.addObserver(leitSystem);
 
@@ -50,11 +50,9 @@ public class FXGUI extends Application {
 
         Roboter r = new Roboter(leitSystem);
 
-
         Position roboPos = new Position(5f, 5f);
         gitter.toKarthesisch(roboPos);
         leitSystem.roboterHinzufuegen(r, roboPos);
-
 
         r.addObserver(leitSystem);
 
@@ -113,11 +111,13 @@ public class FXGUI extends Application {
         grid.add(spalte, 1, 7);
 
 
-        Button testfahrt = new Button("Testfahrt");
+        Button testfahrt = new Button("Gurken ernten");
         testfahrt.setOnAction(
                 e -> {
                     int x = Integer.parseInt(spalte.getText());
                     int y = Integer.parseInt(zeile.getText());
+                    Auftrag gurkenErnten = auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke);
+                    leitSystem.auftragHinzufuegen(gurkenErnten);
                     Position ziel = new Position((double) x, (double) y);
                     gitter.toKarthesisch(ziel);
                     Runnable task = () -> {

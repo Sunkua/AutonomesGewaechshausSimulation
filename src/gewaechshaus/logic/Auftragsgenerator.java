@@ -1,11 +1,10 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
+
 import java.util.logging.Logger;
 
 public class Auftragsgenerator {
@@ -15,7 +14,7 @@ public class Auftragsgenerator {
     private Pflanzenverwaltung pVerwaltung;
     private Roboterleitsystem roboterleitsystem;
 
-    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Roboterleitsystem roboterleitsystem, Gitter gitter) throws SecurityException, IOException {
+    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Roboterleitsystem roboterleitsystem, Gitter gitter) {
         this.pVerwaltung = pVerwaltung;
         this.roboterleitsystem = roboterleitsystem;
     }

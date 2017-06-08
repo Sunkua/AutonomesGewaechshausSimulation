@@ -25,4 +25,8 @@ public abstract class Unterauftrag extends Observable {
 
     }
 
+    public void abbrechen() {
+        this.status = UnterauftragsStatus.abgebrochen;
+    }
+
 }

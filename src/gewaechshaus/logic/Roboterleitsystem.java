@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
@@ -24,17 +25,14 @@ public class Roboterleitsystem extends Observable implements Observer {
         auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
         this.gitter = g;
-        
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
 
     public Collection<Position> getFreieNachbarFelderVon(Position p) {
         return gitter.getFreieNachbarFelder(p);
     }
-
-
-
 
     public Set<Position> getRoboterPositionen() {
         return roboterMap.keySet();
@@ -44,7 +42,6 @@ public class Roboterleitsystem extends Observable implements Observer {
         return gitter.kuerzesterWegNach(a, b);
     }
 
-
     public boolean operationAbbrechen(int ID) {
 
         return true;
@@ -53,7 +50,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     public void abladeStationDefinieren() {
 
     }
-
 
     public boolean roboterHinzufuegen(Roboter r, Position p) {
         if (gitter.getPositionsbelegung(p) == Positionsbelegung.frei) {
@@ -68,20 +64,34 @@ public class Roboterleitsystem extends Observable implements Observer {
         }
     }
 
-
     public Unterauftrag getUnterauftrag(int ID) {
         return null;
     }
 
-
     public void auftragHinzufuegen(Auftrag auftrag) {
         auftragsQueue.add(auftrag);
+        verteileUnterauftraege();
+    }
+
+    private void verteileUnterauftraege() {
+        Collection<Roboter> freieRoboter = getFreieRoboter();
+        int roboterCount = freieRoboter.size();
+        Auftrag tAuftrag = auftragsQueue.peek();
+        while (tAuftrag.getUnterauftragsAnzahl() > 0 && getFreieRoboter().size() > 0) {
+
+        }
+    }
+
+    private Collection<Roboter> getFreieRoboter() {
+        return this.roboterMap.entrySet().stream()
+                .filter(map -> map.getValue().getStatus().equals(RoboterStatus.eBereit))
+                .map(map -> map.getValue())
+                .collect(Collectors.toList());
     }
 
     public Roboter getRoboterAnPosition(Position p) {
         return roboterMap.get(p);
     }
-
 
     private void warte() {
 
