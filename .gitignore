@@ -1,6 +1,5 @@
 /bin/
 /.idea/
 /.settings/
-/log.txt.1
-/log.txt
+/log*
 /Gewaechshaus.iml

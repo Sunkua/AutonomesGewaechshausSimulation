@@ -29,9 +29,9 @@ public class Gitter extends Observable implements Observer {
         }
         gitterhoehe = hoehe;
         gitterbreite = breite;
-        
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Hoehe: "+hoehe+" Breite: "+breite);
+
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Hoehe: " + hoehe + " Breite: " + breite);
     }
 
     /**
@@ -84,7 +84,6 @@ public class Gitter extends Observable implements Observer {
         zielKoordinaten.setSpaltenID(zielKoordX);
         return zielKoordinaten;
     }
-
 
 
     /**
@@ -220,7 +219,7 @@ public class Gitter extends Observable implements Observer {
             }
         }
 
-        pfadArray[von.getSpaltenID()][von.getReihenID()]= 0;
+        pfadArray[von.getSpaltenID()][von.getReihenID()] = 0;
         // Den Pfad zurück laufen. Immer eine kleineren Wert im Array finden und
         // diesen in die Wegliste einfügen
         current = zu;
@@ -238,7 +237,7 @@ public class Gitter extends Observable implements Observer {
             }
         }
 
-        for(Position p : wegListe) {
+        for (Position p : wegListe) {
             p.setX(p.getSpaltenID());
             p.setY(p.getReihenID());
         }
@@ -272,21 +271,35 @@ public class Gitter extends Observable implements Observer {
     public Positionsbelegung getPositionsbelegung(Position p) {
         return gitter[p.getSpaltenID()][p.getReihenID()];
     }
+
     public Positionsbelegung getPositionsbelegung(int x, int y) {
         return gitter[x][y];
     }
+
+    private void resetRoboterPositionen() {
+        for (int i = 0; i < gitter.length; i++) {
+            for (int j = 0; j < gitter[0].length; j++) {
+                if (gitter[i][j] == Positionsbelegung.roboter) {
+                    gitter[i][j] = Positionsbelegung.frei;
+                }
+            }
+        }
+    }
+
+
     @Override
     public void update(Observable o, Object arg) {
+        resetRoboterPositionen();
         if (o instanceof Pflanzenverwaltung) {
             Pflanzenverwaltung p = (Pflanzenverwaltung) o;
             Map<Position, Einzelpflanze> pflanzen = p.getAllePflanzen();
-            for(Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
-                this.setPosition(Positionsbelegung.pflanze,pflanze.getKey());
+            for (Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
+                this.setPosition(Positionsbelegung.pflanze, pflanze.getKey());
             }
-        } else if(o instanceof Roboterleitsystem) {
+        } else if (o instanceof Roboterleitsystem) {
             Roboterleitsystem leitsystem = (Roboterleitsystem) o;
             Set<Position> roboterPositionen = leitsystem.getRoboterPositionen();
-            for(Position pos : roboterPositionen) {
+            for (Position pos : roboterPositionen) {
                 this.setPosition(Positionsbelegung.roboter, pos);
                 toKarthesisch(pos);
             }

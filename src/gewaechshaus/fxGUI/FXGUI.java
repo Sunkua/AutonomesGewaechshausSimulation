@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,6 +31,10 @@ public class FXGUI extends Application {
         launch(args);
     }
 
+    private static void runTestfahrt() {
+
+
+    }
 
     @Override
     public void start(Stage stage) {
@@ -84,14 +90,15 @@ public class FXGUI extends Application {
         grid.add(interaktionsGrid, 3, 2);
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
-        grid.add(canvas, 0, 3, 2, 2);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 15), gitter, 300, 300, pVerwaltung, leitSystem);
+        grid.add(canvas, 0, 3);
         pVerwaltung.addObserver(canvas);
         leitSystem.addObserver(canvas);
 
         // Stage building
         stage.setScene(scene);
         stage.setTitle("Gewächshaus-Roboter");
+
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         //set Stage boundaries to visible bounds of the main screen
@@ -100,17 +107,38 @@ public class FXGUI extends Application {
         stage.setWidth(primaryScreenBounds.getWidth() - 150);
         stage.setHeight(primaryScreenBounds.getHeight() - 150);
         Button testfahrt = new Button("Testfahrt");
+        Label xLabel = new Label("Spalte");
+        Label yLabel = new Label("Reihe");
+        TextField editReihe = new TextField("Reihe");
+        TextField editSpalte = new TextField("Spalte");
+        grid.add(xLabel, 0, 4);
+        grid.add(yLabel, 1, 4);
+        grid.add(editSpalte, 0, 5, 1, 1);
+        grid.add(editReihe, 1, 5, 1, 1);
+        xLabel.setLabelFor(editSpalte);
+        yLabel.setLabelFor(editReihe);
+
+
+
         testfahrt.setOnAction(
                 e -> {
-                    Position ziel = new Position(0,0);
+                    double y = Double.parseDouble(editReihe.getText());
+                    double x = Integer.parseInt(editSpalte.getText());
+                    Position ziel = new Position(x, y);
                     gitter.toKarthesisch(ziel);
-                    Runnable task = () -> {
-                        r.fahreZu(ziel);
-                    };
-                    Thread thread = new Thread(task);
-                    thread.start();
+                    if (gitter.getPositionsbelegung(ziel).equals(Positionsbelegung.frei)) {
+                        Runnable task = () -> {
+                            r.fahreZu(ziel);
+                        };
+                        Thread thread = new Thread(task);
+                        thread.start();
+                    }
+
+
                 });
-        grid.add(testfahrt, 0,4);
+
+
+        grid.add(testfahrt, 0, 6);
 
         for (int i = 0; i < gitter.getBreite(); i++)
         {
@@ -127,11 +155,6 @@ public class FXGUI extends Application {
 
 
         stage.show();
-    }
-
-    private static void runTestfahrt() {
-
-
     }
 
 
