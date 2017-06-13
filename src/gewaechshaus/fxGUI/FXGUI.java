@@ -63,16 +63,16 @@ public class FXGUI extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        // Set width and height
-        Scene scene = new Scene(grid, 500, 200, Color.BLACK);
-
         // Left Pane
-        Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("Gewächshausverwaltungssoftware");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 1, 1);
+        grid.add(scenetitle, 0, 0);
 
         Separator titleSeparator = new Separator();
-        grid.add(titleSeparator, 0, 2, 2, 2);
+        grid.add(titleSeparator, 0, 2, 2, 1);
+
+        // Set width and height
+        Scene scene = new Scene(grid, 500, 500, Color.BLACK);
 
         // Left-Right separator
         Separator leftRightSeparator = new Separator();
@@ -82,11 +82,12 @@ public class FXGUI extends Application {
 
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
-        grid.add(interaktionsGrid, 3, 2);
+        grid.add(interaktionsGrid, 3, 3);
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
+        
         pVerwaltung.addObserver(canvas);
         leitSystem.addObserver(canvas);
 
@@ -117,16 +118,14 @@ public class FXGUI extends Application {
                 e -> {
                     Auftrag gurkenErnten = auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke);
                     leitSystem.auftragHinzufuegen(gurkenErnten);
-
-
                 });
-        grid.add(gurkenErnte, 0, 6);
+        grid.add(gurkenErnte, 0, 8);
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
             clock.schritt();
         });
-        grid.add(simulationsSchritt, 0, 7);
+        grid.add(simulationsSchritt, 0, 9);
 
         for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {
