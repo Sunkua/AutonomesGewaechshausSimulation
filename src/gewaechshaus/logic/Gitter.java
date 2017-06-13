@@ -19,6 +19,15 @@ public class Gitter extends Observable implements Observer {
     /**
      * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten Gitterkoordinaten
      *
+     * Die Koordinaten des Gitters sehen beispielsweise so aus:
+     *  x -> 0 1 2 3
+     * y
+     * |
+     * 0
+     * 1
+     * 2
+     * 3
+     *
      * @param hoehe                Reale Höhe des Gitters
      * @param breite               Reale Breite des Gitters
      * @param horizontalFieldCount Anzahl der Felder auf der X-Achse
@@ -158,6 +167,12 @@ public class Gitter extends Observable implements Observer {
         return nachbarn;
     }
 
+    /**
+     * Gibt Nachbarfelder einer Position zurück, die als frei gekennzeichnet sind
+     *
+     * @param p Position deren freie Nachbarn gesucht werden sollen
+     * @return Arraylist mit freien Nachbarn
+     */
     public ArrayList<Position> getFreieNachbarFelder(Position p) {
         ArrayList<Position> nachbarn = getNachbarn(p);
         ArrayList<Position> freieNachbarn = new ArrayList<Position>();
@@ -279,10 +294,18 @@ public class Gitter extends Observable implements Observer {
         return wegListe;
     }
 
+    /**
+     *
+     * @return Gibt die Höhe des Grids in Kästcheneinheiten zurück
+     */
     public int getHoehe() {
         return gitter[0].length;
     }
 
+    /**
+     *
+     * @return Gibt die Breite des Grids in Kästcheneinheiten zurück
+     */
     public int getBreite() {
         return gitter.length;
     }
@@ -307,6 +330,12 @@ public class Gitter extends Observable implements Observer {
         return gitter[p.getSpaltenID()][p.getReihenID()];
     }
 
+    /**
+     * Gibt die Positionsbelegung einer Koordinate aus
+     * @param x x-Koordinate in Kästcheneinheiten
+     * @param y Y-Koordinate in Kästcheneinheiten
+     * @return
+     */
     public Positionsbelegung getPositionsbelegung(int x, int y) {
         return gitter[x][y];
     }

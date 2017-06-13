@@ -29,7 +29,7 @@ public class Clock extends java.util.Observable {
                 setChanged();
                 notifyObservers();
             }
-        }, 0, schrittZeit);
+        }, 0, 10);
         
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Timer initialisiert.");
     }

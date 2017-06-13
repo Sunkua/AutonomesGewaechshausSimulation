@@ -17,6 +17,12 @@ public class Einzelernte extends Unterauftrag {
     private Roboterleitsystem roboterleitsystem;
     private int zustand = 0;
 
+    /**
+     * Konstruktor eines Unterauftrags, der eine einzelne Pflanze erntet
+     *
+     * @param ep                Die Pflanze, die geerntet werden sollen
+     * @param roboterleitsystem Das Roboterleitsystem des Gewächshauses
+     */
     public Einzelernte(Einzelpflanze ep, Roboterleitsystem roboterleitsystem) {
         try {
             Handler handler = new FileHandler(Settings.loggingFilePath);
@@ -34,7 +40,10 @@ public class Einzelernte extends Unterauftrag {
     }
 
     /**
-     * Startet die Ausführung des Auftrags.
+     * Führt den aktuellen Unterauftrag bzgl. des aktuellen Zustandes aus (Wird mehrfach aufgerufen, bis der
+     * Unterauftragsstatus beendet oder abgebrochen ist
+     *
+     * @param roboter Roboter mit dem der Unterauftrag ausgeführt werden soll
      */
     @Override
     public void ausfuehren(Roboter roboter) {
@@ -88,8 +97,7 @@ public class Einzelernte extends Unterauftrag {
 
     /**
      * Fährt ein Nachbarkästchen des Roboters an.
-     *
-     * @param roboter Roboter aus der Roboterverwaltung
+     * @param roboter Roboter aus der Roboterverwaltung der zur Position fahren soll
      */
     private void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
@@ -125,6 +133,12 @@ public class Einzelernte extends Unterauftrag {
 
     }
 
+    /**
+     * Update-Methode des Observers. Wird bei jedem Schritt der Uhr gecalled
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Clock) {

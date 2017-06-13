@@ -123,7 +123,8 @@ public class FXGUI extends Application {
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
-            clock.schritt();
+            clock.initTimer();
+            clock.setSchrittZeit(25);
         });
         grid.add(simulationsSchritt, 0, 9);
 

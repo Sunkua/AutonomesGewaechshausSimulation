@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
  */
 public class Auftrag extends Observable implements Observer {
 
-    private int id;
     private List<Unterauftrag> unterauftraege;
     private Clock clock;
     private AuftragsStatus status;
+
 
     public Auftrag(Clock clock) {
         this.clock = clock;
@@ -23,12 +23,15 @@ public class Auftrag extends Observable implements Observer {
         this.status = AuftragsStatus.bereit;
     }
 
+    /**
+     * @return Auftragsstatus
+     */
     public AuftragsStatus getStatus() {
         return this.status;
     }
 
     /**
-     * Gibt einen einzelnen Unterauftrag zurück.
+     * Gibt einen einzelnen Unterauftrag zurück. Entfernt dabei den Unterauftrag aus der Queue
      *
      * @return Einzelner Unterauftrag
      */
@@ -36,6 +39,11 @@ public class Auftrag extends Observable implements Observer {
         return unterauftraege.remove(0);
     }
 
+
+    /**
+     * Gibt einen einzelnen Unterauftrag aus der Queue zurück
+     * @return Einzelner Unterauftrag
+     */
     public Unterauftrag peekUnterauftrag() {
         return unterauftraege.get(0);
     }
@@ -49,6 +57,12 @@ public class Auftrag extends Observable implements Observer {
         return unterauftraege.size();
     }
 
+
+    /**
+     * Sucht den nächsten freien Roboter und führt mit diesem den nächsten freien Unterauftrag aus
+     * @param r Roboter mit dem der Unterauftrag ausgeführt werden soll
+     * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die Ausführung gefunden wurde
+     */
     public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
         Unterauftrag uAuftrag = popUnterauftrag();
         if (r.getStatus() == RoboterStatus.eBereit) {
@@ -59,8 +73,9 @@ public class Auftrag extends Observable implements Observer {
         } else {
             throw new Exception("Roboter ist nicht bereit");
         }
-
     }
+
+
 
     private List<Unterauftrag> getAusfuehrbareUnterauftraege() {
         return unterauftraege.stream()
@@ -87,15 +102,13 @@ public class Auftrag extends Observable implements Observer {
     }
 
 
-    public int getId() {
-        return id;
-    }
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * Update vom Observer
+     * Überprüft den Status der Unterauftrags. Ist der Unterauftrag abgeschlossen wird der Nächste angestoßen.
+     * Enthält die Queue keine Unteraufträge mehr wird das Leitsystem benachrichtigt, dass der Auftrag abgeschlossen ist
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Unterauftrag) {
