@@ -170,6 +170,16 @@ public class Gitter extends Observable implements Observer {
         return freieNachbarn;
     }
 
+    private void roboterPositionenBereinigen() {
+        for (int i = 0; i < gitter.length; i++) {
+            for (int j = 0; j < gitter[0].length; j++) {
+                if (gitter[i][j].equals(Positionsbelegung.roboter)) {
+                    gitter[i][j] = Positionsbelegung.frei;
+                }
+            }
+        }
+    }
+
 
     /**
      * Berechnet den kürzesten Pfad zwischen 2 Positionen mittels Lee-Algorithmus
@@ -310,6 +320,7 @@ public class Gitter extends Observable implements Observer {
                 this.setPosition(Positionsbelegung.pflanze, pflanze.getKey());
             }
         } else if (o instanceof Roboterleitsystem) {
+            roboterPositionenBereinigen();
             Roboterleitsystem leitsystem = (Roboterleitsystem) o;
             Set<Position> roboterPositionen = leitsystem.getRoboterPositionen();
             for (Position pos : roboterPositionen) {

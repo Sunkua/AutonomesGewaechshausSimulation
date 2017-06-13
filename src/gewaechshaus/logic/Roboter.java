@@ -41,7 +41,7 @@ public class Roboter extends Observable {
     }
 
     public void fahreNachRechts() {
-        this.position.setX(this.position.getX() - schrittweite);
+        this.position.setX(this.position.getX() + schrittweite);
         setChanged();
         notifyObservers();
     }

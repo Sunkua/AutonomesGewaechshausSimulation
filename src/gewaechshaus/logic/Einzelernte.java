@@ -48,6 +48,7 @@ public class Einzelernte extends Unterauftrag {
                 roboter.setRoboterStatus(RoboterStatus.eBeschaeftigt);
                 fahreZuNachbarposition(roboter);
                 zustand++;
+                Logging.log(this.getClass().getName(), Level.INFO, "Initialisiere und beginne Fahrt zu Position: " + roboter.getPosition().toString());
                 break;
             // Fahre zu Position
             case 1:
@@ -56,24 +57,27 @@ public class Einzelernte extends Unterauftrag {
                 } else {
                     zustand++;
                 }
+                Logging.log(this.getClass().getName(), Level.INFO, "Roboter fährt zu Position: " + roboter.getPosition().toString());
                 break;
             // scanne
             case 2:
                 roboter.scanne(ep.getPosition());
                 zustand++;
+                Logging.log(this.getClass().getName(), Level.INFO, "Scanne zu erntende Pflanze");
                 break;
             // Schneide
             case 3:
                 roboter.schneide(ep.getPosition());
                 zustand++;
+                Logging.log(this.getClass().getName(), Level.INFO, "Schneide Pflanze ab");
                 break;
             // lade ein und setze wieder auf bereit
             case 4:
                 roboter.ladePflanzeAuf(ep);
                 roboter.deleteObserver(this);
                 roboter.setRoboterStatus(RoboterStatus.eBereit);
+                Logging.log(this.getClass().getName(), Level.INFO, "Lade Pflanze ein und beende Unterauftrag");
                 this.status = UnterauftragsStatus.beendet;
-
                 // Unterauftrag abgeschlossen Auftrag benachrichtigen
                 setChanged();
                 notifyObservers();
@@ -91,10 +95,13 @@ public class Einzelernte extends Unterauftrag {
         ArrayList<Position> wegListe;
         try {
             wegListe = roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition);
-            Position nPos = roboter.getPosition();
-            if (wegListe.size() > 0) {
-                nPos = wegListe.get(0);
+            // Roboter-Position aus Liste entfernen
+            if (wegListe.size() > 1) {
+                wegListe.remove(wegListe.size() - 1);
             }
+            Position nPos = roboter.getPosition();
+            nPos = wegListe.get(wegListe.size() - 1);
+
             Position rPos = roboter.getPosition();
             // Fahre in Richtung der Position
             if (nPos.getReihenID() > rPos.getReihenID()) {

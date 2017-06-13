@@ -17,6 +17,7 @@ public class Roboterleitsystem extends Observable implements Observer {
     private Ladestation ladestation;
     private Abladestation abladestation2;
     private Map<Position, Roboter> roboterMap;
+    private List<Roboter> roboterList;
     private Gitter gitter;
 
 
@@ -24,6 +25,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
+        roboterList = new ArrayList<Roboter>();
         this.gitter = g;
 
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
@@ -36,7 +38,11 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
     public Set<Position> getRoboterPositionen() {
-        return roboterMap.keySet();
+        Set<Position> res = new HashSet<>();
+        for (Roboter r : roboterList) {
+            res.add(r.getPosition());
+        }
+        return res;
     }
 
     public ArrayList<Position> getPfadVonNach(Position a, Position b) throws NoWayFoundException {
@@ -54,7 +60,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     public boolean roboterHinzufuegen(Roboter r, Position p) {
         if (gitter.getPositionsbelegung(p) == Positionsbelegung.frei) {
-            roboterMap.put(p, r);
+            roboterList.add(r);
             r.setPosition(p);
             r.setRoboterStatus(RoboterStatus.eBereit);
             setChanged();
@@ -75,14 +81,14 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
     private void verteileUnterauftraege() {
-        Collection<Roboter> freieRoboter = getFreieRoboter();
+        ArrayList<Roboter> freieRoboter = getFreieRoboter();
         int roboterCount = freieRoboter.size();
         Auftrag tAuftrag = auftragsQueue.peek();
         if (tAuftrag.countObservers() == 0) {
             tAuftrag.addObserver(this);
         }
-        Collection<Roboter> roboterCollection = getFreieRoboter();
-        for (Roboter r : roboterCollection) {
+
+        for (Roboter r : freieRoboter) {
             if (tAuftrag.getUnterauftragsAnzahl() > 0) {
                 try {
                     tAuftrag.naechstenUnterauftragAusfuehren(r);
@@ -95,15 +101,23 @@ public class Roboterleitsystem extends Observable implements Observer {
         }
     }
 
-    private Collection<Roboter> getFreieRoboter() {
-        return this.roboterMap.entrySet().stream()
-                .filter(map -> map.getValue().getStatus().equals(RoboterStatus.eBereit))
-                .map(map -> map.getValue())
-                .collect(Collectors.toList());
+    private ArrayList<Roboter> getFreieRoboter() {
+        ArrayList<Roboter> freieRoboter = new ArrayList<>();
+        for (Roboter r : roboterList) {
+            if (r.getStatus().equals(RoboterStatus.eBereit)) {
+                freieRoboter.add(r);
+            }
+        }
+        return freieRoboter;
     }
 
-    public Roboter getRoboterAnPosition(Position p) {
-        return roboterMap.get(p);
+    public Roboter getRoboterAnPosition(Position p) throws Exception {
+        for (Roboter r : roboterList) {
+            if (r.getPosition().equals(p)) {
+                return r;
+            }
+        }
+        throw new Exception("Kein Roboter an der angegebenen Position");
     }
 
     private void warte() {
@@ -111,13 +125,11 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
     public Position getPositionvonRoboter(Roboter r) {
-        Set<Map.Entry<Position, Roboter>> rPosCollection = this.roboterMap.entrySet();
-        for (Map.Entry<Position, Roboter> roboP : rPosCollection) {
-            if (roboP.getValue().equals(r)) {
-                return roboP.getKey();
-            }
-        }
-        return null;
+        return roboterList.get(roboterList.indexOf(r)).getPosition();
+    }
+
+    private void roboterGitterReset() {
+
     }
 
 
@@ -133,8 +145,6 @@ public class Roboterleitsystem extends Observable implements Observer {
             Roboter r = (Roboter) o;
             Position p = getPositionvonRoboter(r);
             gitter.toKarthesisch(r.getPosition());
-            this.roboterMap.remove(p);
-            this.roboterMap.put(r.getPosition(), r);
             setChanged();
             notifyObservers();
         } else if (o instanceof Auftrag) {
