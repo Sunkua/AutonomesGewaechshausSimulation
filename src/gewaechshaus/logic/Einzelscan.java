@@ -1,5 +1,6 @@
 package gewaechshaus.logic;
 
+import java.util.Observable;
 import java.util.logging.Level;
 
 /**
@@ -26,6 +27,11 @@ public class Einzelscan extends Unterauftrag {
         if (roboter != null) {
 
         }
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }

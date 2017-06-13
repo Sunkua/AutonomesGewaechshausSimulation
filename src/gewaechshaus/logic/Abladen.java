@@ -1,5 +1,6 @@
 package gewaechshaus.logic;
 
+import java.util.Observable;
 import java.util.logging.Level;
 
 /**
@@ -16,6 +17,11 @@ public class Abladen extends Unterauftrag {
      */
     @Override
     public void ausfuehren(Roboter roboter) {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }

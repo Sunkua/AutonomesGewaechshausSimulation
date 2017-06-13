@@ -133,8 +133,8 @@ public class Gitter extends Observable implements Observer {
      * @return Collection der Nachbarknoten wenn vorhanden
      * Position auf < 0 oder >= gitterbreite geprüft wird
      */
-    private List<Position> getNachbarn(Position pos) {
-        List<Position> nachbarn = new ArrayList<Position>();
+    private ArrayList<Position> getNachbarn(Position pos) {
+        ArrayList<Position> nachbarn = new ArrayList<Position>();
         try {
             Position links = getPositionLinks(pos);
             nachbarn.add(links);
@@ -158,11 +158,16 @@ public class Gitter extends Observable implements Observer {
         return nachbarn;
     }
 
-    public Collection<Position> getFreieNachbarFelder(Position p) {
-        List<Position> freieNachbarn = getNachbarn(p);
-        return freieNachbarn.stream()
-                .filter(pos -> this.getPositionsbelegung(p).equals(Positionsbelegung.frei))
-                .collect(Collectors.toList());
+    public ArrayList<Position> getFreieNachbarFelder(Position p) {
+        ArrayList<Position> nachbarn = getNachbarn(p);
+        ArrayList<Position> freieNachbarn = new ArrayList<Position>();
+        for (Position pos : nachbarn) {
+            if (getPositionsbelegung(pos).equals(Positionsbelegung.frei)) {
+                freieNachbarn.add(pos);
+            }
+        }
+
+        return freieNachbarn;
     }
 
 

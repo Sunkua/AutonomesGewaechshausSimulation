@@ -13,24 +13,27 @@ public class Auftragsgenerator {
 
     private Pflanzenverwaltung pVerwaltung;
     private Roboterleitsystem roboterleitsystem;
+    private Clock clock;
 
-    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Roboterleitsystem roboterleitsystem, Gitter gitter) {
+    public Auftragsgenerator(Pflanzenverwaltung pVerwaltung, Roboterleitsystem roboterleitsystem, Gitter gitter, Clock clock) {
         this.pVerwaltung = pVerwaltung;
         this.roboterleitsystem = roboterleitsystem;
+        this.clock = clock;
     }
 
     public Auftrag pflanzenVonArtScannen(PflanzenArt pArt) {
-        Auftrag auftrag = new Auftrag();
+        Auftrag auftrag = new Auftrag(clock);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonTyp(pArt);
         pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan(v)));
+
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }
 
 
     public Auftrag pflanzenVonStatusScannen(PflanzenStatus pStatus) {
-        Auftrag auftrag = new Auftrag();
+        Auftrag auftrag = new Auftrag(clock);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonStatus(pStatus);
         pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan(v)));
@@ -40,7 +43,7 @@ public class Auftragsgenerator {
 
 
     public Auftrag pflanzenVonArtErnten(PflanzenArt pflanzenArt) {
-        Auftrag auftrag = new Auftrag();
+        Auftrag auftrag = new Auftrag(clock);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonTyp(pflanzenArt);
         pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v, roboterleitsystem)));
@@ -49,7 +52,7 @@ public class Auftragsgenerator {
     }
 
     public Auftrag pflanzenVonStatusErnten(PflanzenStatus pStatus) {
-        Auftrag auftrag = new Auftrag();
+        Auftrag auftrag = new Auftrag(clock);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonStatus(pStatus);
         pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelernte(v, roboterleitsystem)));

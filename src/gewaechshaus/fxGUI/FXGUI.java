@@ -41,7 +41,8 @@ public class FXGUI extends Application {
         pVerwaltung.setMaxGröße(10, 10);
         Gitter gitter = new Gitter(10f, 10f, 10, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
-        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter);
+        Clock clock = new Clock(2000);
+        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, clock);
 
         pVerwaltung.addObserver(leitSystem);
 
@@ -111,24 +112,21 @@ public class FXGUI extends Application {
         grid.add(spalte, 1, 7);
 
 
-        Button testfahrt = new Button("Gurken ernten");
-        testfahrt.setOnAction(
+        Button gurkenErnte = new Button("Gurken ernten");
+        gurkenErnte.setOnAction(
                 e -> {
-                    int x = Integer.parseInt(spalte.getText());
-                    int y = Integer.parseInt(zeile.getText());
                     Auftrag gurkenErnten = auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke);
                     leitSystem.auftragHinzufuegen(gurkenErnten);
-                    Position ziel = new Position((double) x, (double) y);
-                    gitter.toKarthesisch(ziel);
-                    Runnable task = () -> {
-                        if (r.getStatus() == RoboterStatus.eBereit) {
 
-                        }
-                    };
-                    Thread thread = new Thread(task);
-                    thread.start();
+
                 });
-        grid.add(testfahrt, 0, 5);
+        grid.add(gurkenErnte, 0, 6);
+
+        Button simulationsSchritt = new Button("Simulationsschritt");
+        simulationsSchritt.setOnAction(e -> {
+            clock.schritt();
+        });
+        grid.add(simulationsSchritt, 0, 7);
 
         for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {

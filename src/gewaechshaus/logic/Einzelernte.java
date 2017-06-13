@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  * Erstellt einen Auftrag zum Ernten einer einzelnen Pflanze.
  */
-public class Einzelernte extends Unterauftrag implements Observer {
+public class Einzelernte extends Unterauftrag {
 
     private static final Logger log = Logger.getLogger(Einzelernte.class.getName());
     private Position zielPosition;
@@ -28,8 +28,9 @@ public class Einzelernte extends Unterauftrag implements Observer {
         this.roboterleitsystem = roboterleitsystem;
         this.ep = ep;
         this.zustand = 0;
-        Collection<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
+        List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
         zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
+        Logging.log(this.getClass().getName(), Level.INFO, "Einzelernte Unterauftrag erstellt");
     }
 
     /**
@@ -114,7 +115,6 @@ public class Einzelernte extends Unterauftrag implements Observer {
             Logging.log(this.getClass().getName(), Level.SEVERE, e.getMessage());
             roboter.warte();
         }
-
 
     }
 

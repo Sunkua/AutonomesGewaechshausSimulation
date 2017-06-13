@@ -2,19 +2,29 @@ package gewaechshaus.logic;
 
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
  * Implementiert die Verwaltung von Aufträgen in Unteraufträgen.
  */
-public class Auftrag {
+public class Auftrag extends Observable implements Observer {
 
     private int id;
     private List<Unterauftrag> unterauftraege;
+    private Clock clock;
+    private AuftragsStatus status;
 
-    public Auftrag() {
+    public Auftrag(Clock clock) {
+        this.clock = clock;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+        this.status = AuftragsStatus.bereit;
+    }
+
+    public AuftragsStatus getStatus() {
+        return this.status;
     }
 
     /**
@@ -39,7 +49,16 @@ public class Auftrag {
         return unterauftraege.size();
     }
 
-    public void unterauftragAusfuehren(Roboter r) {
+    public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
+        Unterauftrag uAuftrag = popUnterauftrag();
+        if (r.getStatus() == RoboterStatus.eBereit) {
+            uAuftrag.setRoboter(r);
+            uAuftrag.addObserver(this);
+            clock.addObserver(uAuftrag);
+            this.status = AuftragsStatus.ausfuehrend;
+        } else {
+            throw new Exception("Roboter ist nicht bereit");
+        }
 
     }
 
@@ -77,4 +96,21 @@ public class Auftrag {
         this.id = id;
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Unterauftrag) {
+            Unterauftrag uAuftrag = (Unterauftrag) o;
+            if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
+                // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
+                clock.deleteObserver(uAuftrag);
+                uAuftrag.deleteObservers();
+                // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
+                if (this.unterauftraege.size() == 0) {
+                    this.status = AuftragsStatus.beendet;
+                }
+                setChanged();
+                notifyObservers();
+            }
+        }
+    }
 }

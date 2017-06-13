@@ -34,6 +34,11 @@ public class Clock extends java.util.Observable {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Timer initialisiert.");
     }
 
+    public void schritt() {
+        setChanged();
+        notifyObservers();
+    }
+
     public void startTimer() {
         initTimer();
     }

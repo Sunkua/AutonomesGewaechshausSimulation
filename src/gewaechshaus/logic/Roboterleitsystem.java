@@ -30,8 +30,9 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
 
-    public Collection<Position> getFreieNachbarFelderVon(Position p) {
-        return gitter.getFreieNachbarFelder(p);
+    public List<Position> getFreieNachbarFelderVon(Position p) {
+        List<Position> posListe = gitter.getFreieNachbarFelder(p);
+        return posListe;
     }
 
     public Set<Position> getRoboterPositionen() {
@@ -77,8 +78,20 @@ public class Roboterleitsystem extends Observable implements Observer {
         Collection<Roboter> freieRoboter = getFreieRoboter();
         int roboterCount = freieRoboter.size();
         Auftrag tAuftrag = auftragsQueue.peek();
-        while (tAuftrag.getUnterauftragsAnzahl() > 0 && getFreieRoboter().size() > 0) {
-
+        if (tAuftrag.countObservers() == 0) {
+            tAuftrag.addObserver(this);
+        }
+        Collection<Roboter> roboterCollection = getFreieRoboter();
+        for (Roboter r : roboterCollection) {
+            if (tAuftrag.getUnterauftragsAnzahl() > 0) {
+                try {
+                    tAuftrag.naechstenUnterauftragAusfuehren(r);
+                } catch (Exception e) {
+                    Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
+                }
+            } else {
+                break;
+            }
         }
     }
 
@@ -124,8 +137,20 @@ public class Roboterleitsystem extends Observable implements Observer {
             this.roboterMap.put(r.getPosition(), r);
             setChanged();
             notifyObservers();
-        } else if (o instanceof Clock) {
-
+        } else if (o instanceof Auftrag) {
+            try {
+                Auftrag a = (Auftrag) o;
+                if (a.getStatus() == AuftragsStatus.beendet) {
+                    // Wenn Auftrag beendet, dann aus der Queue entfernen
+                    Auftrag p = auftragsQueue.remove();
+                    p.deleteObservers();
+                    verteileUnterauftraege();
+                } else {
+                    verteileUnterauftraege();
+                }
+            } catch (Exception e) {
+                Logging.log(this.getClass().getName(), Level.WARNING, "Kein Freier Roboter für Auftragsaufuehrung gefunden!");
+            }
         }
     }
 }
