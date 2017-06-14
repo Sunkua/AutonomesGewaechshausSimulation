@@ -1,4 +1,4 @@
-package gewaechshaus.logic.test;
+package gewaechshaus.logic;
 
 import gewaechshaus.logic.Gitter;
 import gewaechshaus.logic.Position;
