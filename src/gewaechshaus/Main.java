@@ -32,7 +32,7 @@ public class Main {
         leitSystem.addObserver(gitter);
         leitSystem.addObserver(gui);
 
-        Roboter r = new Roboter(leitSystem);
+        Roboter r = new Roboter(leitSystem, pVerwaltung);
 
         // important call with float values or set x and y position
         Position roboPos = new Position(5f, 5f);

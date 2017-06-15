@@ -1,12 +1,8 @@
 package gewaechshaus.fxGUI;
 
-import gewaechshaus.logic.Auftrag;
-import gewaechshaus.logic.PflanzenArt;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 public class ErntenGrid extends GridPane {
 
@@ -23,6 +19,8 @@ public class ErntenGrid extends GridPane {
         Button alleErnten = new Button("Alle ernten");
         
         alleErnten.setOnAction(e -> allesErnten());
+
+
 
         // Event-Listener setzen
 

@@ -1,20 +1,21 @@
 package gewaechshaus.logic;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Observable;
 
 public class Roboter extends Observable {
 
     private double batteriestatus;
     private double fuellstand;
+    private ArrayList<Einzelpflanze> pflanzenContainer;
     private RoboterStatus status;
     private Position position;
     private double schrittweite = 0.5f;
+    private Pflanzenverwaltung pv;
 
-    public Roboter(Roboterleitsystem roboterleitsystem) {
+    public Roboter(Roboterleitsystem roboterleitsystem, Pflanzenverwaltung pv) {
+        this.pv = pv;
+        pflanzenContainer = new ArrayList<>();
     }
 
 
@@ -65,6 +66,8 @@ public class Roboter extends Observable {
     }
 
     public boolean ladePflanzeAuf(Einzelpflanze ep) {
+        pv.pflanzeEntfernen(ep.getPosition());
+        pflanzenContainer.add(ep);
         return true;
     }
 

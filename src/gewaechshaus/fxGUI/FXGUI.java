@@ -32,8 +32,8 @@ public class FXGUI extends Application {
 
         // TODO Auto-generated method stub
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
-        pVerwaltung.setMaxGröße(10, 10);
-        Gitter gitter = new Gitter(10f, 10f, 10, 10);
+        pVerwaltung.setMaxGröße(10, 11);
+        Gitter gitter = new Gitter(10f, 11f, 11, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
         Clock clock = new Clock(2000);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, clock);
@@ -43,13 +43,19 @@ public class FXGUI extends Application {
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
 
-        Roboter r = new Roboter(leitSystem);
+        Roboter r = new Roboter(leitSystem,pVerwaltung);
+        Roboter r2 = new Roboter(leitSystem, pVerwaltung);
 
         Position roboPos = new Position(5f, 5f);
+        Position roboPos2 = new Position(0f, 0f);
         gitter.toKarthesisch(roboPos);
+        gitter.toKarthesisch(roboPos2);
+
         leitSystem.roboterHinzufuegen(r, roboPos);
+        leitSystem.roboterHinzufuegen(r2, roboPos2);
 
         r.addObserver(leitSystem);
+        r2.addObserver(leitSystem);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
@@ -79,7 +85,7 @@ public class FXGUI extends Application {
         grid.add(interaktionsGrid, 3, 3);
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 700, 700, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
 
         pVerwaltung.addObserver(canvas);
@@ -150,8 +156,8 @@ public class FXGUI extends Application {
             }
         }
 
-        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
-        pVerwaltung.pflanzeHinzufuegen(t);
+        //  Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
+        //pVerwaltung.pflanzeHinzufuegen(t);
 
         stage.setOnCloseRequest(e -> {
             System.exit(0);
