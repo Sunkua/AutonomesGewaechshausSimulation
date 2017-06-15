@@ -33,7 +33,6 @@ public class Clock extends java.util.Observable {
             futureTask.cancel(true);
         }
         log(Level.INFO, "Simulationsuhr angehalten");
-
     }
 
     public void schritt() {

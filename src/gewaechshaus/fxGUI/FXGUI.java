@@ -81,7 +81,7 @@ public class FXGUI extends Application {
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
-        
+
         pVerwaltung.addObserver(canvas);
         leitSystem.addObserver(canvas);
 
@@ -153,7 +153,9 @@ public class FXGUI extends Application {
         Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
         pVerwaltung.pflanzeHinzufuegen(t);
 
-
+        stage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
         stage.show();
     }
 
