@@ -1,18 +1,12 @@
 package gewaechshaus.fxGUI;
 
-import gewaechshaus.gui.GewächshausCanvas;
 import gewaechshaus.logic.*;
 import javafx.application.Application;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -123,10 +117,29 @@ public class FXGUI extends Application {
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
-            clock.initTimer();
-            clock.setSchrittZeit(25);
+            clock.schritt();
         });
         grid.add(simulationsSchritt, 0, 9);
+
+        Button timerStart = new Button("Simulationsuhr starten");
+        Button timerStop = new Button("Simulationsuhr anhalten");
+        Button timerPeriodeAktualisieren = new Button("Timer-Periodendauer setzen");
+        NummerFeld simulationsPeriode = new NummerFeld();
+
+        timerStart.setOnAction(e -> clock.startTimer());
+        timerStop.setOnAction(e -> clock.stopTimer());
+        timerPeriodeAktualisieren.setOnAction(e -> {
+            int schrittZeit = Integer.parseInt(simulationsPeriode.getText());
+            if (schrittZeit > 0)
+                clock.setSchrittZeit(schrittZeit);
+
+        });
+
+
+        grid.add(timerStart, 0, 10);
+        grid.add(timerStop, 1, 10);
+        grid.add(timerPeriodeAktualisieren, 1, 11);
+        grid.add(simulationsPeriode, 0, 11);
 
         for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {
