@@ -1,4 +1,4 @@
-package gewaechshaus.logic.test;
+package gewaechshaus.logic;
 
 import gewaechshaus.logic.Akku;
 import org.junit.After;
