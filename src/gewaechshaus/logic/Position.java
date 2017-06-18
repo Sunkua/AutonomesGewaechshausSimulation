@@ -149,5 +149,13 @@ public class Position implements Comparable<Position> {
         //return super.hashCode();
         return SpaltenID.hashCode() + 31 * ReihenID.hashCode();
     }
+    
+    /**
+     * Gibt die Position in lesbarer Form zurück.
+     * @return String Position in der Form "X: <XPOS> Y: <YPOS>"
+     */
+    public String toString() {
+    	return "X: "+this.getX()+" Y: "+this.getY();
+    }
 
 }

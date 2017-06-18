@@ -69,7 +69,7 @@ public class Pflanzenverwaltung extends Observable{
         setChanged();
         notifyObservers();
         
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() + "an Position " + ep.getPosition().toString() + "Hinzugefügt");
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() +" hinzugefügt");
     }
 
 
@@ -81,7 +81,7 @@ public class Pflanzenverwaltung extends Observable{
         setChanged();
         notifyObservers();
         
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + pflanze.toString() + " an Position " + p.toString() + " entfernt.");
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze "+pflanze.toString()+" entfernt.");
     }
 
     public void setMaxGröße(int zeilen, int spalten) {

@@ -66,4 +66,12 @@ public class Einzelpflanze {
 	public void setArt(PflanzenArt art) {
 		this.art = art;
 	}
+	
+	/**
+	 * Gibt die Informationen der Pflanze in lesbarer Form zurück
+	 * @return String Gibt es in der Form "Art: <> Reifegrad <> Position: <>" zurück
+	 */
+	public String toString() {
+		return "Art: "+this.getArt().toString()+" Reifegrad: "+this.getPflanzenstatus().toString()+" Position: "+this.getPosition().toString();
+	}
 }
