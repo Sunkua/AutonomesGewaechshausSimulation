@@ -186,5 +186,7 @@ public class Pflanzenverwaltung extends Observable {
         gui = g;
     }
 
-
+    public void löscheAllePflanzen() {
+    	this.pflanzenListe.clear();
+    }
 }
