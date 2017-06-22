@@ -18,7 +18,7 @@ public class LadestationTest {
 	}
 	
 	@Test
-	public void verbinde_ein_Roboter_kein_Fehler() throws Exception {
+	public void verbinde_ein_Roboter_kein_ohne_exception() throws Exception {
 		ladestation.verbinden();
 	}
 	
@@ -29,7 +29,7 @@ public class LadestationTest {
 	}
 	
 	@Test
-	public void trenne_einen_Roboter_mit_Roboter_exception() throws Exception {
+	public void trenne_einen_Roboter_mit_Roboter_ohne_exception() throws Exception {
 		ladestation.verbinden();
 		ladestation.trennen();
 	}
