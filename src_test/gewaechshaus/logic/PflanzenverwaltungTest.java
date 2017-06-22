@@ -46,7 +46,7 @@ public class PflanzenverwaltungTest {
     @After
     public void tearDown() throws Exception {
         // Entferne alle Pflanzen
-
+    	pv.löscheAllePflanzen();
     }
 
     @Test
@@ -66,7 +66,7 @@ public class PflanzenverwaltungTest {
     public void pflanze_entfernen_und_Pflanze_von_selber_Position_holen() throws Exception {
         pv.pflanzeHinzufuegen(ep);
         pv.pflanzeEntfernen(ep.getPosition());
-        Einzelpflanze test = pv.holePflanzeVonPosition(ep.getPosition());
+        pv.holePflanzeVonPosition(ep.getPosition());
     }
 
     @Test
