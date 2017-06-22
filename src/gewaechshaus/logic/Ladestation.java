@@ -17,16 +17,23 @@ public class Ladestation {
 
     public String getStatus() {
         return null;
-
     }
 
-
-    public boolean verbinden() {
+    public void verbinden() throws Exception {
         if (frei) {
             frei = false;
         }
-        return !frei;
-
+        else {
+        	throw new Exception("Bereits ein Roboter verbunden");
+        }
     }
 
+    public void trennen() throws Exception {
+        if (!frei) {
+            frei = true;
+        }
+        else {
+        	throw new Exception("Kein Roboter verbunden");
+        }
+    }
 }
