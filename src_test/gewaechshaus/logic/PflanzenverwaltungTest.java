@@ -11,7 +11,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
 public class PflanzenverwaltungTest {
     private Pflanzenverwaltung pv;
     private Einzelpflanze ep;
@@ -40,7 +39,6 @@ public class PflanzenverwaltungTest {
         pv.pflanzeHinzufuegen(ep);
         pv.pflanzeHinzufuegen(epGurke);
         pv.pflanzeHinzufuegen(epTomate);
-
     }
 
     @After
@@ -60,7 +58,6 @@ public class PflanzenverwaltungTest {
         ep.setPosition(new Position(15, 15));
         pv.pflanzeHinzufuegen(ep);
     }
-
 
     @Test(expected = Exception.class)
     public void pflanze_entfernen_und_Pflanze_von_selber_Position_holen() throws Exception {

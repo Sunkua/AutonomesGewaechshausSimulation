@@ -172,7 +172,7 @@ public class Position implements Comparable<Position> {
      * @return String Position in der Form "X: <XPOS> Y: <YPOS>"
      */
     public String toString() {
-        return "X: " + this.getX() + " Y: " + this.getY();
+        return "X: " + this.getSpaltenID() + " Y: " + this.getReihenID();
     }
 
 }
