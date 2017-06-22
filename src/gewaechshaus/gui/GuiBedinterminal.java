@@ -6,7 +6,6 @@ import gewaechshaus.gui.Panel;
 import gewaechshaus.logic.Pflanzenverwaltung;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 
 
 enum TerminalStatus{

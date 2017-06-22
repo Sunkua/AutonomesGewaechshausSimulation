@@ -8,8 +8,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import gewaechshaus.gui.GuiBedinterminal;
 
-import java.awt.Color;
-
 public class Bedinterminal_Ernten extends JPanel {
 
     private GuiBedinterminal Terminal;

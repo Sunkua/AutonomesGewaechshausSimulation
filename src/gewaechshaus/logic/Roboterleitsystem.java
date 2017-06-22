@@ -1,11 +1,8 @@
 package gewaechshaus.logic;
 
-import javafx.geometry.Pos;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")

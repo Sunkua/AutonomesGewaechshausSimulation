@@ -6,12 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import gewaechshaus.gui.GuiBedinterminal;
-import gewaechshaus.logic.Einzelpflanze;
-import gewaechshaus.logic.PflanzenArt;
-import gewaechshaus.logic.PflanzenStatus;
 import gewaechshaus.logic.Position;
-
-import java.awt.Color;
 
 public class Bedinterminal_Entfernen extends JPanel {
 	

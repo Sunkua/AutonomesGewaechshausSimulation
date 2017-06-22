@@ -6,10 +6,6 @@ import javax.swing.GroupLayout.Alignment;
 import gewaechshaus.logic.Pflanzenverwaltung;
 import gewaechshaus.logic.Roboterleitsystem;
 
-import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
-
 enum GuiGewaechshausStatus {
     none,
     initDone,

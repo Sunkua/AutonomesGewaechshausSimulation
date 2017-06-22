@@ -8,8 +8,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import gewaechshaus.gui.GuiBedinterminal;
 import gewaechshaus.logic.PflanzenArt;
 
-import java.awt.Color;
-
 public class Bedinterminal_WähleArt extends JPanel {
 	
 	private GuiBedinterminal Terminal;

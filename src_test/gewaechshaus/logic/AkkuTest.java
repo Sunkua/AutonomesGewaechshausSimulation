@@ -1,13 +1,11 @@
 package gewaechshaus.logic;
 
-import gewaechshaus.logic.Akku;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by sunku on 01.06.2017.

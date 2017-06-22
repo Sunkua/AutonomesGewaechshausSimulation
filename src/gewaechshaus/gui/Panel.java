@@ -1,14 +1,7 @@
 package gewaechshaus.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.FlowLayout;
-import java.awt.Component;
 
 
 public class Panel extends JPanel{

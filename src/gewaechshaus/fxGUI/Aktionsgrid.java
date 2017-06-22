@@ -1,12 +1,8 @@
 package gewaechshaus.fxGUI;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 public class Aktionsgrid extends GridPane {
 

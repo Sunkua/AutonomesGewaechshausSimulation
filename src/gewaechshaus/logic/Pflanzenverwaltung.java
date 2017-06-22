@@ -1,15 +1,12 @@
 package gewaechshaus.logic;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import gewaechshaus.gui.GUI;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
-public class Pflanzenverwaltung extends Observable{
+public class Pflanzenverwaltung extends Observable {
 
     GUI gui;
     /**
@@ -38,8 +35,8 @@ public class Pflanzenverwaltung extends Observable{
 
     public void setBreite(int breite) {
         this.breite = breite;
-        
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: "+breite);
+
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: " + breite);
     }
 
     public int getHoehe() {
@@ -48,8 +45,8 @@ public class Pflanzenverwaltung extends Observable{
 
     public void setHoehe(int hoehe) {
         this.hoehe = hoehe;
-        
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: "+hoehe);
+
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: " + hoehe);
     }
 
     private int hoehe;
@@ -57,31 +54,47 @@ public class Pflanzenverwaltung extends Observable{
 
     private ArrayList<Observer> observers = new ArrayList<>();
 
-    public Pflanzenverwaltung() {
+    public Pflanzenverwaltung(Position maxGroeße) {
         super();
+        this.maxGröße = maxGroeße;
         pflanzenListe = new HashMap<Position, Einzelpflanze>();
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+    }
 
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+    private boolean ueberpruefePosition(Position p) {
+        if (p.getReihenID() <= maxGröße.getReihenID() &&
+                p.getSpaltenID() <= maxGröße.getSpaltenID() &&
+                p.getX() <= maxGröße.getX() &&
+                p.getY() <= maxGröße.getY()) {
+            return true;
+        }
+        return false;
     }
 
     public void pflanzeHinzufuegen(Einzelpflanze ep) {
+        if (!ueberpruefePosition(ep.getPosition())) {
+            throw new IndexOutOfBoundsException("Position außerhalb der Pflanzenverwaltung");
+        }
         pflanzenListe.put(ep.getPosition(), ep);
         setChanged();
         notifyObservers();
-        
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() +" hinzugefügt");
+
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() + " hinzugefügt");
     }
 
 
     //
     public void pflanzeEntfernen(Position p) {
-        // ToDo Entferne die Pflanze
         Einzelpflanze pflanze = pflanzenListe.get(p);
-        pflanzenListe.remove(p);
-        setChanged();
-        notifyObservers();
-        
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze "+pflanze.toString()+" entfernt.");
+        if (pflanze == null) {
+            Logging.log(this.getClass().getName(), Level.INFO, "Pflanze entfernen Befehl auf leeres Feld angewandt. Nichts wird getan");
+        } else {
+            pflanzenListe.remove(p);
+            setChanged();
+            notifyObservers();
+
+            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + pflanze.toString() + " entfernt.");
+        }
     }
 
     public void setMaxGröße(int zeilen, int spalten) {
@@ -135,9 +148,11 @@ public class Pflanzenverwaltung extends Observable{
     }
 
 
-    public Einzelpflanze holePflanzeVonPosition(Position p) {
+    public Einzelpflanze holePflanzeVonPosition(Position p) throws Exception {
         Einzelpflanze pflanze = pflanzenListe.get(p);
-
+        if (pflanze == null) {
+            throw new Exception("Keine Pflanze an der Position vorhanden");
+        }
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze an Position " + p.toString() + " geladen.");
         return pflanze;
     }
@@ -149,7 +164,7 @@ public class Pflanzenverwaltung extends Observable{
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(this, new File("zustand"));
         } catch (Exception e) {
-        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
     }
 
@@ -161,7 +176,7 @@ public class Pflanzenverwaltung extends Observable{
             this.pflanzenListe = pflanzenverwaltung.pflanzenListe;
             this.maxGröße = pflanzenverwaltung.maxGröße;
         } catch (Exception e) {
-        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
 
     }

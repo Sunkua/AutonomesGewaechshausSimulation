@@ -14,22 +14,38 @@ public class Position implements Comparable<Position> {
     private double y;
 
     public Position() {
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
+    /**
+     * Erstellt ein neues Positionsobjekt im virtuellen Koordinatensystem
+     * @param spalte Spaltenkoordinate (Virtuelle X-Koordinate, muss >= 0 sein)
+     * @param zeile Zeilenkoordinate (Virtuelle Y-Koordinate, muss >= 0 sein)
+     */
     public Position(int spalte, int zeile) {
-        SpaltenID = spalte;
-        ReihenID = zeile;
+        if (spalte >= 0 && zeile >= 0) {
+            SpaltenID = spalte;
+            ReihenID = zeile;
+        } else
+            throw new IndexOutOfBoundsException("Spalten und Zeilenkoordinaten müssen >= 0 sein");
     }
 
+    /**
+     * Erstellt ein neues Positionsobjekt
+     * @param x X-Koordinate im Raum (Muss >= 0 sein) entspricht der virtuellen Spaltenkoordinate
+     * @param y Y-Koordinate im Raum (Muss >= 0 sein) entspricht der virtuellen Reihenkoordinate
+     */
     public Position(double x, double y) {
+        if(x >= 0 && y >= 0) {
         this.x = x;
-        this.y = y;
+        this.y = y;}
+        else
+            throw new IndexOutOfBoundsException("Koordinaten müssen >= 0 sein");
     }
 
 
     /**
-     * Gibt die reale X-Koordinate als Flie�kommawert zur�ck
+     * Gibt die reale X-Koordinate als Fließkommawert zurück
      *
      * @return
      */
@@ -48,7 +64,7 @@ public class Position implements Comparable<Position> {
 
 
     /**
-     * Gibt die reale Y-Koordinate zur�ck
+     * Gibt die reale Y-Koordinate zurück
      *
      * @return
      */
@@ -66,7 +82,7 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Gibt die SpaltenID (X-Koordinate) im Gitter zur�ck
+     * Gibt die SpaltenID (X-Koordinate) im Gitter zurück
      *
      * @return
      */
@@ -84,7 +100,7 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Gibt die ReihenID (Y-Koordinate) im Gitter zur�ck
+     * Gibt die ReihenID (Y-Koordinate) im Gitter zurück
      *
      * @return
      */
@@ -149,13 +165,14 @@ public class Position implements Comparable<Position> {
         //return super.hashCode();
         return SpaltenID.hashCode() + 31 * ReihenID.hashCode();
     }
-    
+
     /**
      * Gibt die Position in lesbarer Form zurück.
+     *
      * @return String Position in der Form "X: <XPOS> Y: <YPOS>"
      */
     public String toString() {
-    	return "X: "+this.getX()+" Y: "+this.getY();
+        return "X: " + this.getX() + " Y: " + this.getY();
     }
 
 }

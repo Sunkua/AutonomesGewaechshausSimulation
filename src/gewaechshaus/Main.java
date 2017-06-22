@@ -19,8 +19,8 @@ public class Main {
         Logging.log("main", Level.INFO, "main gestartet");
         
         // TODO Auto-generated method stub
-        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
-        pVerwaltung.setMaxGröße(10, 10);
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10,10));
+
         Gitter gitter = new Gitter(10f, 10f, 10, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
         GUI gui = new GUI(pVerwaltung, leitSystem);

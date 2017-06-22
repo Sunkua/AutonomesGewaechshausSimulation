@@ -11,8 +11,6 @@ import gewaechshaus.logic.PflanzenArt;
 import gewaechshaus.logic.PflanzenStatus;
 import gewaechshaus.logic.Position;
 
-import java.awt.Color;
-
 public class Bedinterminal_Hinzufügen extends JPanel {
 	
 	private GuiBedinterminal Terminal;

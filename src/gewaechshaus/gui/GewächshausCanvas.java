@@ -5,11 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
-
-import com.sun.xml.internal.ws.api.Component;
 
 import gewaechshaus.logic.*;
 

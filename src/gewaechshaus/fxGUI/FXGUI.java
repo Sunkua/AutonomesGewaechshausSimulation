@@ -30,9 +30,9 @@ public class FXGUI extends Application {
     public void start(Stage stage) {
 
 
-        // TODO Auto-generated method stub
-        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung();
-        pVerwaltung.setMaxGröße(10, 11);
+        // TODO Auto-generated method
+
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10,11));
         Gitter gitter = new Gitter(10f, 11f, 11, 10);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
         Clock clock = new Clock(2000);
