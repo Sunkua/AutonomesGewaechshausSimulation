@@ -5,5 +5,5 @@ package gewaechshaus.logic;
  */
 
 public enum RoboterStatus {
-    eBeschaeftigt, eBereit, eStoerung, eBehaelterVoll
+    eBeschaeftigt, eBereit, eStoerung, eBehaelterVoll, eLädt
 }

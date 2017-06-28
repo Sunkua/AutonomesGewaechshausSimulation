@@ -2,6 +2,7 @@ package gewaechshaus.logic;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.logging.Level;
 
 public class Roboter extends Observable {
 
@@ -12,10 +13,15 @@ public class Roboter extends Observable {
     private Position position;
     private double schrittweite = 0.5f;
     private Pflanzenverwaltung pv;
+    private Akku akku;
+    private double AkkuEntladungNormal = -0.1;
+    private double AkkuEntladungBeschäftigt = -0.2;
+    private double AkkuAufladung = 0.5;
 
     public Roboter(Roboterleitsystem roboterleitsystem, Pflanzenverwaltung pv) {
         this.pv = pv;
         pflanzenContainer = new ArrayList<>();
+        akku = new Akku(100,10);
     }
 
 
@@ -95,6 +101,30 @@ public class Roboter extends Observable {
         this.status = rStatus;
         hasChanged();
         notifyObservers();
+    }
+    
+    public void aktualisiereLadestand(){
+    	switch (this.status) {
+		case eBeschaeftigt:
+			akku.aktualisieren(AkkuEntladungBeschäftigt);
+			break;
+		case eLädt:
+			akku.aktualisieren(AkkuAufladung);
+			break;
+		default:
+			akku.aktualisieren(AkkuEntladungNormal);
+			break;
+		}
+    	
+    	if(akku.istKritisch()){
+    		//ToDo
+    		//Logging.log(this.getClass().getSimpleName(), Level.WARNING, this.getClass().getSimpleName()+" Akkuladung ist kritisch");
+    	}
+    	if(akku.istLeer()){
+    		// ToDo
+    	}
+        //hasChanged();
+        //notifyObservers();
     }
 
 

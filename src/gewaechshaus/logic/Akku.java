@@ -64,4 +64,11 @@ public class Akku {
     public boolean istKritisch() {
         return (ladestand < kritischeGrenze);
     }
+    public boolean istLeer() {
+        return (ladestand <= 0.0);
+    }
+    public void aktualisieren(double Schrittweite){
+    	this.ladestand = this.ladestand + Schrittweite;
+    	this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
+    }
 }

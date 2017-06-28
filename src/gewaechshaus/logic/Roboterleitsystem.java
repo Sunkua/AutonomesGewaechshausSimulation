@@ -192,6 +192,10 @@ public class Roboterleitsystem extends Observable implements Observer {
             naechstesRunnableAusQueueAusfuehren();
         } else if (o instanceof Clock) {
             naechstesRunnableAusQueueAusfuehren();
+            for (Roboter r : roboterList) {
+            	r.aktualisiereLadestand();
+            }
+            
         }
     }
 }
