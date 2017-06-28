@@ -1,6 +1,5 @@
 package gewaechshaus.logic;
 
-import gewaechshaus.gui.GUI;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 @XmlRootElement(namespace = "gewaeshaus.logic")
 public class Pflanzenverwaltung extends Observable {
 
-    GUI gui;
     /**
      * Hält die Liste von Pflanzen inkl. deren Positionen
      */
@@ -28,6 +26,15 @@ public class Pflanzenverwaltung extends Observable {
     private double realeBreite;
     private double realeHoehe;
     private int breite;
+    private int hoehe;
+    private ArrayList<Observer> observers = new ArrayList<>();
+
+    public Pflanzenverwaltung(Position maxGroeße) {
+        super();
+        this.maxGröße = maxGroeße;
+        pflanzenListe = new HashMap<Position, Einzelpflanze>();
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+    }
 
     public int getBreite() {
         return breite;
@@ -47,18 +54,6 @@ public class Pflanzenverwaltung extends Observable {
         this.hoehe = hoehe;
 
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: " + hoehe);
-    }
-
-    private int hoehe;
-
-
-    private ArrayList<Observer> observers = new ArrayList<>();
-
-    public Pflanzenverwaltung(Position maxGroeße) {
-        super();
-        this.maxGröße = maxGroeße;
-        pflanzenListe = new HashMap<Position, Einzelpflanze>();
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
     private boolean ueberpruefePosition(Position p) {
@@ -181,10 +176,6 @@ public class Pflanzenverwaltung extends Observable {
 
     }
 
-
-    public void setGui(GUI g) {
-        gui = g;
-    }
 
     public void löscheAllePflanzen() {
     	this.pflanzenListe.clear();

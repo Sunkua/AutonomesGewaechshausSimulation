@@ -4,6 +4,7 @@ package gewaechshaus.logic;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -15,9 +16,21 @@ public class Auftrag extends Observable implements Observer {
     private List<Unterauftrag> unterauftraege;
     private Clock clock;
     private AuftragsStatus status;
+    private LinkedBlockingQueue<Runnable> runnableQueue;
+    private LinkedBlockingQueue<Runnable> executorQueue;
+
+    private ExecutorService execService;
 
 
     public Auftrag(Clock clock) {
+        runnableQueue = new LinkedBlockingQueue<>();
+        executorQueue = new LinkedBlockingQueue<>();
+
+        execService = new ThreadPoolExecutor(1, 1,
+                10, TimeUnit.MILLISECONDS,
+                executorQueue);
+
+
         this.clock = clock;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         this.status = AuftragsStatus.bereit;
@@ -42,6 +55,7 @@ public class Auftrag extends Observable implements Observer {
 
     /**
      * Gibt einen einzelnen Unterauftrag aus der Queue zurück
+     *
      * @return Einzelner Unterauftrag
      */
     public Unterauftrag peekUnterauftrag() {
@@ -60,6 +74,7 @@ public class Auftrag extends Observable implements Observer {
 
     /**
      * Sucht den nächsten freien Roboter und führt mit diesem den nächsten freien Unterauftrag aus
+     *
      * @param r Roboter mit dem der Unterauftrag ausgeführt werden soll
      * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die Ausführung gefunden wurde
      */
@@ -74,7 +89,6 @@ public class Auftrag extends Observable implements Observer {
             throw new Exception("Roboter ist nicht bereit");
         }
     }
-
 
 
     private List<Unterauftrag> getAusfuehrbareUnterauftraege() {
@@ -102,17 +116,14 @@ public class Auftrag extends Observable implements Observer {
     }
 
 
-    /**
-     * Update vom Observer
-     * Überprüft den Status der Unterauftrags. Ist der Unterauftrag abgeschlossen wird der Nächste angestoßen.
-     * Enthält die Queue keine Unteraufträge mehr wird das Leitsystem benachrichtigt, dass der Auftrag abgeschlossen ist
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Unterauftrag) {
-            Unterauftrag uAuftrag = (Unterauftrag) o;
+    private void naechstesRunnableAusQueueAusfuehren() {
+        if (runnableQueue.size() > 0 && executorQueue.isEmpty()) {
+            execService.execute(runnableQueue.poll());
+        }
+    }
+
+    private Runnable unterauftragsRunnableErstellen(Unterauftrag uAuftrag) {
+        Runnable r = () -> {
             if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
                 clock.deleteObserver(uAuftrag);
@@ -124,6 +135,27 @@ public class Auftrag extends Observable implements Observer {
                 setChanged();
                 notifyObservers();
             }
+        };
+        return r;
+    }
+
+    /**
+     * Update vom Observer
+     * Überprüft den Status der Unterauftrags. Ist der Unterauftrag abgeschlossen wird der Nächste angestoßen.
+     * Enthält die Queue keine Unteraufträge mehr wird das Leitsystem benachrichtigt, dass der Auftrag abgeschlossen ist
+     *
+     * @param o
+     * @param arg
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Unterauftrag) {
+            Unterauftrag uAuftrag = (Unterauftrag) o;
+            runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
+            naechstesRunnableAusQueueAusfuehren();
+        }
+        if (o instanceof Clock) {
+            naechstesRunnableAusQueueAusfuehren();
         }
     }
 }

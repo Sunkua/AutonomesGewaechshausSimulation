@@ -34,14 +34,16 @@ public class FXGUI extends Application {
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10,11));
         Gitter gitter = new Gitter(10f, 11f, 11, 10);
-        Roboterleitsystem leitSystem = new Roboterleitsystem(gitter);
+
         Clock clock = new Clock(2000);
+        Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, clock);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, clock);
 
         pVerwaltung.addObserver(leitSystem);
 
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
+        clock.addObserver(leitSystem);
 
         Roboter r = new Roboter(leitSystem,pVerwaltung);
         Roboter r2 = new Roboter(leitSystem, pVerwaltung);

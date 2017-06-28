@@ -16,3 +16,18 @@ Canvas observed nur gitter
 Abladestation und Ladestation für Akku werden statisch initialisiert
 Wege müssen hervorgehoben werden
 Positionsbelegung frei -> beet / weg
+
+
+Notizen Paul:
+Queue hält Runnables. 
+	Runnable enthalten die jeweiligen Anweisungen, die sonst in der update-Routine ausgeführt wurden
+
+Pro Clock Tick und zugehörigem Update wird ein Runnable erzeugt und in die Queue eingefügt. 
+Prüfe ob Vorheriges Runnable bereits terminiert:
+	Ja es ist terminiert => starte nächstes Runnable aus der Queue
+	Nein es ist nicht terminiert => return (Versuche die Queue hintereinander auszuführen)
+
+Systemdesign-Entscheidung:
+	Entweder ein Thread, der jeweils ein Runnable ausführt wenn ein anderes abgeschlossen wurde
+	oder jede Klasse mit Queue observed die Clock und muss bei jedem Clock Tick prüfen ob Runnable bereits terminiert ist
+	

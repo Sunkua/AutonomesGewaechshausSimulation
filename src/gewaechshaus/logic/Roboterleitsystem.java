@@ -2,6 +2,7 @@ package gewaechshaus.logic;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 
@@ -16,14 +17,22 @@ public class Roboterleitsystem extends Observable implements Observer {
     private Map<Position, Roboter> roboterMap;
     private List<Roboter> roboterList;
     private Gitter gitter;
+    private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
+    private LinkedBlockingQueue<Runnable> executorQueue;
+    private ExecutorService execService;
+    private Clock clock;
 
-
-    public Roboterleitsystem(Gitter g) {
-
+    public Roboterleitsystem(Gitter g, Clock clock) {
+        this.clock = clock;
         auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
         roboterList = new ArrayList<Roboter>();
         this.gitter = g;
+        runnableQueueToExecute = new LinkedBlockingQueue<>();
+        executorQueue = new LinkedBlockingQueue<Runnable>();
+        execService = new ThreadPoolExecutor(1, 1,
+                10, TimeUnit.MILLISECONDS,
+                executorQueue);
 
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
@@ -77,12 +86,23 @@ public class Roboterleitsystem extends Observable implements Observer {
         verteileUnterauftraege();
     }
 
+    /**
+     * Führt das nächste Runnable aus der RunnableQueue aus, falls eines existiert und das vorher ausgeführte terminiert ist
+     */
+    private void naechstesRunnableAusQueueAusfuehren() {
+
+        if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
+            execService.execute(runnableQueueToExecute.poll());
+        }
+    }
+
     private void verteileUnterauftraege() {
         ArrayList<Roboter> freieRoboter = getFreieRoboter();
         int roboterCount = freieRoboter.size();
         Auftrag tAuftrag = auftragsQueue.peek();
         if (tAuftrag.countObservers() == 0) {
             tAuftrag.addObserver(this);
+            clock.addObserver(tAuftrag);
         }
 
         for (Roboter r : freieRoboter) {
@@ -134,30 +154,44 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     }
 
+    private Runnable erstelleRoboterRunnable(Roboter roboter) {
+        Runnable runnable = () -> {
+            Position p = getPositionvonRoboter(roboter);
+            gitter.toKarthesisch(p);
+            setChanged();
+            notifyObservers();
+        };
+        return runnable;
+    }
+
+    private Runnable erstelleAuftragsRunnable(Auftrag a) {
+        Runnable runnable = () -> {
+            if (a.getStatus() == AuftragsStatus.beendet) {
+                // Wenn Auftrag beendet, dann aus der Queue entfernen
+                Auftrag auftrag = auftragsQueue.remove();
+                auftrag.deleteObservers();
+                verteileUnterauftraege();
+            } else {
+                verteileUnterauftraege();
+            }
+        };
+        return runnable;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Pflanzenverwaltung) {
 
         } else if (o instanceof Roboter) {
             Roboter r = (Roboter) o;
-            Position p = getPositionvonRoboter(r);
-            gitter.toKarthesisch(r.getPosition());
-            setChanged();
-            notifyObservers();
+            runnableQueueToExecute.add(erstelleRoboterRunnable(r));
+            naechstesRunnableAusQueueAusfuehren();
         } else if (o instanceof Auftrag) {
-            try {
-                Auftrag a = (Auftrag) o;
-                if (a.getStatus() == AuftragsStatus.beendet) {
-                    // Wenn Auftrag beendet, dann aus der Queue entfernen
-                    Auftrag p = auftragsQueue.remove();
-                    p.deleteObservers();
-                    verteileUnterauftraege();
-                } else {
-                    verteileUnterauftraege();
-                }
-            } catch (Exception e) {
-                Logging.log(this.getClass().getName(), Level.WARNING, "Kein Freier Roboter für Auftragsaufuehrung gefunden!");
-            }
+            Auftrag a = (Auftrag) o;
+            runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
+            naechstesRunnableAusQueueAusfuehren();
+        } else if (o instanceof Clock) {
+            naechstesRunnableAusQueueAusfuehren();
         }
     }
 }
