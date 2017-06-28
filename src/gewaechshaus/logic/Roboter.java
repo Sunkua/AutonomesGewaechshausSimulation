@@ -103,6 +103,10 @@ public class Roboter extends Observable {
         notifyObservers();
     }
     
+    public double getLadestand(){
+    	return akku.getLadestand();
+    }
+    
     public void aktualisiereLadestand(){
     	switch (this.status) {
 		case eBeschaeftigt:

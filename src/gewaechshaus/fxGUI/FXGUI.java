@@ -85,6 +85,10 @@ public class FXGUI extends Application {
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
         grid.add(interaktionsGrid, 3, 3);
+        
+        EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
+        
+        grid.add(eigenschaftsgrid, 3, 4);
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 700, 700, pVerwaltung, leitSystem);
