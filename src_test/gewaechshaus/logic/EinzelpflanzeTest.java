@@ -7,8 +7,6 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.*; 
-
 public class EinzelpflanzeTest {
 	Einzelpflanze einzelpflanzeOhne;
 	Einzelpflanze einzelpflanzeMit;

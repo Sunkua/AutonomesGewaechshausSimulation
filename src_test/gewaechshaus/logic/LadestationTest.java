@@ -3,11 +3,7 @@ package gewaechshaus.logic;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
-
-import static org.hamcrest.CoreMatchers.*; 
 
 public class LadestationTest {
 	Ladestation ladestation;

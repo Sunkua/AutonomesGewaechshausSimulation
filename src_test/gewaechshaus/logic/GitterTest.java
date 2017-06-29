@@ -29,7 +29,7 @@ public class GitterTest {
 
     @Test (expected = Exception.class)
     public void checkPositionObenOutOfBounds() {
-        Position res = gitter.getPositionOben(new Position(2,0));
+        gitter.getPositionOben(new Position(2,0));
     }
 
     @Test

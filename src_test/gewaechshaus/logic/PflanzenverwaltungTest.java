@@ -101,6 +101,8 @@ public class PflanzenverwaltungTest {
             pv.pflanzeEntfernen(p);
         }
         Map<Position, Einzelpflanze> ergebnis = pv.getAllePflanzen();
+        
+        assertEquals(ergebnis.size(), 0);
     }
 
     @Test
@@ -111,12 +113,12 @@ public class PflanzenverwaltungTest {
 
     @Test (expected = Exception.class)
     public void hole_Pflanze_von_Position_ohne_Pflanze() throws Exception {
-        Einzelpflanze pflanze = pv.holePflanzeVonPosition(new Position(0,0));
+    	pv.holePflanzeVonPosition(new Position(0,0));
     }
 
     @Test (expected = Exception.class)
     public void hole_Pflanze_von_Position_ausserhalb_der_Pflanzenverwaltung() throws Exception {
-        Einzelpflanze pflanze = pv.holePflanzeVonPosition(new Position(15,15));
+        pv.holePflanzeVonPosition(new Position(15,15));
     }
 
 }
