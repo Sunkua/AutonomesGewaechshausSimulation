@@ -16,6 +16,12 @@ public class PflanzenverwaltungTest {
     private Einzelpflanze ep;
     private HashMap<Position, Einzelpflanze> map;
 
+    
+    /**
+     * Kommentar 29.06.2017: Einzelpflanze benötigt kein Mocking.
+     * 
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         pv = new Pflanzenverwaltung(new Position(10, 10));
