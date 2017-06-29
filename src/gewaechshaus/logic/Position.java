@@ -126,7 +126,6 @@ public class Position implements Comparable<Position> {
     public void berechneReihenPosition(int maxReihen, double maxHoehe) {
         double reihenHoehe = maxHoehe / maxReihen;
         this.ReihenID = (int) Math.round(this.y / reihenHoehe);
-
     }
 
     /**

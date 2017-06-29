@@ -27,7 +27,6 @@ public class Einzelscan extends Unterauftrag {
         if (roboter != null) {
 
         }
-
     }
 
     @Override

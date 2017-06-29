@@ -32,7 +32,6 @@ public class Auftragsgenerator {
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonTyp(pArt);
         pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan(v)));
-
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }

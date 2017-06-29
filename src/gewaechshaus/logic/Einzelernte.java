@@ -25,7 +25,7 @@ public class Einzelernte extends Unterauftrag {
      */
     public Einzelernte(Einzelpflanze ep, Roboterleitsystem roboterleitsystem) {
         try {
-            Handler handler = new FileHandler(Settings.loggingFilePath);
+            Handler handler = new FileHandler(Konstanten.loggingFilePath);
             log.addHandler(handler);
         } catch (Exception e) {
 
