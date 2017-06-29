@@ -1,5 +1,6 @@
 package gewaechshaus.logic;
 
+import java.util.HashSet;
 import java.util.logging.Level;
 
 
@@ -10,7 +11,7 @@ public class Abladestation {
 
 	private int fuellstand;
 	private int status; // TODO Was ist Status?
-	private PflanzenArt pflanzenart;
+	private HashSet<PflanzenArt> pflanzenarten;
 	private Position gridPosition;
 	private AblageTyp ablagetyp;
 
@@ -22,9 +23,8 @@ public class Abladestation {
 	public Abladestation(Position position) {
 		this.gridPosition = position;
 		fuellstand = 0;
-		pflanzenart = null;
+		pflanzenarten = new HashSet<>();
 		ablagetyp = null;
-		
 		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen.");
 	}
 
@@ -36,7 +36,6 @@ public class Abladestation {
 	 */
 	public void updateFuellstand(int fuellstand) {
 		this.fuellstand = fuellstand;
-		
 		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Fuellstand: "+fuellstand);
 	}
 
@@ -55,18 +54,24 @@ public class Abladestation {
 	public void leeren() {
 		fuellstand = 0;
 		status = 0;
-		pflanzenart = null;
+		pflanzenarten.clear();
 		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
 	}
 
-	public PflanzenArt getPflanzenart() {
-		return pflanzenart;
+	public HashSet<PflanzenArt> getPflanzenart() {
+		return pflanzenarten;
 	}
 
-	public void setPflanzenart(PflanzenArt pflanzenart) {
-		this.pflanzenart = pflanzenart;
-		
-		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neue Pflanzenart gesetzt: "+pflanzenart.toString());
+	public void pflanzenArtHinzufuegen(PflanzenArt pArt) {
+		this.pflanzenarten.add(pArt);
+	}
+
+	public void pflanzenArtEntfernen(PflanzenArt pArt) {
+		try {
+			this.pflanzenarten.remove(pArt);
+		} catch (Exception e) {
+			Logging.log(this.getClass().getName(), Level.WARNING, "Pflanzenart nicht im Set der Abladestation vorhanden");
+		}
 	}
 
 	public int getStatus() {

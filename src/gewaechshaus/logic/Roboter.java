@@ -2,15 +2,17 @@ package gewaechshaus.logic;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.UUID;
 
 public class Roboter extends Observable {
 
     private double batteriestatus;
     private double fuellstand;
-    private ArrayList<Einzelpflanze> pflanzenContainer;
+    private ArrayList<PflanzenArt> pflanzenContainer;
     private RoboterStatus status;
     private Position position;
-    private double schrittweite = 0.5f;
+    private UUID id;
+
     private Pflanzenverwaltung pv;
     private Akku akku;
 
@@ -19,33 +21,37 @@ public class Roboter extends Observable {
         this.pv = pv;
         pflanzenContainer = new ArrayList<>();
         akku = new Akku(100,10);
+        id = UUID.randomUUID();
     }
 
+    public UUID getID() {
+        return this.id;
+    }
 
     public void setGeschwindigkeit(double geschwindigkeit) {
-        this.schrittweite = geschwindigkeit;
+        Konstanten.roboterSchrittweite = geschwindigkeit;
     }
 
     public void fahreNachOben() {
-        this.position.setY(this.position.getY() - schrittweite);
+        this.position.setY(this.position.getY() - Konstanten.roboterSchrittweite);
         setChanged();
         notifyObservers();
     }
 
     public void fahreNachUnten() {
-        this.position.setY(this.position.getY() + schrittweite);
+        this.position.setY(this.position.getY() + Konstanten.roboterSchrittweite);
         setChanged();
         notifyObservers();
     }
 
     public void fahreNachLinks() {
-        this.position.setX(this.position.getX() - schrittweite);
+        this.position.setX(this.position.getX() - Konstanten.roboterSchrittweite);
         setChanged();
         notifyObservers();
     }
 
     public void fahreNachRechts() {
-        this.position.setX(this.position.getX() + schrittweite);
+        this.position.setX(this.position.getX() + Konstanten.roboterSchrittweite);
         setChanged();
         notifyObservers();
     }
@@ -70,7 +76,7 @@ public class Roboter extends Observable {
 
     public boolean ladePflanzeAuf(Einzelpflanze ep) {
         pv.pflanzeEntfernen(ep.getPosition());
-        pflanzenContainer.add(ep);
+        pflanzenContainer.add(ep.getArt());
         return true;
     }
 

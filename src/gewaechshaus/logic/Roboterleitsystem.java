@@ -54,7 +54,7 @@ public class Roboterleitsystem extends Observable implements Observer {
     	return roboterList;
     }
 
-    public ArrayList<Position> getPfadVonNach(Position a, Position b) throws NoWayFoundException {
+    public ArrayList<Position> getPfadVonNach(Position a, Position b) throws KeinWegGefundenException {
         return gitter.kuerzesterWegNach(a, b);
     }
 
@@ -72,6 +72,7 @@ public class Roboterleitsystem extends Observable implements Observer {
             roboterList.add(r);
             r.setPosition(p);
             r.setRoboterStatus(RoboterStatus.eBereit);
+            r.addObserver(this);
             setChanged();
             notifyObservers();
             return true;

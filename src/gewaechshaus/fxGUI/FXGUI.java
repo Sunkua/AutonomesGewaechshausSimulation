@@ -41,6 +41,7 @@ public class FXGUI extends Application {
 
         pVerwaltung.addObserver(leitSystem);
 
+
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);
@@ -55,10 +56,9 @@ public class FXGUI extends Application {
 
         leitSystem.roboterHinzufuegen(r, roboPos);
         leitSystem.roboterHinzufuegen(r2, roboPos2);
-
-        r.addObserver(leitSystem);
-        r2.addObserver(leitSystem);
-
+        EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
+        r.addObserver(eigenschaftsgrid);
+        r2.addObserver(eigenschaftsgrid);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
@@ -85,9 +85,7 @@ public class FXGUI extends Application {
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
         grid.add(interaktionsGrid, 3, 3);
-        
-        EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
-        
+
         grid.add(eigenschaftsgrid, 3, 4);
 
         // Canvas-Building, Event-Listeners redraw on rescale
@@ -170,6 +168,4 @@ public class FXGUI extends Application {
         });
         stage.show();
     }
-
-
 }

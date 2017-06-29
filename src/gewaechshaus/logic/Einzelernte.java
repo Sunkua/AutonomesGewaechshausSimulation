@@ -126,7 +126,7 @@ public class Einzelernte extends Unterauftrag {
                 wegListe.remove(0);
             }
 
-        } catch (NoWayFoundException e) {
+        } catch (KeinWegGefundenException e) {
             Logging.log(this.getClass().getName(), Level.SEVERE, e.getMessage());
             roboter.warte();
         }

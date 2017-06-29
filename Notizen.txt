@@ -10,6 +10,17 @@ Clock-Updates auf Akku  |   Jannik
 Updates in eine Queue -> Queue Element wird bei Clock-Tick entfernt, wenn kein anderer Auftag abgearbeitet wird
 (Futures)       |       Paul
 
+29.06. TODO
+Akku wird observable
+Roboter observed Akku
+FXGUI Initialisierung abstrahieren
+Tabelle: Roboterfüllstand einbauen
+Roboter reagiert auf Füllstand und fährt zur Abladestation und lädt ab
+Wenn Roboter erntet wird Reifegrad auf 0 zurückgesetzt und Roboter fügt Objekt einer Pflanzenart in seine Collection ein
+    -> Roboter aktualisiert seinen Füllstand entsprechend des Gewichts der Pflanzenart
+
+
+
 
 
 Canvas observed nur gitter
@@ -30,4 +41,7 @@ Prüfe ob Vorheriges Runnable bereits terminiert:
 Systemdesign-Entscheidung:
 	Entweder ein Thread, der jeweils ein Runnable ausführt wenn ein anderes abgeschlossen wurde
 	oder jede Klasse mit Queue observed die Clock und muss bei jedem Clock Tick prüfen ob Runnable bereits terminiert ist
-	
+
+
+
+

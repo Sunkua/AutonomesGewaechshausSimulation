@@ -199,7 +199,7 @@ public class Gitter extends Observable implements Observer {
      * @return Liste von Gridpositionen die der Reihe nach abgefahren werden
      * müssen
      */
-    public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) throws NoWayFoundException {
+    public ArrayList<Position> kuerzesterWegNach(Position von, Position zu) throws KeinWegGefundenException {
         ArrayList<Position> wegListe = new ArrayList<Position>();
         Integer[][] pfadArray = new Integer[gitter.length][gitter[0].length];
 
@@ -284,7 +284,7 @@ public class Gitter extends Observable implements Observer {
                 p.setY(p.getReihenID());
             }
         } else {
-            throw new NoWayFoundException("Kein Weg konnte berechnet werden");
+            throw new KeinWegGefundenException("Kein Weg konnte berechnet werden");
         }
         return wegListe;
     }
