@@ -82,8 +82,8 @@ public class Roboter extends Observable {
         this.position = position;
     }
 
-    private void setFuellstand() {
-
+    private void setFuellstand(double fuellstand) {
+    	this.fuellstand = fuellstand;
     }
 
     public void setAuftrag(Unterauftrag unterauftrag) {
