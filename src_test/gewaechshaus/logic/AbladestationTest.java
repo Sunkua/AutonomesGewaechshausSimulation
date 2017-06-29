@@ -19,7 +19,7 @@ public class AbladestationTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void init() throws Exception {
 	}
 
 	/**

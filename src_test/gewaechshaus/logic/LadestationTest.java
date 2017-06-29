@@ -3,8 +3,6 @@ package gewaechshaus.logic;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
-
 public class LadestationTest {
 	Ladestation ladestation;
 	
