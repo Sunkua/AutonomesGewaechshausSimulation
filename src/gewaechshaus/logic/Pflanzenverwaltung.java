@@ -21,18 +21,19 @@ public class Pflanzenverwaltung extends Observable {
      */
     @XmlElement
     private HashMap<Position, Einzelpflanze> pflanzenListe;
+
+
     @XmlElement
     private Position maxGröße = new Position(0, 0);
     private double realeBreite;
     private double realeHoehe;
     private int breite;
     private int hoehe;
-    private ArrayList<Observer> observers = new ArrayList<>();
 
     public Pflanzenverwaltung(Position maxGroeße) {
         super();
         this.maxGröße = maxGroeße;
-        pflanzenListe = new HashMap<Position, Einzelpflanze>();
+        pflanzenListe = new HashMap<>();
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
@@ -46,9 +47,6 @@ public class Pflanzenverwaltung extends Observable {
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: " + breite);
     }
 
-    public void pflanzeHinzufuegen() {
-
-    }
 
 
     public int getHoehe() {

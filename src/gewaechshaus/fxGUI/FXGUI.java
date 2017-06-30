@@ -41,7 +41,6 @@ public class FXGUI extends Application {
 
         pVerwaltung.addObserver(leitSystem);
 
-
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);

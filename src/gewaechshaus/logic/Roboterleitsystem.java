@@ -2,7 +2,10 @@ package gewaechshaus.logic;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 
@@ -11,9 +14,8 @@ public class Roboterleitsystem extends Observable implements Observer {
 
 
     private Queue<Auftrag> auftragsQueue;
-    private Abladestation abladestation;
-    private Ladestation ladestation;
-    private Abladestation abladestation2;
+    private HashMap<Position, Abladestation> abladestationen;
+    private HashMap<Position, Ladestation> ladestationen;
     private Map<Position, Roboter> roboterMap;
     private List<Roboter> roboterList;
     private Gitter gitter;
@@ -26,6 +28,8 @@ public class Roboterleitsystem extends Observable implements Observer {
         this.clock = clock;
         auftragsQueue = new LinkedList<Auftrag>();
         roboterMap = new HashMap<>();
+        abladestationen = new HashMap<>();
+        ladestationen = new HashMap<>();
         roboterList = new ArrayList<Roboter>();
         this.gitter = g;
         runnableQueueToExecute = new LinkedBlockingQueue<>();
@@ -63,9 +67,6 @@ public class Roboterleitsystem extends Observable implements Observer {
         return true;
     }
 
-    public void abladeStationDefinieren() {
-
-    }
 
     public boolean roboterHinzufuegen(Roboter r, Position p) {
         if (gitter.getPositionsbelegung(p) == Positionsbelegung.frei) {
@@ -97,6 +98,30 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
             execService.execute(runnableQueueToExecute.poll());
+        }
+    }
+
+    public void abladestationHinzufuegen(Abladestation abladestation) {
+        if (gitter.getPositionsbelegung(abladestation.getGridPosition()).equals(Positionsbelegung.frei)) {
+            abladestationen.put(abladestation.getGridPosition(), abladestation);
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    public void abladestationEntfernen(Abladestation abladestation) {
+        abladestationen.remove(abladestation.getGridPosition());
+    }
+
+    public void ladestationEntfernen(Ladestation ladestation) {
+        ladestationen.remove(ladestation.getGridPosition());
+    }
+
+    public void ladestationHinzufuegen(Ladestation ladestation) {
+        if (gitter.getPositionsbelegung(ladestation.getGridPosition()).equals(Positionsbelegung.frei)) {
+            ladestationen.put(ladestation.getGridPosition(), ladestation);
+            setChanged();
+            notifyObservers();
         }
     }
 
@@ -148,11 +173,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     public Position getPositionvonRoboter(Roboter r) {
         return roboterList.get(roboterList.indexOf(r)).getPosition();
     }
-
-    private void roboterGitterReset() {
-
-    }
-
 
     private void sendeMeldung() {
 

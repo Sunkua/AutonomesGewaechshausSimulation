@@ -8,11 +8,19 @@ public class Ladestation {
     private Position gridPosition;
     private int Status;
 
-    public Ladestation(Position pos) {    
+    public Ladestation(Position pos) {
         frei = true;
         gridPosition = pos;
-        
+
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+    }
+
+    public Position getGridPosition() {
+        return gridPosition;
+    }
+
+    public void setGridPosition(Position gridPosition) {
+        this.gridPosition = gridPosition;
     }
 
     public String getStatus() {
