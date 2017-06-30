@@ -7,8 +7,8 @@ public class Position implements Comparable<Position> {
     // private static final Logger log = Logger.getLogger(
     // RelativePosition.class.getName() );
 
-    private Integer SpaltenID;
-    private Integer ReihenID;
+    private int spaltenID;
+    private int reihenID;
 
     private double x;
     private double y;
@@ -19,27 +19,31 @@ public class Position implements Comparable<Position> {
 
     /**
      * Erstellt ein neues Positionsobjekt im virtuellen Koordinatensystem
+     *
      * @param spalte Spaltenkoordinate (Virtuelle X-Koordinate, muss >= 0 sein)
-     * @param zeile Zeilenkoordinate (Virtuelle Y-Koordinate, muss >= 0 sein)
+     * @param zeile  Zeilenkoordinate (Virtuelle Y-Koordinate, muss >= 0 sein)
      */
     public Position(int spalte, int zeile) {
         if (spalte >= 0 && zeile >= 0) {
-            SpaltenID = spalte;
-            ReihenID = zeile;
+            spaltenID = spalte;
+            reihenID = zeile;
         } else
             throw new IndexOutOfBoundsException("Spalten und Zeilenkoordinaten müssen >= 0 sein");
     }
 
     /**
      * Erstellt ein neues Positionsobjekt
+     *
      * @param x X-Koordinate im Raum (Muss >= 0 sein) entspricht der virtuellen Spaltenkoordinate
      * @param y Y-Koordinate im Raum (Muss >= 0 sein) entspricht der virtuellen Reihenkoordinate
      */
     public Position(double x, double y) {
-        if(x >= 0 && y >= 0) {
-        this.x = x;
-        this.y = y;}
-        else
+        if (x >= 0 && y >= 0) {
+            this.x = x;
+            this.y = y;
+            spaltenID = -1;
+            reihenID = -1;
+        } else
             throw new IndexOutOfBoundsException("Koordinaten müssen >= 0 sein");
     }
 
@@ -82,39 +86,39 @@ public class Position implements Comparable<Position> {
     }
 
     /**
-     * Gibt die SpaltenID (X-Koordinate) im Gitter zurück
+     * Gibt die spaltenID (X-Koordinate) im Gitter zurück
      *
      * @return
      */
     public int getSpaltenID() {
-        return SpaltenID;
+        return spaltenID;
     }
 
     /**
-     * Setzt die SpaltenID (X-Koordinate) im Gitter
+     * Setzt die spaltenID (X-Koordinate) im Gitter
      *
      * @param spaltenID
      */
     public void setSpaltenID(int spaltenID) {
-        SpaltenID = spaltenID;
+        this.spaltenID = spaltenID;
     }
 
     /**
-     * Gibt die ReihenID (Y-Koordinate) im Gitter zurück
+     * Gibt die reihenID (Y-Koordinate) im Gitter zurück
      *
      * @return
      */
     public int getReihenID() {
-        return ReihenID;
+        return reihenID;
     }
 
     /**
-     * Setzt die ReihenID (Y-Koordinate) im Gitter
+     * Setzt die reihenID (Y-Koordinate) im Gitter
      *
      * @param reihenID
      */
     public void setReihenID(int reihenID) {
-        ReihenID = reihenID;
+        this.reihenID = reihenID;
     }
 
     /**
@@ -124,8 +128,12 @@ public class Position implements Comparable<Position> {
      * @param maxHoehe  Höhe des Gewächshauses von oben betrachtet in m
      */
     public void berechneReihenPosition(int maxReihen, double maxHoehe) {
-        double reihenHoehe = maxHoehe / maxReihen;
-        this.ReihenID = (int) Math.round(this.y / reihenHoehe);
+        if (maxHoehe > 0 && maxReihen > 0) {
+            double reihenHoehe = maxHoehe / maxReihen;
+            this.reihenID = (int) Math.round(this.y / reihenHoehe);
+        } else {
+            throw new IndexOutOfBoundsException("Höhe und maxReihen muss größer als 0 sein");
+        }
     }
 
     /**
@@ -135,34 +143,23 @@ public class Position implements Comparable<Position> {
      * @param maxBreite  Breite des Gewächshauses von oben betrachtet in m
      */
     public void berechneSpaltenPosition(int maxSpalten, double maxBreite) {
-        double spaltenBreite = maxBreite / maxSpalten;
-        this.SpaltenID = (int) Math.round(this.x / spaltenBreite);
-    }
-
-
-    public boolean equals(Object o) {
-        if (!(o instanceof Position))
-            return false;
-        Position p1 = (Position) o;
-        boolean reihenMatch = p1.getReihenID() == this.getReihenID();
-        boolean spaltenMatch = p1.getSpaltenID() == this.getSpaltenID();
-        return (p1.getReihenID() == this.getReihenID() && p1.getSpaltenID() == this.getSpaltenID());
+        if (maxBreite > 0 && maxSpalten > 0) {
+            double spaltenBreite = maxBreite / maxSpalten;
+            this.spaltenID = (int) Math.round(this.x / spaltenBreite);
+        } else throw new IndexOutOfBoundsException("MaxSpalten und MaxBreite müssen größer als 0 sein");
     }
 
     @Override
     public int compareTo(Position o) {
         // TODO Auto-generated method stub
         if (o == this) return 0;
-        int i = SpaltenID.compareTo(o.getSpaltenID());
-        if (i != 0) return i;
-        return ReihenID.compareTo(o.getReihenID());
-    }
+        boolean equals = false;
+        equals = spaltenID == o.getSpaltenID();
+        if (!equals) return -1;
+        equals = reihenID == o.getReihenID();
+        if (!equals) return 1;
+        return 0;
 
-    @Override
-    public int hashCode() {
-        // TODO Auto-generated method stub
-        //return super.hashCode();
-        return SpaltenID.hashCode() + 31 * ReihenID.hashCode();
     }
 
     /**
@@ -174,4 +171,32 @@ public class Position implements Comparable<Position> {
         return "X: " + this.getSpaltenID() + " Y: " + this.getReihenID();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Position position = (Position) o;
+        if (reihenID == -1 || spaltenID == -1) {
+            return false;
+        }
+        if (reihenID == position.getReihenID() && spaltenID == position.getSpaltenID()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = spaltenID;
+        result = 31 * result + reihenID;
+        temp = Double.doubleToLongBits(x);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

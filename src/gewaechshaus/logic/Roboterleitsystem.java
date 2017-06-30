@@ -166,16 +166,9 @@ public class Roboterleitsystem extends Observable implements Observer {
         throw new Exception("Kein Roboter an der angegebenen Position");
     }
 
-    private void warte() {
-
-    }
 
     public Position getPositionvonRoboter(Roboter r) {
         return roboterList.get(roboterList.indexOf(r)).getPosition();
-    }
-
-    private void sendeMeldung() {
-
     }
 
     private Runnable erstelleRoboterRunnable(Roboter roboter) {

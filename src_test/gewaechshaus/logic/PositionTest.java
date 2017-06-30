@@ -1,8 +1,9 @@
 package gewaechshaus.logic;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.junit.*;
+import static org.junit.Assert.*;
 
 public class PositionTest {
 	Position position;
@@ -102,13 +103,12 @@ public class PositionTest {
 		position = new Position(10, 10);
 		assertFalse(position.equals(new Position(10, 1)));
 	}
-	/**
-	 * Soll eine Exception werfen. Sollte aber präzisiert werden.
-	 */
+
+
 	@Test
-	public void equals_mit_gleicher_Position_Double_True() {
+	public void equals_mit_gleicher_Position_Double_False() {
 		position = new Position(10.1, 10.1);
-		assertTrue(position.equals(new Position(10.1, 10.1)));
+		assertFalse(position.equals(new Position(10.1, 10.1)));
 	}
 	/**
 	 * Soll eine Exception werfen. Sollte aber präzisiert werden.
@@ -123,38 +123,7 @@ public class PositionTest {
 		position = new Position(10, 10);
 		assertFalse(position.equals(null));
 	}
-	
-	@Test
-	public void compareTo_mit_gleicher_Position_Integer_True() {
-		position = new Position(10, 10);
-		assertEquals(position.compareTo(new Position(10, 10)), 0);
-	}
-	@Test
-	public void compareTo_mit_anderer_Position_Integer_False() {
-		position = new Position(10, 10);
-		assertNotEquals(position.compareTo(new Position(10, 1)), 0);
-	}
-	/**
-	 * Soll eine Exception werfen. Sollte aber präzisiert werden.
-	 */
-	@Test
-	public void compareTo_mit_gleicher_Position_Double_True() {
-		position = new Position(10.1, 10.1);
-		assertEquals(position.compareTo(new Position(10.1, 10.1)), 0);
-	}
-	/**
-	 * Soll eine Exception werfen. Sollte aber präzisiert werden.
-	 */
-	@Test
-	public void compareTo_mit_anderer_Position_Double_False() {
-		position = new Position(10.1, 10.1);
-		assertNotEquals(position.compareTo(new Position(10.1, 1.1)), 0);
-	}
-	@Test(expected = NullPointerException.class)
-	public void compareTo_mit_null_vergleich_False() {
-		position = new Position(10, 10);
-		position.compareTo(null);
-	}
+
 	
 	/**
 	 * Nullpointer Exception hier in Ordnung?
@@ -166,7 +135,7 @@ public class PositionTest {
 	@Test
 	public void hashCode_mit_Integer_Initialisierung() {
 		position = new Position(10, 10);
-		assertEquals(position.hashCode(), 320);
+		assertEquals(position.hashCode(), 307520);
 	}
 	/**
 	 * Nullpointer Exception hier in Ordnung?
@@ -174,6 +143,6 @@ public class PositionTest {
 	@Test
 	public void hashCode_mit_Double_Initialisierung() {
 		position = new Position(10.0, 10.0);
-		assertEquals(position.hashCode(), 320);
+		assertEquals(position.hashCode(), 75466720);
 	}
 }
