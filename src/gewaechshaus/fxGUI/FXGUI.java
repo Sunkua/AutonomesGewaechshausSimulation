@@ -32,7 +32,7 @@ public class FXGUI extends Application {
 
         // TODO Auto-generated method
 
-        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10,11));
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10, 11));
         Gitter gitter = new Gitter(10f, 11f, 11, 10);
 
         Clock clock = new Clock(2000);
@@ -46,7 +46,7 @@ public class FXGUI extends Application {
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);
 
-        Roboter r = new Roboter(leitSystem,pVerwaltung);
+        Roboter r = new Roboter(leitSystem, pVerwaltung);
         Roboter r2 = new Roboter(leitSystem, pVerwaltung);
 
         Position roboPos = new Position(5f, 5f);
@@ -154,8 +154,13 @@ public class FXGUI extends Application {
         for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {
                 if (i % 5 != 0 && j % 3 != 0) {
-                    Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(i, j), 0.5, PflanzenStatus.eReif, null);
-                    pVerwaltung.pflanzeHinzufuegen(t);
+                    try {
+                        Position p = gitter.naechsteFreiePflanzenPositionSuchen();
+                        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, p, 0.5, PflanzenStatus.eReif, null);
+                        pVerwaltung.pflanzeHinzufuegen(t);
+                    } catch (Exception e) {
+                        break;
+                    }
                 }
             }
         }

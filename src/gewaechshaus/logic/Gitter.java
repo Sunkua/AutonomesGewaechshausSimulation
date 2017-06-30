@@ -190,6 +190,23 @@ public class Gitter extends Observable implements Observer {
         }
     }
 
+    /**
+     * Sucht die nächste freie Position für eine Pflanze
+     *
+     * @return freie Position für die Pflanze
+     * @throws Exception Exception wird geworfen, falls keine freie Position gefunden wurde
+     */
+    public Position naechsteFreiePflanzenPositionSuchen() throws Exception {
+        for (int x = 0; x < this.getBreite(); x++) {
+            for (int y = 0; y < this.getHoehe(); y++) {
+                if (this.gitter[x][y] == Positionsbelegung.frei && (x % Konstanten.beetBreite != 0) && (y % 3 != 0)) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        throw new Exception("Keine freie Position gefunden");
+    }
+
 
     /**
      * Berechnet den kürzesten Pfad zwischen 2 Positionen mittels Lee-Algorithmus

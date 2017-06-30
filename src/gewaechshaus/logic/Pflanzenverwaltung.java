@@ -46,6 +46,11 @@ public class Pflanzenverwaltung extends Observable {
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: " + breite);
     }
 
+    public void pflanzeHinzufuegen() {
+
+    }
+
+
     public int getHoehe() {
         return hoehe;
     }
