@@ -13,9 +13,9 @@ public class Gitter extends Observable implements Observer {
 
     /**
      * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten Gitterkoordinaten
-     *
+     * <p>
      * Die Koordinaten des Gitters sehen beispielsweise so aus:
-     *  x -> 0 1 2 3
+     * x -> 0 1 2 3
      * y
      * |
      * 0
@@ -180,7 +180,7 @@ public class Gitter extends Observable implements Observer {
         return freieNachbarn;
     }
 
-    private void roboterPositionenBereinigen() {
+    public void roboterPositionenBereinigen() {
         for (int i = 0; i < gitter.length; i++) {
             for (int j = 0; j < gitter[0].length; j++) {
                 if (gitter[i][j].equals(Positionsbelegung.roboter)) {
@@ -197,9 +197,10 @@ public class Gitter extends Observable implements Observer {
      * @throws Exception Exception wird geworfen, falls keine freie Position gefunden wurde
      */
     public Position naechsteFreiePflanzenPositionSuchen() throws Exception {
-        for (int x = 0; x < this.getBreite(); x++) {
-            for (int y = 0; y < this.getHoehe(); y++) {
-                if (this.gitter[x][y] == Positionsbelegung.frei && (x % Konstanten.beetBreite != 0) && (y % 3 != 0)) {
+        for (int x = 1; x < this.getBreite() - 1; x++) {
+            for (int y = 1; y < this.getHoehe() - 1; y++) {
+                if (this.gitter[x][y] == Positionsbelegung.frei && (x % Konstanten.beetBreite != 0) && (y % 4 == 2 || y % 4 == 3)) {
+
                     return new Position(x, y);
                 }
             }
@@ -307,7 +308,6 @@ public class Gitter extends Observable implements Observer {
     }
 
     /**
-     *
      * @return Gibt die Höhe des Grids in Kästcheneinheiten zurück
      */
     public int getHoehe() {
@@ -315,7 +315,6 @@ public class Gitter extends Observable implements Observer {
     }
 
     /**
-     *
      * @return Gibt die Breite des Grids in Kästcheneinheiten zurück
      */
     public int getBreite() {
@@ -344,6 +343,7 @@ public class Gitter extends Observable implements Observer {
 
     /**
      * Gibt die Positionsbelegung einer Koordinate aus
+     *
      * @param x x-Koordinate in Kästcheneinheiten
      * @param y Y-Koordinate in Kästcheneinheiten
      * @return
@@ -351,6 +351,7 @@ public class Gitter extends Observable implements Observer {
     public Positionsbelegung getPositionsbelegung(int x, int y) {
         return gitter[x][y];
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -361,13 +362,7 @@ public class Gitter extends Observable implements Observer {
                 this.setPosition(Positionsbelegung.pflanze, pflanze.getKey());
             }
         } else if (o instanceof Roboterleitsystem) {
-            roboterPositionenBereinigen();
-            Roboterleitsystem leitsystem = (Roboterleitsystem) o;
-            Set<Position> roboterPositionen = leitsystem.getRoboterPositionen();
-            for (Position pos : roboterPositionen) {
-                this.setPosition(Positionsbelegung.roboter, pos);
-                toKarthesisch(pos);
-            }
+
         }
     }
 }

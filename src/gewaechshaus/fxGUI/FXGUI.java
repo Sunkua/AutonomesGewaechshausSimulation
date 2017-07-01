@@ -32,16 +32,19 @@ public class FXGUI extends Application {
 
         // TODO Auto-generated method
 
-        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(10, 11));
-        Gitter gitter = new Gitter(10f, 11f, 11, 10);
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(12, 12));
+        Gitter gitter = new Gitter(12f, 12f, 12, 12);
 
-        Clock clock = new Clock(2000);
+        Clock clock = new Clock(200);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, clock);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, clock);
-
+        Position abladestelle = new Position(11f, 11f);
+        gitter.toKarthesisch(abladestelle);
+        Abladestation abladestation = new Abladestation(abladestelle);
         pVerwaltung.addObserver(leitSystem);
 
         pVerwaltung.addObserver(gitter);
+
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);
 
@@ -55,9 +58,13 @@ public class FXGUI extends Application {
 
         leitSystem.roboterHinzufuegen(r, roboPos);
         leitSystem.roboterHinzufuegen(r2, roboPos2);
+
+        leitSystem.abladestationHinzufuegen(abladestation);
+
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
         r.addObserver(eigenschaftsgrid);
         r2.addObserver(eigenschaftsgrid);
+
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);

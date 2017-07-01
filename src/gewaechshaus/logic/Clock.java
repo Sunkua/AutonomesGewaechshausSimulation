@@ -1,5 +1,6 @@
 package gewaechshaus.logic;
 
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -15,17 +16,23 @@ public class Clock extends java.util.Observable {
             Executors.newSingleThreadScheduledExecutor();
     private Runnable task;
     private ScheduledFuture<?> futureTask;
+    private TimerTask timerTask;
 
     public Clock(int schrittZeit) {
         this.schrittZeit = schrittZeit;
         task = new Runnable() {
             @Override
             public void run() {
-                setChanged();
-                notifyObservers();
+                exec();
+
             }
         };
         log(Level.INFO, "Clock initialisiert");
+    }
+
+    private synchronized void exec() {
+        setChanged();
+        notifyObservers();
     }
 
     public void stopTimer() {

@@ -5,10 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by sunku on 06.06.2017.
@@ -52,6 +49,11 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
         for(Position p : roboterPos) {
             gc.setFill(Color.BLUE);
             gc.fillRect(p.getSpaltenID() * size, p.getReihenID()*size, size, size);
+        }
+
+        for (Abladestation al : roboterleitsystem.getAbladestationen()) {
+            gc.setFill(Color.YELLOW);
+            gc.fillRect(al.getGridPosition().getSpaltenID() * size, al.getGridPosition().getReihenID() * size, size, size);
         }
     }
 

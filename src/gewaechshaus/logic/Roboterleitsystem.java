@@ -54,8 +54,13 @@ public class Roboterleitsystem extends Observable implements Observer {
         }
         return res;
     }
-    public List<Roboter> getRoboter(){
-    	return roboterList;
+
+    public Collection<Abladestation> getAbladestationen() {
+        return abladestationen.values();
+    }
+
+    public List<Roboter> getRoboter() {
+        return roboterList;
     }
 
     public ArrayList<Position> getPfadVonNach(Position a, Position b) throws KeinWegGefundenException {
@@ -173,10 +178,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     private Runnable erstelleRoboterRunnable(Roboter roboter) {
         Runnable runnable = () -> {
-            Position p = getPositionvonRoboter(roboter);
-            gitter.toKarthesisch(p);
-            setChanged();
-            notifyObservers();
+
         };
         return runnable;
     }
@@ -201,18 +203,35 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         } else if (o instanceof Roboter) {
             Roboter r = (Roboter) o;
-            runnableQueueToExecute.add(erstelleRoboterRunnable(r));
-            naechstesRunnableAusQueueAusfuehren();
+            synchronized (this) {
+                Set<Position> roboterPositionen = getRoboterPositionen();
+                gitter.roboterPositionenBereinigen();
+                for (Position pos : roboterPositionen) {
+                    gitter.toKarthesisch(pos);
+                    gitter.setPosition(Positionsbelegung.roboter, pos);
+                }
+
+                setChanged();
+                notifyObservers();
+            }
         } else if (o instanceof Auftrag) {
             Auftrag a = (Auftrag) o;
-            runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
-            naechstesRunnableAusQueueAusfuehren();
-        } else if (o instanceof Clock) {
-            naechstesRunnableAusQueueAusfuehren();
-            for (Roboter r : roboterList) {
-            	r.aktualisiereLadestand();
+            if (a.getStatus() == AuftragsStatus.beendet) {
+                // Wenn Auftrag beendet, dann aus der Queue entfernen
+                Auftrag auftrag = auftragsQueue.remove();
+                auftrag.deleteObservers();
+                verteileUnterauftraege();
+            } else {
+                verteileUnterauftraege();
             }
-            
+            //runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
+            //naechstesRunnableAusQueueAusfuehren();
+        } else if (o instanceof Clock) {
+            //  naechstesRunnableAusQueueAusfuehren();
+            for (Roboter r : roboterList) {
+                r.aktualisiereLadestand();
+            }
+
         }
     }
 }

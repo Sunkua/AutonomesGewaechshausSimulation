@@ -97,12 +97,15 @@ public class Einzelernte extends Unterauftrag {
 
     /**
      * Fährt ein Nachbarkästchen des Roboters an.
+     *
      * @param roboter Roboter aus der Roboterverwaltung der zur Position fahren soll
      */
     private void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
             wegListe = roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition);
+
+
             // Roboter-Position aus Liste entfernen
             if (wegListe.size() > 1) {
                 wegListe.remove(wegListe.size() - 1);
@@ -127,7 +130,11 @@ public class Einzelernte extends Unterauftrag {
             }
 
         } catch (KeinWegGefundenException e) {
-            Logging.log(this.getClass().getName(), Level.SEVERE, e.getMessage());
+            Logging.log(this.getClass().getName(), Level.WARNING, "Kein Weg gefunden. Zielposition: " + zielPosition.toString());
+            List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
+            if (freieNachbarnVonPflanze.size() > 1) {
+                zielPosition = (Position) freieNachbarnVonPflanze.toArray()[1];
+            }
             roboter.warte();
         }
 
