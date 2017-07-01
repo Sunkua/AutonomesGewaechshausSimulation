@@ -35,8 +35,17 @@ public class Einzelernte extends Unterauftrag {
         this.ep = ep;
         this.zustand = 0;
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
+
         zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
+
+
         Logging.log(this.getClass().getName(), Level.INFO, "Einzelernte Unterauftrag erstellt");
+    }
+
+    private Position berechneZielPosition() {
+        List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
+
+        return (Position) freieNachbarnVonPflanze.toArray()[0];
     }
 
     /**
@@ -55,6 +64,14 @@ public class Einzelernte extends Unterauftrag {
             case 0:
                 roboter.addObserver(this);
                 roboter.setRoboterStatus(RoboterStatus.eBeschaeftigt);
+                // Prüfe ob Zielposition == null, falls ja berechne neu und prüfe erneut ob 0, falls ja dann warte
+                if (zielPosition == null) {
+                    zielPosition = berechneZielPosition();
+                    if (zielPosition == null) {
+                        roboter.warte();
+                        break;
+                    }
+                }
                 fahreZuNachbarposition(roboter);
                 zustand++;
                 Logging.log(this.getClass().getName(), Level.INFO, "Initialisiere und beginne Fahrt zu Position: " + roboter.getPosition().toString());
@@ -130,11 +147,7 @@ public class Einzelernte extends Unterauftrag {
             }
 
         } catch (KeinWegGefundenException e) {
-            Logging.log(this.getClass().getName(), Level.WARNING, "Kein Weg gefunden. Zielposition: " + zielPosition.toString());
-            List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
-            if (freieNachbarnVonPflanze.size() > 1) {
-                zielPosition = (Position) freieNachbarnVonPflanze.toArray()[1];
-            }
+            Logging.log(this.getClass().getName(), Level.WARNING, "Kein Weg gefunden.");
             roboter.warte();
         }
 

@@ -82,8 +82,6 @@ public class EigenschafteGrid extends GridPane implements Observer {
                     //TODO Auftrag vom Leitsystem erfragen
                     rr.setFieldLadung(roboter.getLadestand());
                     rr.setFieldPosition(roboter.getPosition().toString());
-                    robotList.remove(rr);
-                    robotList.add(rr);
                     robotTable.refresh();
                     break;
                 }

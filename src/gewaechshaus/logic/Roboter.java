@@ -11,6 +11,7 @@ public class Roboter extends Observable {
     private ArrayList<PflanzenArt> pflanzenContainer;
     private RoboterStatus status;
     private Position position;
+    private Position vorherigePosition;
     private UUID id;
 
     private Pflanzenverwaltung pv;

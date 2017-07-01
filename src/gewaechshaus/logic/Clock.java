@@ -43,7 +43,8 @@ public class Clock extends java.util.Observable {
     }
 
     public void schritt() {
-        task.run();
+        setChanged();
+        notifyObservers();
         log(Level.INFO, "Ein Simulationsschritt ausgeführt");
     }
 

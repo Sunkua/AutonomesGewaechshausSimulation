@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
  */
 public class Auftrag extends Observable implements Observer {
 
+    int aktiveUnterauftraege = 0;
+    int maxAktiveUnterauftraege = 1;
     private List<Unterauftrag> unterauftraege;
     private Clock clock;
     private AuftragsStatus status;
     private LinkedBlockingQueue<Runnable> runnableQueue;
     private LinkedBlockingQueue<Runnable> executorQueue;
-
     private ExecutorService execService;
-
 
     public Auftrag(Clock clock) {
         runnableQueue = new LinkedBlockingQueue<>();
@@ -34,6 +34,14 @@ public class Auftrag extends Observable implements Observer {
         this.clock = clock;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         this.status = AuftragsStatus.bereit;
+    }
+
+    public int getMaxAktiveUnterauftraege() {
+        return maxAktiveUnterauftraege;
+    }
+
+    public void setMaxAktiveUnterauftraege(int maxAktiveUnterauftraege) {
+        this.maxAktiveUnterauftraege = maxAktiveUnterauftraege;
     }
 
     /**
@@ -79,14 +87,20 @@ public class Auftrag extends Observable implements Observer {
      * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die Ausführung gefunden wurde
      */
     public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
-        Unterauftrag uAuftrag = popUnterauftrag();
-        if (r.getStatus() == RoboterStatus.eBereit) {
-            uAuftrag.setRoboter(r);
-            uAuftrag.addObserver(this);
-            clock.addObserver(uAuftrag);
-            this.status = AuftragsStatus.ausfuehrend;
+        Logging.log(this.getClass().getName(), Level.INFO, "Aktuelle Anzahl Unterauftraege = " + aktiveUnterauftraege + "Maximal: " + maxAktiveUnterauftraege);
+        if (aktiveUnterauftraege < maxAktiveUnterauftraege) {
+            if (r.getStatus() == RoboterStatus.eBereit) {
+                Unterauftrag uAuftrag = popUnterauftrag();
+                uAuftrag.setRoboter(r);
+                uAuftrag.addObserver(this);
+                clock.addObserver(uAuftrag);
+                this.status = AuftragsStatus.ausfuehrend;
+                aktiveUnterauftraege++;
+            } else {
+                throw new Exception("Roboter ist nicht bereit");
+            }
         } else {
-            throw new Exception("Roboter ist nicht bereit");
+            Logging.log(this.getClass().getName(), Level.WARNING, Thread.currentThread().getStackTrace().toString());
         }
     }
 
@@ -124,7 +138,7 @@ public class Auftrag extends Observable implements Observer {
 
     private Runnable unterauftragsRunnableErstellen(Unterauftrag uAuftrag) {
         Runnable r = () -> {
-            if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
+            if (uAuftrag.getStatus().equals(UnterauftragsStatus.beendet)) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
                 clock.deleteObserver(uAuftrag);
                 uAuftrag.deleteObservers();
@@ -163,6 +177,7 @@ public class Auftrag extends Observable implements Observer {
                 if (this.unterauftraege.size() == 0) {
                     this.status = AuftragsStatus.beendet;
                 }
+                aktiveUnterauftraege--;
                 setChanged();
                 notifyObservers();
             }

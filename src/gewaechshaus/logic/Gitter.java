@@ -176,7 +176,6 @@ public class Gitter extends Observable implements Observer {
                 freieNachbarn.add(pos);
             }
         }
-
         return freieNachbarn;
     }
 

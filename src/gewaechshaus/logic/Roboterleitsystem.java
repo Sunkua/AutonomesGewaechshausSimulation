@@ -16,7 +16,7 @@ public class Roboterleitsystem extends Observable implements Observer {
     private Queue<Auftrag> auftragsQueue;
     private HashMap<Position, Abladestation> abladestationen;
     private HashMap<Position, Ladestation> ladestationen;
-    private Map<Position, Roboter> roboterMap;
+    private Map<Roboter, Position> vorherigeRoboterPositionen;
     private List<Roboter> roboterList;
     private Gitter gitter;
     private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
@@ -27,7 +27,7 @@ public class Roboterleitsystem extends Observable implements Observer {
     public Roboterleitsystem(Gitter g, Clock clock) {
         this.clock = clock;
         auftragsQueue = new LinkedList<Auftrag>();
-        roboterMap = new HashMap<>();
+        vorherigeRoboterPositionen = new HashMap<>();
         abladestationen = new HashMap<>();
         ladestationen = new HashMap<>();
         roboterList = new ArrayList<Roboter>();
@@ -143,6 +143,7 @@ public class Roboterleitsystem extends Observable implements Observer {
             if (tAuftrag.getUnterauftragsAnzahl() > 0) {
                 try {
                     tAuftrag.naechstenUnterauftragAusfuehren(r);
+                    tAuftrag.setMaxAktiveUnterauftraege(roboterList.size());
                 } catch (Exception e) {
                     Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
                 }
@@ -203,17 +204,15 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         } else if (o instanceof Roboter) {
             Roboter r = (Roboter) o;
-            synchronized (this) {
-                Set<Position> roboterPositionen = getRoboterPositionen();
-                gitter.roboterPositionenBereinigen();
-                for (Position pos : roboterPositionen) {
-                    gitter.toKarthesisch(pos);
-                    gitter.setPosition(Positionsbelegung.roboter, pos);
-                }
-
-                setChanged();
-                notifyObservers();
+            Set<Position> roboterPositionen = getRoboterPositionen();
+            gitter.roboterPositionenBereinigen();
+            gitter.toKarthesisch(r.getPosition());
+            for (Position pos : roboterPositionen) {
+                gitter.setPosition(Positionsbelegung.roboter, pos);
             }
+            setChanged();
+            notifyObservers();
+
         } else if (o instanceof Auftrag) {
             Auftrag a = (Auftrag) o;
             if (a.getStatus() == AuftragsStatus.beendet) {
