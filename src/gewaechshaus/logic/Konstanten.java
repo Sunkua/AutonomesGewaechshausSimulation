@@ -8,5 +8,6 @@ public class Konstanten {
 	public static double AkkuAufladung = 0.5;
     public static double roboterSchrittweite = 0.5f;
     public static int beetBreite = 5;
+    public static int maximalerFuellstand = 2;
 
 }

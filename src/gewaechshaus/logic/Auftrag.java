@@ -21,8 +21,9 @@ public class Auftrag extends Observable implements Observer {
     private LinkedBlockingQueue<Runnable> runnableQueue;
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
+    private Roboterleitsystem roboterleitsystem;
 
-    public Auftrag(Clock clock) {
+    public Auftrag(Clock clock, Roboterleitsystem roboterleitsystem) {
         runnableQueue = new LinkedBlockingQueue<>();
         executorQueue = new LinkedBlockingQueue<>();
 
@@ -30,7 +31,7 @@ public class Auftrag extends Observable implements Observer {
                 10, TimeUnit.MILLISECONDS,
                 executorQueue);
 
-
+        this.roboterleitsystem = roboterleitsystem;
         this.clock = clock;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         this.status = AuftragsStatus.bereit;
@@ -81,7 +82,8 @@ public class Auftrag extends Observable implements Observer {
 
 
     /**
-     * Sucht den nächsten freien Roboter und führt mit diesem den nächsten freien Unterauftrag aus
+     * Sucht den nächsten freien Roboter und führt mit diesem den nächsten freien Unterauftrag aus.
+     * Wenn der Roboter nicht den Status bereit hat, dann führe dem Status entsprechenden Unterauftrag aus
      *
      * @param r Roboter mit dem der Unterauftrag ausgeführt werden soll
      * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die Ausführung gefunden wurde
@@ -89,19 +91,37 @@ public class Auftrag extends Observable implements Observer {
     public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
         Logging.log(this.getClass().getName(), Level.INFO, "Aktuelle Anzahl Unterauftraege = " + aktiveUnterauftraege + "Maximal: " + maxAktiveUnterauftraege);
         if (aktiveUnterauftraege < maxAktiveUnterauftraege) {
-            if (r.getStatus() == RoboterStatus.eBereit) {
-                Unterauftrag uAuftrag = popUnterauftrag();
+            Unterauftrag uAuftrag;
+            switch (r.getStatus()) {
+                case eBereit:
+                    uAuftrag = popUnterauftrag();
+                    break;
+                case eBehaelterVoll:
+                    try {
+                        uAuftrag = new Abladen(roboterleitsystem, roboterleitsystem.getFreieAbladestation());
+                    } catch (Exception e) {
+                        // Wenn keine freie Abladestation gefunden wurde, dann warte
+                        r.warte();
+                        return;
+                    }
+                    break;
+                default:
+                    uAuftrag = null;
+            }
+            if (uAuftrag != null) {
                 uAuftrag.setRoboter(r);
                 uAuftrag.addObserver(this);
                 clock.addObserver(uAuftrag);
                 this.status = AuftragsStatus.ausfuehrend;
                 aktiveUnterauftraege++;
             } else {
-                throw new Exception("Roboter ist nicht bereit");
+                throw new Exception("Roboter ist nicht bereit oder anderer Fehler");
             }
         } else {
-            Logging.log(this.getClass().getName(), Level.WARNING, Thread.currentThread().getStackTrace().toString());
+            Logging.log(this.getClass().getName(), Level.SEVERE, Thread.currentThread().getStackTrace().toString());
         }
+
+
     }
 
 

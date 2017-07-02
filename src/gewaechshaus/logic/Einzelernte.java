@@ -14,7 +14,6 @@ public class Einzelernte extends Unterauftrag {
     private static final Logger log = Logger.getLogger(Einzelernte.class.getName());
     private Position zielPosition;
     private Einzelpflanze ep;
-    private Roboterleitsystem roboterleitsystem;
     private int zustand = 0;
 
     /**
@@ -35,16 +34,12 @@ public class Einzelernte extends Unterauftrag {
         this.ep = ep;
         this.zustand = 0;
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
-
         zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
-
-
         Logging.log(this.getClass().getName(), Level.INFO, "Einzelernte Unterauftrag erstellt");
     }
 
     private Position berechneZielPosition() {
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
-
         return (Position) freieNachbarnVonPflanze.toArray()[0];
     }
 
@@ -101,7 +96,10 @@ public class Einzelernte extends Unterauftrag {
             case 4:
                 roboter.ladePflanzeAuf(ep);
                 roboter.deleteObserver(this);
-                roboter.setRoboterStatus(RoboterStatus.eBereit);
+                // Prüfe ob sich Status im Laufe des Auftrags geändert hat
+                if (roboter.getStatus() == RoboterStatus.eBeschaeftigt) {
+                    roboter.setRoboterStatus(RoboterStatus.eBereit);
+                }
                 Logging.log(this.getClass().getName(), Level.INFO, "Lade Pflanze ein und beende Unterauftrag");
                 this.status = UnterauftragsStatus.beendet;
                 // Unterauftrag abgeschlossen Auftrag benachrichtigen

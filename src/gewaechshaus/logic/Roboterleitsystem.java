@@ -130,27 +130,42 @@ public class Roboterleitsystem extends Observable implements Observer {
         }
     }
 
+
     private void verteileUnterauftraege() {
-        ArrayList<Roboter> freieRoboter = getFreieRoboter();
-        int roboterCount = freieRoboter.size();
         Auftrag tAuftrag = auftragsQueue.peek();
         if (tAuftrag.countObservers() == 0) {
             tAuftrag.addObserver(this);
             clock.addObserver(tAuftrag);
         }
+        for (Roboter r : roboterList) {
+            switch (r.getStatus()) {
+                // Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
+                default:
+                    if (tAuftrag.getUnterauftragsAnzahl() > 0) {
+                        try {
+                            tAuftrag.naechstenUnterauftragAusfuehren(r);
+                            tAuftrag.setMaxAktiveUnterauftraege(roboterList.size());
+                        } catch (Exception e) {
+                            Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
+                        }
+                    } else {
+                        break;
+                    }
 
-        for (Roboter r : freieRoboter) {
-            if (tAuftrag.getUnterauftragsAnzahl() > 0) {
-                try {
-                    tAuftrag.naechstenUnterauftragAusfuehren(r);
-                    tAuftrag.setMaxAktiveUnterauftraege(roboterList.size());
-                } catch (Exception e) {
-                    Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
-                }
-            } else {
-                break;
+                    break;
+
             }
         }
+
+    }
+
+    public Abladestation getFreieAbladestation() {
+        for (Abladestation as : abladestationen.values()) {
+            if (as.getStatus() == AbladestationStatus.frei) {
+                return as;
+            }
+        }
+        throw new NoSuchElementException("Keine freie Abladestation gefunden");
     }
 
     private ArrayList<Roboter> getFreieRoboter() {

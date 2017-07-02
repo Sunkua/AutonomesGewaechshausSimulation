@@ -33,6 +33,12 @@ public class Roboter extends Observable {
         Konstanten.roboterSchrittweite = geschwindigkeit;
     }
 
+    public void ladePflanzenAb(Abladestation as) {
+        for (PflanzenArt pa : pflanzenContainer) {
+            as.pflanzeAufAbladestationAbladen(pa);
+        }
+    }
+
     public void fahreNachOben() {
         this.position.setY(this.position.getY() - Konstanten.roboterSchrittweite);
         setChanged();
@@ -78,6 +84,9 @@ public class Roboter extends Observable {
     public boolean ladePflanzeAuf(Einzelpflanze ep) {
         pv.pflanzeEntfernen(ep.getPosition());
         pflanzenContainer.add(ep.getArt());
+        if (pflanzenContainer.size() >= Konstanten.maximalerFuellstand) {
+            setRoboterStatus(RoboterStatus.eBehaelterVoll);
+        }
         return true;
     }
 

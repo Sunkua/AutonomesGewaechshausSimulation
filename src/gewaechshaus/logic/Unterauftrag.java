@@ -8,6 +8,8 @@ public abstract class Unterauftrag extends Observable implements Observer {
 
     protected Roboter roboter;
     protected UnterauftragsStatus status;
+    protected Roboterleitsystem roboterleitsystem;
+    int zustand = 0;
 
     public Unterauftrag() {
 

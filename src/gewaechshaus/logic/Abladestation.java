@@ -1,5 +1,6 @@
 package gewaechshaus.logic;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.logging.Level;
 
@@ -10,8 +11,9 @@ import java.util.logging.Level;
 public class Abladestation {
 
 	private int fuellstand;
-	private int status; // TODO Was ist Status?
+	private AbladestationStatus status = AbladestationStatus.frei; // TODO Was ist Status?
 	private HashSet<PflanzenArt> pflanzenarten;
+	private ArrayList<PflanzenArt> container;
 	private Position gridPosition;
 	private AblageTyp ablagetyp;
 
@@ -23,6 +25,7 @@ public class Abladestation {
 	public Abladestation(Position position) {
 		this.gridPosition = position;
 		fuellstand = 0;
+		container = new ArrayList<>();
 		pflanzenarten = new HashSet<>();
 		ablagetyp = null;
 		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen.");
@@ -53,7 +56,6 @@ public class Abladestation {
 	 */
 	public void leeren() {
 		fuellstand = 0;
-		status = 0;
 		pflanzenarten.clear();
 		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
 	}
@@ -74,8 +76,16 @@ public class Abladestation {
 		}
 	}
 
-	public int getStatus() {
+	public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
+		container.add(pArt);
+	}
+
+	public AbladestationStatus getStatus() {
 		return status;
+	}
+
+	public void setStatus(AbladestationStatus as) {
+		this.status = as;
 	}
 
 	public Position getGridPosition() {
