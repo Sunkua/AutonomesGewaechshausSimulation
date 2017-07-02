@@ -3,15 +3,13 @@ package gewaechshaus.logic;
 import java.util.logging.Level;
 
 public class Ladestation {
-	
-	private boolean frei;
+
     private Position gridPosition;
-    private int Status;
+    private LadestationStatus status;
 
     public Ladestation(Position pos) {
-        frei = true;
+        status = LadestationStatus.frei;
         gridPosition = pos;
-
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
@@ -23,25 +21,16 @@ public class Ladestation {
         this.gridPosition = gridPosition;
     }
 
-    public String getStatus() {
-        return null;
+    public LadestationStatus getStatus() {
+        return status;
     }
 
-    public void verbinden() throws Exception {
-        if (frei) {
-            frei = false;
-        }
-        else {
-        	throw new Exception("Bereits ein Roboter verbunden");
-        }
+    public void setLadestationStatus(LadestationStatus ls) {
+        this.status = ls;
     }
 
-    public void trennen() throws Exception {
-        if (!frei) {
-            frei = true;
-        }
-        else {
-        	throw new Exception("Kein Roboter verbunden");
-        }
+    public void roboterLaden(Roboter roboter) {
+        Akku akku = roboter.getAkku();
     }
+
 }

@@ -52,9 +52,15 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
         }
 
         for (Abladestation al : roboterleitsystem.getAbladestationen()) {
-            gc.setFill(Color.YELLOW);
+            gc.setFill(Color.SADDLEBROWN);
             gc.fillRect(al.getGridPosition().getSpaltenID() * size, al.getGridPosition().getReihenID() * size, size, size);
         }
+
+        for (Ladestation ls : roboterleitsystem.getLadestationen()) {
+            gc.setFill(Color.YELLOW);
+            gc.fillRect(ls.getGridPosition().getSpaltenID() * size, ls.getGridPosition().getReihenID() * size, size, size);
+        }
+
     }
 
     @Override

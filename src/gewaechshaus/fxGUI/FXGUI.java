@@ -41,6 +41,12 @@ public class FXGUI extends Application {
         Position abladestelle = new Position(11f, 11f);
         gitter.toKarthesisch(abladestelle);
         Abladestation abladestation = new Abladestation(abladestelle);
+
+        Position ladestelle = new Position(10f, 11f);
+        gitter.toKarthesisch(ladestelle);
+        Ladestation ladestation = new Ladestation(ladestelle);
+
+
         pVerwaltung.addObserver(leitSystem);
 
         pVerwaltung.addObserver(gitter);
@@ -60,6 +66,7 @@ public class FXGUI extends Application {
         leitSystem.roboterHinzufuegen(r2, roboPos2);
 
         leitSystem.abladestationHinzufuegen(abladestation);
+        leitSystem.ladestationHinzufuegen(ladestation);
 
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
         r.addObserver(eigenschaftsgrid);

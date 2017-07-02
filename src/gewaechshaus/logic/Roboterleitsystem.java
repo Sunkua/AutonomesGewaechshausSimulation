@@ -144,7 +144,6 @@ public class Roboterleitsystem extends Observable implements Observer {
                     if (tAuftrag.getUnterauftragsAnzahl() > 0) {
                         try {
                             tAuftrag.naechstenUnterauftragAusfuehren(r);
-                            tAuftrag.setMaxAktiveUnterauftraege(roboterList.size());
                         } catch (Exception e) {
                             Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
                         }
@@ -157,6 +156,19 @@ public class Roboterleitsystem extends Observable implements Observer {
             }
         }
 
+    }
+
+    public Collection<Ladestation> getLadestationen() {
+        return this.ladestationen.values();
+    }
+
+    public Ladestation getFreieLadestation() {
+        for (Ladestation ls : ladestationen.values()) {
+            if (ls.getStatus() == LadestationStatus.frei) {
+                return ls;
+            }
+        }
+        throw new NoSuchElementException("Keine freie Ladestation gefunden");
     }
 
     public Abladestation getFreieAbladestation() {

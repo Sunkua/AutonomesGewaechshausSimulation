@@ -10,7 +10,7 @@ public class LadestationTest {
 	public void init() {
 		ladestation = new Ladestation(new Position(4, 4));
 	}
-	
+	/*
 	@Test
 	public void verbinde_ein_Roboter_kein_ohne_exception() throws Exception {
 		ladestation.verbinden();
@@ -31,5 +31,5 @@ public class LadestationTest {
 	@Test(expected = Exception.class)
 	public void trenne_einen_Roboter_ohne_Roboter_exception() throws Exception {
 		ladestation.trennen();
-	}
+	}*/
 }

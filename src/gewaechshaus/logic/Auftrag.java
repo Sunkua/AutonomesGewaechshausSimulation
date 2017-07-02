@@ -1,6 +1,7 @@
 package gewaechshaus.logic;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,8 +14,6 @@ import java.util.stream.Collectors;
  */
 public class Auftrag extends Observable implements Observer {
 
-    int aktiveUnterauftraege = 0;
-    int maxAktiveUnterauftraege = 1;
     private List<Unterauftrag> unterauftraege;
     private Clock clock;
     private AuftragsStatus status;
@@ -22,6 +21,7 @@ public class Auftrag extends Observable implements Observer {
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
     private Roboterleitsystem roboterleitsystem;
+    private List<Unterauftrag> aktiveUnterauftraege;
 
     public Auftrag(Clock clock, Roboterleitsystem roboterleitsystem) {
         runnableQueue = new LinkedBlockingQueue<>();
@@ -31,19 +31,13 @@ public class Auftrag extends Observable implements Observer {
                 10, TimeUnit.MILLISECONDS,
                 executorQueue);
 
+        aktiveUnterauftraege = new ArrayList<>();
         this.roboterleitsystem = roboterleitsystem;
         this.clock = clock;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         this.status = AuftragsStatus.bereit;
     }
 
-    public int getMaxAktiveUnterauftraege() {
-        return maxAktiveUnterauftraege;
-    }
-
-    public void setMaxAktiveUnterauftraege(int maxAktiveUnterauftraege) {
-        this.maxAktiveUnterauftraege = maxAktiveUnterauftraege;
-    }
 
     /**
      * @return Auftragsstatus
@@ -89,8 +83,8 @@ public class Auftrag extends Observable implements Observer {
      * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die Ausführung gefunden wurde
      */
     public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
-        Logging.log(this.getClass().getName(), Level.INFO, "Aktuelle Anzahl Unterauftraege = " + aktiveUnterauftraege + "Maximal: " + maxAktiveUnterauftraege);
-        if (aktiveUnterauftraege < maxAktiveUnterauftraege) {
+
+        if (aktiveUnterauftraege.size() <= roboterleitsystem.getRoboter().size()) {
             Unterauftrag uAuftrag;
             switch (r.getStatus()) {
                 case eBereit:
@@ -105,23 +99,44 @@ public class Auftrag extends Observable implements Observer {
                         return;
                     }
                     break;
+                case eAkkuKritisch:
+                    try {
+                        uAuftrag = new AkkuLaden(roboterleitsystem, roboterleitsystem.getFreieLadestation());
+                    } catch (Exception e) {
+                        // Wenn keine freie Ladestation gefunden wurde, dann warte bis Ladestation frei wird
+                        r.warte();
+                        return;
+                    }
+                    break;
                 default:
                     uAuftrag = null;
             }
             if (uAuftrag != null) {
-                uAuftrag.setRoboter(r);
-                uAuftrag.addObserver(this);
-                clock.addObserver(uAuftrag);
-                this.status = AuftragsStatus.ausfuehrend;
-                aktiveUnterauftraege++;
-            } else {
-                throw new Exception("Roboter ist nicht bereit oder anderer Fehler");
+                // Wenn Roboter keinen Unterauftrag zugewiesen hat
+                if (!pruefeObRoboterAktiv(r)) {
+                    uAuftrag.setRoboter(r);
+                    uAuftrag.addObserver(this);
+                    clock.addObserver(uAuftrag);
+                    this.status = AuftragsStatus.ausfuehrend;
+                    aktiveUnterauftraege.add(uAuftrag);
+                } else {
+                    throw new Exception("Roboter ist nicht bereit oder anderer Fehler");
+                }
             }
         } else {
             Logging.log(this.getClass().getName(), Level.SEVERE, Thread.currentThread().getStackTrace().toString());
         }
 
 
+    }
+
+    private boolean pruefeObRoboterAktiv(Roboter r) {
+        for (Unterauftrag ua : aktiveUnterauftraege) {
+            if (ua.getRoboter().equals(r)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -197,7 +212,7 @@ public class Auftrag extends Observable implements Observer {
                 if (this.unterauftraege.size() == 0) {
                     this.status = AuftragsStatus.beendet;
                 }
-                aktiveUnterauftraege--;
+                aktiveUnterauftraege.remove(uAuftrag);
                 setChanged();
                 notifyObservers();
             }

@@ -109,13 +109,7 @@ public class Einzelernte extends Unterauftrag {
         }
     }
 
-
-    /**
-     * Fährt ein Nachbarkästchen des Roboters an.
-     *
-     * @param roboter Roboter aus der Roboterverwaltung der zur Position fahren soll
-     */
-    private void fahreZuNachbarposition(Roboter roboter) {
+    protected void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
             wegListe = roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition);
@@ -148,9 +142,7 @@ public class Einzelernte extends Unterauftrag {
             Logging.log(this.getClass().getName(), Level.WARNING, "Kein Weg gefunden.");
             roboter.warte();
         }
-
     }
-
     /**
      * Update-Methode des Observers. Wird bei jedem Schritt der Uhr gecalled
      *

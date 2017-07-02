@@ -21,7 +21,7 @@ public class Roboter extends Observable {
     public Roboter(Roboterleitsystem roboterleitsystem, Pflanzenverwaltung pv) {
         this.pv = pv;
         pflanzenContainer = new ArrayList<>();
-        akku = new Akku(100,10);
+        akku = new Akku(100, 90);
         id = UUID.randomUUID();
     }
 
@@ -38,6 +38,11 @@ public class Roboter extends Observable {
             as.pflanzeAufAbladestationAbladen(pa);
         }
     }
+
+    public Akku getAkku() {
+        return akku;
+    }
+
 
     public void fahreNachOben() {
         this.position.setY(this.position.getY() - Konstanten.roboterSchrittweite);
@@ -132,7 +137,11 @@ public class Roboter extends Observable {
             akku.aktualisieren(Konstanten.AkkuEntladungNormal);
             break;
 		}
-    	
+        if (akku.istKritisch()) {
+            setRoboterStatus(RoboterStatus.eAkkuKritisch);
+        }
+
+
     	if(akku.istKritisch()){
     		//ToDo
     		//Logging.log(this.getClass().getSimpleName(), Level.WARNING, this.getClass().getSimpleName()+" Akkuladung ist kritisch");
@@ -140,8 +149,8 @@ public class Roboter extends Observable {
     	if(akku.istLeer()){
     		// ToDo
     	}
-        //hasChanged();
-        //notifyObservers();
+        hasChanged();
+        notifyObservers();
     }
 
 

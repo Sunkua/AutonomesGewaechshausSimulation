@@ -22,13 +22,19 @@ public class Akku {
             this.kritischeGrenze = kritGrenze;
             this.ladestand = ladestand;
         } else {
-        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Ladestand außerhalb des Gueltigkeitsbereichs!");
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ladestand außerhalb des Gültigkeitsbereiches");
         }
-        
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: "+ladestand+" Kritische Grenze: "+kritGrenze);
 
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: " + ladestand + " Kritische Grenze: " + kritGrenze);
+
+    }
+
+    public void laden(double inkrementierung) {
+        if (ladestand + inkrementierung <= 100) {
+            this.ladestand += inkrementierung;
+        }
     }
 
     public double getLadestand() {
@@ -44,10 +50,10 @@ public class Akku {
 
         if (istLadestandImGrenzbereich(ladestand)) {
             this.ladestand = ladestand;
-            
-            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ladestand gesetzt: "+ladestand);
+
+            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ladestand gesetzt: " + ladestand);
         } else {
-        	Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Neuer Ladestand außerhalb des Gueltigkeitsbereichs!");
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Neuer Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
     }
@@ -64,11 +70,13 @@ public class Akku {
     public boolean istKritisch() {
         return (ladestand < kritischeGrenze);
     }
+
     public boolean istLeer() {
         return (ladestand <= 0.0);
     }
-    public void aktualisieren(double Schrittweite){
-    	this.ladestand = this.ladestand + Schrittweite;
-    	this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
+
+    public void aktualisieren(double Schrittweite) {
+        this.ladestand = this.ladestand + Schrittweite;
+        this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
     }
 }

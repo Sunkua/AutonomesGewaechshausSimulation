@@ -12,20 +12,19 @@ public class Abladen extends Unterauftrag {
 
 
     private Abladestation abladestation;
-    private Position zielPosition;
 
     public Abladen(Roboterleitsystem rLeitsystem, Abladestation abladestation) {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen.");
         this.roboterleitsystem = rLeitsystem;
         this.abladestation = abladestation;
         this.zustand = 0;
-        List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
-        zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
+        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
+        zielPosition = (Position) freieNachbarFelderVonAbladestation.toArray()[0];
     }
 
     private Position berechneZielPosition() {
-        List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
-        return (Position) freieNachbarnVonPflanze.toArray()[0];
+        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
+        return (Position) freieNachbarFelderVonAbladestation.toArray()[0];
     }
 
     /**
@@ -61,7 +60,7 @@ public class Abladen extends Unterauftrag {
                 }
                 Logging.log(this.getClass().getName(), Level.INFO, "Roboter fährt zu Position: " + roboter.getPosition().toString());
                 break;
-            // scanne
+            // Lade ab und gebe Station wieder frei
             case 2:
                 roboter.ladePflanzenAb(abladestation);
                 abladestation.setStatus(AbladestationStatus.frei);
@@ -76,12 +75,7 @@ public class Abladen extends Unterauftrag {
         }
     }
 
-    /**
-     * Fährt ein Nachbarkästchen des Roboters an.
-     *
-     * @param roboter Roboter aus der Roboterverwaltung der zur Position fahren soll
-     */
-    private void fahreZuNachbarposition(Roboter roboter) {
+    protected void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
             wegListe = roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition);
@@ -115,7 +109,6 @@ public class Abladen extends Unterauftrag {
             roboter.warte();
         }
     }
-
 
     @Override
     public void update(Observable o, Object arg) {
