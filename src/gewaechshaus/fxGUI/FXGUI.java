@@ -70,7 +70,9 @@ public class FXGUI extends Application {
 
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
         r.addObserver(eigenschaftsgrid);
+        r.AddAkku( new Akku(100, 90));
         r2.addObserver(eigenschaftsgrid);
+        r2.AddAkku( new Akku(100, 90));
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);

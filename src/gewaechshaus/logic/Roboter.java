@@ -2,9 +2,10 @@ package gewaechshaus.logic;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.UUID;
 
-public class Roboter extends Observable {
+public class Roboter extends Observable implements Observer {
 
     private double batteriestatus;
     private double fuellstand;
@@ -24,10 +25,15 @@ public class Roboter extends Observable {
         akku = new Akku(100, 90);
         id = UUID.randomUUID();
     }
+    public void AddAkku( Akku a){
+    	akku = a;
+    	akku.addObserver(this); // geht nicht .. warum auch immer..
+    }
 
     public UUID getID() {
         return this.id;
     }
+
 
     public void setGeschwindigkeit(double geschwindigkeit) {
         Konstanten.roboterSchrittweite = geschwindigkeit;
@@ -137,21 +143,27 @@ public class Roboter extends Observable {
             akku.aktualisieren(Konstanten.AkkuEntladungNormal);
             break;
 		}
+    	// Obsolete wenn observer funktioniert..
         if (akku.istKritisch()) {
             setRoboterStatus(RoboterStatus.eAkkuKritisch);
         }
 
-
-    	if(akku.istKritisch()){
-    		//ToDo
-    		//Logging.log(this.getClass().getSimpleName(), Level.WARNING, this.getClass().getSimpleName()+" Akkuladung ist kritisch");
-    	}
-    	if(akku.istLeer()){
-    		// ToDo
-    	}
         hasChanged();
         notifyObservers();
     }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+    	if( o instanceof Akku){
+	        if (akku.istKritisch()) {
+	            setRoboterStatus(RoboterStatus.eAkkuKritisch);
+	        }
+	        if (akku.istLeer()) {
+	            setRoboterStatus(RoboterStatus.eAkkuLeer);            	
+	        }
+    	}
+	}
+    	
 
 
 }

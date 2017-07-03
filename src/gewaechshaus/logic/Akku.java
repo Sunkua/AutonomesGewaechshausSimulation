@@ -1,14 +1,16 @@
 package gewaechshaus.logic;
 
+import java.util.Observable;
 import java.util.logging.Level;
 
 /**
  * Implementierung der Akkufunktionalität.
  */
-public class Akku {
+public class Akku  extends Observable {
 
     private double ladestand;
-    private double kritischeGrenze;
+    private double ladestandAlt;
+    private double kritischeGrenze;  
 
     /**
      * Generiert einen neuen Akku
@@ -17,7 +19,6 @@ public class Akku {
      * @param kritGrenze Kritischer, unterer Ladezustand
      */
     public Akku(double ladestand, double kritGrenze) {
-
         if (istLadestandImGrenzbereich(ladestand)) {
             this.kritischeGrenze = kritGrenze;
             this.ladestand = ladestand;
@@ -28,13 +29,10 @@ public class Akku {
 
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: " + ladestand + " Kritische Grenze: " + kritGrenze);
+        
+        ladestandAlt = ladestand; 
+        aktualisieren(0.0);
 
-    }
-
-    public void laden(double inkrementierung) {
-        if (ladestand + inkrementierung <= 100) {
-            this.ladestand += inkrementierung;
-        }
     }
 
     public double getLadestand() {
@@ -56,6 +54,9 @@ public class Akku {
             Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Neuer Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
+        
+        ladestandAlt = ladestand; 
+        aktualisieren(0.0);
     }
 
     private boolean istLadestandImGrenzbereich(double ladestand) {
@@ -68,7 +69,7 @@ public class Akku {
      * @return Kritischer Zustand
      */
     public boolean istKritisch() {
-        return (ladestand < kritischeGrenze);
+        return (ladestand <= kritischeGrenze);
     }
 
     public boolean istLeer() {
@@ -78,5 +79,16 @@ public class Akku {
     public void aktualisieren(double Schrittweite) {
         this.ladestand = this.ladestand + Schrittweite;
         this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
-    }
+        
+        if(ladestand <= kritischeGrenze && ladestandAlt > kritischeGrenze){
+            hasChanged();
+            notifyObservers();
+        }
+        if(ladestand <= 0.0 && ladestandAlt > 0.0){
+            hasChanged();
+            notifyObservers();
+        }
+        ladestandAlt = ladestand;
+        
+	}
 }
