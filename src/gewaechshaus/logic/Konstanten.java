@@ -9,4 +9,6 @@ public class Konstanten {
     public static double roboterSchrittweite = 0.5f;
     public static int beetBreite = 5;
     public static int maximalerFuellstand = 2;
+    public static double GewichtGurke = 0.3;
+    public static double GewichtTomate = 0.2;
 }

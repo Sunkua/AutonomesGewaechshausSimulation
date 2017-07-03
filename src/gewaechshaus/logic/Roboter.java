@@ -8,7 +8,6 @@ import java.util.UUID;
 public class Roboter extends Observable implements Observer {
 
     private double batteriestatus;
-    private double fuellstand;
     private ArrayList<PflanzenArt> pflanzenContainer;
     private RoboterStatus status;
     private Position position;
@@ -109,9 +108,6 @@ public class Roboter extends Observable implements Observer {
         this.position = position;
     }
 
-    private void setFuellstand(double fuellstand) {
-    	this.fuellstand = fuellstand;
-    }
 
     public void setAuftrag(Unterauftrag unterauftrag) {
 
@@ -162,6 +158,23 @@ public class Roboter extends Observable implements Observer {
 	            setRoboterStatus(RoboterStatus.eAkkuLeer);            	
 	        }
     	}
+	}
+	public String getFüllstand() {
+		// TODO Auto-generated method stub
+		Double Füllstand = new Double(0);
+		for (PflanzenArt p : pflanzenContainer){
+			switch(p){
+			case eTomate:
+				Füllstand += Konstanten.GewichtTomate;
+				break;
+			case eGurke: 
+				Füllstand += Konstanten.GewichtGurke;
+				break;
+			default:
+				break;
+			}
+		}
+		return Füllstand.toString() + " kg";
 	}
     	
 

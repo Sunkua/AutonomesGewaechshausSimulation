@@ -18,12 +18,14 @@ public class RoboterTab extends Tab {
         private SimpleStringProperty fieldPosition;
         private SimpleStringProperty fieldAuftrag;
         private SimpleDoubleProperty fieldLadung;
+        private SimpleStringProperty fieldFüllstand;
 
-        RobotRecord(String name, String position, String Aufrag, double Ladung) {
+        RobotRecord(String name, String position, String Aufrag, double Ladung, String Füllstand) {
             this.fieldName = new SimpleStringProperty(name);
             this.fieldPosition = new SimpleStringProperty(position);
             this.fieldAuftrag = new SimpleStringProperty(Aufrag);
             this.fieldLadung = new SimpleDoubleProperty(Ladung);
+            this.fieldFüllstand = new SimpleStringProperty(Füllstand);
         }
 
         public String getFieldName() {
@@ -57,6 +59,14 @@ public class RoboterTab extends Tab {
         public void setFieldLadung(double fieldLadung) {
             this.fieldLadung.set(fieldLadung);
         }
+
+		public String getFieldFüllstand() {
+			return fieldFüllstand.get();
+		}
+
+		public void setFieldFüllstand(String fieldFüllstand) {
+			this.fieldFüllstand.set(fieldFüllstand);
+		}
     }
 
     Roboterleitsystem roboterleitsystem;
@@ -69,13 +79,13 @@ public class RoboterTab extends Tab {
 		
         robotList = FXCollections.observableArrayList();
         for ( Roboter robot : roboterleitsystem.getRoboter()){
-            RobotRecord rec = new RobotRecord(robot.getID().toString(), robot.getPosition().toString(), "n/a", robot.getLadestand());
+            RobotRecord rec = new RobotRecord(robot.getID().toString(), robot.getPosition().toString(), "n/a", robot.getLadestand(), robot.getFüllstand());
             robotList.add(rec);
         }
         robotTable = new TableView<>();
 
         TableColumn columnName = new TableColumn("Name");
-        columnName.setMinWidth(100);
+        columnName.setMinWidth(200);
         columnName.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldName"));
 
         TableColumn columnPosition = new TableColumn("Position");
@@ -88,9 +98,13 @@ public class RoboterTab extends Tab {
 
         TableColumn columnAkku = new TableColumn("Akkulandung");
         columnAkku.setCellValueFactory(new PropertyValueFactory<RobotRecord, Double>("fieldLadung"));
-        columnAkku.setMinWidth(100);
+        columnAkku.setMinWidth(80);
 
-        robotTable.getColumns().addAll(columnName, columnPosition, columnAuftrag, columnAkku);
+        TableColumn columnFüllstand = new TableColumn("Füllstand");
+        columnFüllstand.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldFüllstand"));
+        columnFüllstand.setMinWidth(100);
+        
+        robotTable.getColumns().addAll(columnName, columnPosition, columnAuftrag, columnAkku, columnFüllstand);
         robotTable.setItems(robotList);
 
         setContent(robotTable);
@@ -102,6 +116,7 @@ public class RoboterTab extends Tab {
 		         //TODO Auftrag vom Leitsystem erfragen
 		         rr.setFieldLadung(r.getLadestand());
 		         rr.setFieldPosition(r.getPosition().toString());
+		         rr.setFieldFüllstand(r.getFüllstand());
 		         robotTable.refresh();
 		         break;
 		     }
