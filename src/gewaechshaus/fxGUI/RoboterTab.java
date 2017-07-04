@@ -17,14 +17,19 @@ public class RoboterTab extends Tab {
         private SimpleStringProperty fieldName;
         private SimpleStringProperty fieldPosition;
         private SimpleStringProperty fieldAuftrag;
-        private SimpleDoubleProperty fieldLadung;
+        private SimpleStringProperty fieldLadung;
         private SimpleStringProperty fieldFüllstand;
 
         RobotRecord(String name, String position, String Aufrag, double Ladung, String Füllstand) {
             this.fieldName = new SimpleStringProperty(name);
             this.fieldPosition = new SimpleStringProperty(position);
             this.fieldAuftrag = new SimpleStringProperty(Aufrag);
-            this.fieldLadung = new SimpleDoubleProperty(Ladung);
+            
+            Double l = new Double(Ladung);
+            double tmp = Math.round(l*100);
+            l = tmp /100;
+            this.fieldLadung = new SimpleStringProperty(l.toString() + " %");
+            
             this.fieldFüllstand = new SimpleStringProperty(Füllstand);
         }
 
@@ -52,12 +57,15 @@ public class RoboterTab extends Tab {
             this.fieldAuftrag.set(fieldAuftrag);
         }
 
-        public double getFieldLadung() {
+        public String getFieldLadung() {
             return fieldLadung.get();
         }
 
         public void setFieldLadung(double fieldLadung) {
-            this.fieldLadung.set(fieldLadung);
+            Double l = new Double(fieldLadung);
+            double tmp = Math.round(l*100);
+            l = tmp /100;
+            this.fieldLadung.set(l.toString() + " %");
         }
 
 		public String getFieldFüllstand() {
@@ -97,7 +105,7 @@ public class RoboterTab extends Tab {
         columnAuftrag.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldAuftrag"));
 
         TableColumn columnAkku = new TableColumn("Akkulandung");
-        columnAkku.setCellValueFactory(new PropertyValueFactory<RobotRecord, Double>("fieldLadung"));
+        columnAkku.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldLadung"));
         columnAkku.setMinWidth(80);
 
         TableColumn columnFüllstand = new TableColumn("Füllstand");

@@ -174,6 +174,10 @@ public class Roboter extends Observable implements Observer {
 				break;
 			}
 		}
+		
+		// always show #####.## kg;
+		double tmp = Math.round(Füllstand * 100);
+		Füllstand = tmp / 100;
 		return Füllstand.toString() + " kg";
 	}
     	
