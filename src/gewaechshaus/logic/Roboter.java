@@ -92,7 +92,7 @@ public class Roboter extends Observable implements Observer {
     }
 
     public boolean ladePflanzeAuf(Einzelpflanze ep) {
-        pv.pflanzeEntfernen(ep.getPosition());
+    	ep.setPflanzenstatus(PflanzenStatus.eUnreif);
         pflanzenContainer.add(ep.getArt());
         if (pflanzenContainer.size() >= Konstanten.maximalerFuellstand) {
             setRoboterStatus(RoboterStatus.eBehaelterVoll);

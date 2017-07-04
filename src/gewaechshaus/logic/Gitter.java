@@ -51,6 +51,22 @@ public class Gitter extends Observable implements Observer {
         p.berechneReihenPosition(gitter[0].length, gitterhoehe);
         p.berechneSpaltenPosition(gitter.length, gitterbreite);
     }
+    
+    public Positionsbelegung getBelegung(int Reihe, int Spalte){
+    	if (Reihe < 0){
+            throw new IndexOutOfBoundsException("Reihe kleiner Null");
+    	}
+    	if (Reihe >= getHoehe()){
+            throw new IndexOutOfBoundsException("Reihe größer als breite");
+    	}
+    	if (Spalte < 0){
+            throw new IndexOutOfBoundsException("Spalte kleiner NUll");
+    	}
+    	if (Spalte >= getBreite() ){
+            throw new IndexOutOfBoundsException("Spalte größer Breite");
+    	}
+    	return gitter[Spalte][Reihe];
+    }
 
     /**
      * Gibt die Position über einer Position zurück

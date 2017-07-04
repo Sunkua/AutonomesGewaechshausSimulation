@@ -30,7 +30,7 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
     public void paint() {
         gc.setFill(Color.BLACK);
         gc.setStroke(Color.BLACK);
-        gc.setLineWidth(5);
+        gc.setLineWidth(2);
         int maxBreite = gitter.getBreite();
         int maxHoehe = gitter.getHoehe();
         for(int i = 0; i < maxBreite; i++) {
@@ -38,10 +38,29 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
                 gc.strokeRect(i*size, j*size, size, size);
             }
         }
+
         Map<Position, Einzelpflanze> pflanzen = pflanzenverwaltung.getAllePflanzen();
         for(Map.Entry<Position, Einzelpflanze> pflanze : pflanzen.entrySet()) {
-            gc.setFill(Color.GREEN);
-            gc.fillOval(pflanze.getKey().getSpaltenID() * size, pflanze.getKey().getReihenID()*size, size, size);
+        	int spalte = pflanze.getKey().getSpaltenID();
+        	int reihe = pflanze.getKey().getReihenID();
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
+            gc.strokeOval(spalte * size +1, reihe*size+1, size -2, size-2);
+            switch(pflanze.getValue().getArt()){
+            case eTomate:
+                gc.setFill(Color.RED);
+            	break;
+            case eGurke:
+                gc.setFill(Color.GREEN);
+            	break;
+            }
+            switch(pflanze.getValue().getPflanzenstatus()){
+            case eReif:
+                gc.fillOval(spalte * size+2, reihe*size+2, size-4, size-4);
+                break;            	
+            }
+            
+
         }
 
         // Draw Roboter
@@ -60,7 +79,7 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
             gc.setFill(Color.YELLOW);
             gc.fillRect(ls.getGridPosition().getSpaltenID() * size, ls.getGridPosition().getReihenID() * size, size, size);
         }
-
+		
     }
 
     @Override
