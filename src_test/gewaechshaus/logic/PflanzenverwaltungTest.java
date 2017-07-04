@@ -28,16 +28,15 @@ public class PflanzenverwaltungTest {
         ep = new Einzelpflanze(PflanzenArt.eGurke,
                 new Position(4, 4),
                 10f,
-                PflanzenStatus.eFaul,
-                new Date());
+                PflanzenStatus.eFaul);
         Einzelpflanze epGurke = new Einzelpflanze(PflanzenArt.eGurke,
                 new Position(4, 5),
                 12f,
-                PflanzenStatus.eReif, new Date());
+                PflanzenStatus.eReif);
         Einzelpflanze epTomate = new Einzelpflanze(PflanzenArt.eTomate,
                 new Position(4, 6),
                 12f,
-                PflanzenStatus.eReif, new Date());
+                PflanzenStatus.eReif);
         map = new HashMap<>();
         map.put(ep.getPosition(), ep);
         map.put(epGurke.getPosition(), epGurke);

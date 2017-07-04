@@ -53,6 +53,7 @@ public class FXGUI extends Application {
 
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);
+        clock.addObserver(pVerwaltung);
 
         Roboter r = new Roboter(leitSystem, pVerwaltung);
         Roboter r2 = new Roboter(leitSystem, pVerwaltung);
@@ -171,7 +172,7 @@ public class FXGUI extends Application {
                 if (i % 5 != 0 && j % 3 != 0) {
                     try {
                         Position p = gitter.naechsteFreiePflanzenPositionSuchen();
-                        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, p, 0.5, PflanzenStatus.eReif, null);
+                        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, p, 0.5, PflanzenStatus.eReif);
                         pVerwaltung.pflanzeHinzufuegen(t);
                     } catch (Exception e) {
                         break;

@@ -54,11 +54,10 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
                 gc.setFill(Color.GREEN);
             	break;
             }
-            switch(pflanze.getValue().getPflanzenstatus()){
-            case eReif:
-                gc.fillOval(spalte * size+2, reihe*size+2, size-4, size-4);
-                break;            	
-            }
+            double reife = pflanze.getValue().getReifestatus() / 100;
+            int pflanzengröße =  (int) ((size-4) * reife);
+            int offset = (size-4 - pflanzengröße)/2;
+            gc.fillOval(spalte * size+2 +offset, reihe*size+2+offset, pflanzengröße, pflanzengröße);
             
 
         }

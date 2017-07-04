@@ -16,7 +16,7 @@ public class EinzelpflanzeTest {
     @Before
     public void init() {
     	einzelpflanzeOhne = new Einzelpflanze();
-    	einzelpflanzeMit = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif, new Date());
+    	einzelpflanzeMit = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif);
     }
     
     @Test

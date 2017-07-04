@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 @XmlRootElement(namespace = "gewaeshaus.logic")
-public class Pflanzenverwaltung extends Observable {
+public class Pflanzenverwaltung extends Observable implements Observer{
 
     /**
      * Hält die Liste von Pflanzen inkl. deren Positionen
@@ -182,5 +182,13 @@ public class Pflanzenverwaltung extends Observable {
 
     public void löscheAllePflanzen() {
     	this.pflanzenListe.clear();
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+    	if(o instanceof Clock){
+            for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
+               entry.getValue().Wachse();
+            }
+    	}    	
     }
 }

@@ -8,8 +8,8 @@ import java.util.logging.Level;
  */
 public class Einzelpflanze {
 	private double gewicht;
-	private Date reifezeit;
-	private PflanzenStatus reifegrad;
+	private double reifestatus; // status in 0..100%
+	private PflanzenStatus pflanzenStatus; // Status den die Verwalung kennt. zb durch eingabe oder robot Scan
 	private Position position;
 	private PflanzenArt art;
 
@@ -18,12 +18,21 @@ public class Einzelpflanze {
 		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
 	}
 	
-	public Einzelpflanze(PflanzenArt art, Position p, double gewicht, PflanzenStatus reifegrad, Date reifezeit) {
+	public Einzelpflanze(PflanzenArt art, Position p, double gewicht, PflanzenStatus pflanzenStatus) {
 		this.art = art;
 		this.position = p;
 		this.gewicht = gewicht;
-		this.reifegrad = reifegrad;
-		this.reifezeit = reifezeit;
+		this.pflanzenStatus = pflanzenStatus;
+		switch(pflanzenStatus){
+		case eReif:
+			reifestatus = 100.0;
+			break;
+		case eUnreif:
+			reifestatus = 10.0;
+			break;
+		default:
+			reifestatus = 0.0;
+		}
 		
 		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
 	}
@@ -34,19 +43,35 @@ public class Einzelpflanze {
 	public void setGewicht(double gewicht) {
 		this.gewicht = gewicht;
 	}
-	
-	public Date getReifezeit() {
-		return reifezeit;
+	public double getReifestatus(){
+		return reifestatus;
 	}
-	public void setReifezeit(Date reifezeit) {
-		this.reifezeit = reifezeit;
+	
+	public double getReifezeit() {
+		switch(art){
+		case eTomate:
+			return Konstanten.WachstumTomate;
+		case eGurke:
+			return Konstanten.WachstumGurke;
+		}
+		return 0; //ToDo Exception
 	}
 	
 	public PflanzenStatus getPflanzenstatus() {
-		return reifegrad;
+		return pflanzenStatus;
 	}
 	public void setPflanzenstatus(PflanzenStatus stat) {
-		this.reifegrad = stat;
+		this.pflanzenStatus = stat;
+		switch(pflanzenStatus){
+		case eReif:
+			reifestatus = 100.0;
+			break;
+		case eUnreif:
+			reifestatus = 10.0;
+			break;
+		default:
+			reifestatus = 0.0;
+		}
 	}
 	
 	public void setPflanzenart(PflanzenArt art) {
@@ -74,4 +99,16 @@ public class Einzelpflanze {
 	public String toString() {
 		return "Art: "+this.getArt().toString()+" Reifegrad: "+this.getPflanzenstatus().toString()+" Position: "+this.getPosition().toString();
 	}
+	
+	public void Wachse(){
+		switch(art){
+		case eTomate:
+			reifestatus += Konstanten.WachstumTomate;
+		case eGurke:
+			reifestatus += Konstanten.WachstumGurke;
+		}
+
+		reifestatus = Math.max(Math.min(reifestatus, 100), 0);
+	}
+		
 }
