@@ -9,17 +9,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 /**
  * @author benny
  *
  */
 public class AbladestationTest {
 
+	Position position = new Position(4, 4);
+	Abladestation abladestation;
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void init() throws Exception {
+		abladestation = new Abladestation(position);
 	}
 
 	/**
@@ -27,6 +31,7 @@ public class AbladestationTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		abladestation = null;
 	}
 
 	/**
@@ -34,7 +39,7 @@ public class AbladestationTest {
 	 */
 	@Test
 	public void testAbladestation() {
-		fail("Not yet implemented");
+		assertNotNull(abladestation);
 	}
 
 	/**
@@ -42,15 +47,9 @@ public class AbladestationTest {
 	 */
 	@Test
 	public void testUpdateFuellstand() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#getFuellstand()}.
-	 */
-	@Test
-	public void testGetFuellstand() {
-		fail("Not yet implemented");
+		int neuerFuellstand = 50;
+		abladestation.updateFuellstand(neuerFuellstand);
+		assertEquals(neuerFuellstand, abladestation.getFuellstand(), 0);
 	}
 
 	/**
@@ -58,55 +57,9 @@ public class AbladestationTest {
 	 */
 	@Test
 	public void testLeeren() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#getPflanzenart()}.
-	 */
-	@Test
-	public void testGetPflanzenart() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#setPflanzenart(gewaechshaus.logic.PflanzenArt)}.
-	 */
-	@Test
-	public void testSetPflanzenart() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#getStatus()}.
-	 */
-	@Test
-	public void testGetStatus() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#getGridPosition()}.
-	 */
-	@Test
-	public void testGetGridPosition() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#getAblagetyp()}.
-	 */
-	@Test
-	public void testGetAblagetyp() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#setAblagetyp(gewaechshaus.logic.AblageTyp)}.
-	 */
-	@Test
-	public void testSetAblagetyp() {
-		fail("Not yet implemented");
+		abladestation.leeren();
+		assertEquals(0, abladestation.getFuellstand(), 0);
+		assertEquals(0, abladestation.getPflanzenart().size(), 0);
 	}
 
 }
