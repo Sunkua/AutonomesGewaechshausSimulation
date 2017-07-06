@@ -87,8 +87,8 @@ public class Abladestation extends Observable{
 
 	public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
 		container.add(pArt);
-		hasChanged();
-        notifyObservers();
+		setChanged();
+		notifyObservers();
 	}
 
 	public AbladestationStatus getStatus() {

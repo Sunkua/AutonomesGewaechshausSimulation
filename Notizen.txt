@@ -27,4 +27,4 @@ Refactoring von englisch benamten Variablen
 Javadoc
 
 
-
+Roboter unterschiedlich kennzeichnen

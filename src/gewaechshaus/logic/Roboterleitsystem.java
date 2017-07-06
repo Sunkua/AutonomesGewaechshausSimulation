@@ -12,7 +12,6 @@ import java.util.logging.Level;
 @XmlRootElement(namespace = "gewaeshaus.logic")
 public class Roboterleitsystem extends Observable implements Observer {
 
-
     private Queue<Auftrag> auftragsQueue;
     private HashMap<Position, Abladestation> abladestationen;
     private HashMap<Position, Ladestation> ladestationen;

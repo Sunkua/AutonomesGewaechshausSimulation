@@ -75,7 +75,6 @@ public class FXGUI extends Application {
         r2.addObserver(eigenschaftsgrid);
         r2.AddAkku(new Akku(100, 90));
         abladestation.addObserver(eigenschaftsgrid);
-
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
@@ -109,8 +108,7 @@ public class FXGUI extends Application {
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 700, 700, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
 
-        pVerwaltung.addObserver(canvas);
-        leitSystem.addObserver(canvas);
+        clock.addObserver(canvas);
 
         // Stage building
         stage.setScene(scene);
