@@ -11,37 +11,20 @@ Updates in eine Queue -> Queue Element wird bei Clock-Tick entfernt, wenn kein a
 (Futures)       |       Paul
 
 29.06. TODO
-Akku wird observable
-Roboter observed Akku
 FXGUI Initialisierung abstrahieren
 Tabelle: Roboterfüllstand einbauen
-Roboter reagiert auf Füllstand und fährt zur Abladestation und lädt ab
-Wenn Roboter erntet wird Reifegrad auf 0 zurückgesetzt und Roboter fügt Objekt einer Pflanzenart in seine Collection ein
-    -> Roboter aktualisiert seinen Füllstand entsprechend des Gewichts der Pflanzenart
+
+06.07. TODO
+Einzelscan implementieren
+Abladestation-Füllstand in GUI anzeigen
+Aufträge bei Button-Klick erstellen
+Unterschiedliche Pflanzen testen
+Roboter fahren falls kein weiterer Auftrag anliegt zurück zur Ladestation und laden sich je einmal auf. Danach warten
+Bilder im Canvas
 
 
-
-
-
-Canvas observed nur gitter
-Abladestation und Ladestation für Akku werden statisch initialisiert
-Wege müssen hervorgehoben werden
-Positionsbelegung frei -> beet / weg
-
-
-Notizen Paul:
-Queue hält Runnables. 
-	Runnable enthalten die jeweiligen Anweisungen, die sonst in der update-Routine ausgeführt wurden
-
-Pro Clock Tick und zugehörigem Update wird ein Runnable erzeugt und in die Queue eingefügt. 
-Prüfe ob Vorheriges Runnable bereits terminiert:
-	Ja es ist terminiert => starte nächstes Runnable aus der Queue
-	Nein es ist nicht terminiert => return (Versuche die Queue hintereinander auszuführen)
-
-Systemdesign-Entscheidung:
-	Entweder ein Thread, der jeweils ein Runnable ausführt wenn ein anderes abgeschlossen wurde
-	oder jede Klasse mit Queue observed die Clock und muss bei jedem Clock Tick prüfen ob Runnable bereits terminiert ist
-
+Refactoring von englisch benamten Variablen
+Javadoc
 
 
 

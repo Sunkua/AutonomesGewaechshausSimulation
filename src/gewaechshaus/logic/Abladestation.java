@@ -10,7 +10,7 @@ import java.util.logging.Level;
  */
 public class Abladestation {
 
-	private int fuellstand;
+	private double fuellstand;
 	private AbladestationStatus status = AbladestationStatus.frei; // TODO Was ist Status?
 	private HashSet<PflanzenArt> pflanzenarten;
 	private ArrayList<PflanzenArt> container;
@@ -47,7 +47,7 @@ public class Abladestation {
 	 * 
 	 * @return Aktueller Füllstand
 	 */
-	public int getFuellstand() {
+	public double getFuellstand() {
 		return fuellstand;
 	}
 
