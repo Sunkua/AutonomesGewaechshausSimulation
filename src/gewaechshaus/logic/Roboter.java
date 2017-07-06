@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class Roboter extends Observable implements Observer {
 
@@ -74,7 +75,7 @@ public class Roboter extends Observable implements Observer {
     }
 
     public void warte() {
-
+        Logging.log(this.getClass().getName(), Level.INFO, "Roboter: " + this.getID().toString() + " wartet");
     }
 
 

@@ -9,6 +9,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -29,11 +33,20 @@ public class Pflanzenverwaltung extends Observable implements Observer{
     private double realeHoehe;
     private int breite;
     private int hoehe;
+    private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
+    private LinkedBlockingQueue<Runnable> executorQueue;
+    private ExecutorService execService;
 
     public Pflanzenverwaltung(Position maxGroeße) {
         super();
         this.maxGröße = maxGroeße;
         pflanzenListe = new HashMap<>();
+        runnableQueueToExecute = new LinkedBlockingQueue<>();
+        executorQueue = new LinkedBlockingQueue<Runnable>();
+        execService = new ThreadPoolExecutor(1, 1,
+                10, TimeUnit.MILLISECONDS,
+                executorQueue);
+
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
@@ -183,12 +196,30 @@ public class Pflanzenverwaltung extends Observable implements Observer{
     public void löscheAllePflanzen() {
     	this.pflanzenListe.clear();
     }
+
+
+    private Runnable wachsenRunnableErstellen() {
+        Runnable runnable = () -> {
+            for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
+                entry.getValue().Wachse();
+            }
+            setChanged();
+            notifyObservers();
+        };
+        return runnable;
+    }
+
+    private void naechstesRunnableAusQueueAusfuehren() {
+        if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
+            execService.execute(runnableQueueToExecute.poll());
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
     	if(o instanceof Clock){
-            for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
-               entry.getValue().Wachse();
-            }
-    	}    	
+            runnableQueueToExecute.add(wachsenRunnableErstellen());
+            naechstesRunnableAusQueueAusfuehren();
+        }
     }
 }

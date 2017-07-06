@@ -181,6 +181,7 @@ public class Auftrag extends Observable implements Observer {
                 if (this.unterauftraege.size() == 0) {
                     this.status = AuftragsStatus.beendet;
                 }
+                aktiveUnterauftraege.remove(uAuftrag);
                 setChanged();
                 notifyObservers();
             }
@@ -204,7 +205,7 @@ public class Auftrag extends Observable implements Observer {
             /**
              runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
              naechstesRunnableAusQueueAusfuehren();*/
-            if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
+       /*     if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
                 clock.deleteObserver(uAuftrag);
                 uAuftrag.deleteObservers();
@@ -215,9 +216,11 @@ public class Auftrag extends Observable implements Observer {
                 aktiveUnterauftraege.remove(uAuftrag);
                 setChanged();
                 notifyObservers();
-            }
+            }*/
+            runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
+            naechstesRunnableAusQueueAusfuehren();
             if (o instanceof Clock) {
-                // naechstesRunnableAusQueueAusfuehren();
+                naechstesRunnableAusQueueAusfuehren();
             }
         }
     }

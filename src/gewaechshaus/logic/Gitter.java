@@ -377,7 +377,16 @@ public class Gitter extends Observable implements Observer {
                 this.setPosition(Positionsbelegung.pflanze, pflanze.getKey());
             }
         } else if (o instanceof Roboterleitsystem) {
+            Roboterleitsystem leitsystem = (Roboterleitsystem) o;
+            // Ladestationen eintragen
+            for (Ladestation ls : leitsystem.getLadestationen()) {
+                this.setPosition(Positionsbelegung.ladestation, ls.getGridPosition());
+            }
 
+            // Abladestationen eintragen
+            for (Abladestation as : leitsystem.getAbladestationen()) {
+                this.setPosition(Positionsbelegung.abladestation, as.getGridPosition());
+            }
         }
     }
 }
