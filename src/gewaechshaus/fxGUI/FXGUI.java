@@ -71,9 +71,9 @@ public class FXGUI extends Application {
 
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
         r.addObserver(eigenschaftsgrid);
-        r.AddAkku( new Akku(100, 90));
+        r.AddAkku(new Akku(100, 90));
         r2.addObserver(eigenschaftsgrid);
-        r2.AddAkku( new Akku(100, 90));
+        r2.AddAkku(new Akku(100, 90));
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
@@ -167,7 +167,7 @@ public class FXGUI extends Application {
         grid.add(timerPeriodeAktualisieren, 1, 11);
         grid.add(simulationsPeriode, 0, 11);
 
-        for (int i = 0; i < gitter.getBreite(); i++) {
+      /*  for (int i = 0; i < gitter.getBreite(); i++) {
             for (int j = 0; j < gitter.getHoehe(); j++) {
                 if (i % 5 != 0 && j % 3 != 0) {
                     try {
@@ -179,6 +179,16 @@ public class FXGUI extends Application {
                     }
                 }
             }
+        }*/
+        for (int i = 0; i < 5; i++) {
+            try {
+                Position p = gitter.naechsteFreiePflanzenPositionSuchen();
+                Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, p, 0.5, PflanzenStatus.eReif);
+                pVerwaltung.pflanzeHinzufuegen(t);
+            } catch (Exception e) {
+                break;
+            }
+
         }
 
         //  Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);

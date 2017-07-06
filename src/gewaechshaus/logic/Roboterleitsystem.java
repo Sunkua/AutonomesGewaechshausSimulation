@@ -16,7 +16,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     private Queue<Auftrag> auftragsQueue;
     private HashMap<Position, Abladestation> abladestationen;
     private HashMap<Position, Ladestation> ladestationen;
-    private Map<Roboter, Position> vorherigeRoboterPositionen;
     private List<Roboter> roboterList;
     private Gitter gitter;
     private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
@@ -27,7 +26,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     public Roboterleitsystem(Gitter g, Clock clock) {
         this.clock = clock;
         auftragsQueue = new LinkedList<Auftrag>();
-        vorherigeRoboterPositionen = new HashMap<>();
         abladestationen = new HashMap<>();
         ladestationen = new HashMap<>();
         roboterList = new ArrayList<Roboter>();
@@ -132,30 +130,34 @@ public class Roboterleitsystem extends Observable implements Observer {
 
 
     private void verteileUnterauftraege() {
-        Auftrag tAuftrag = auftragsQueue.peek();
-        if (tAuftrag.countObservers() == 0) {
-            tAuftrag.addObserver(this);
-            clock.addObserver(tAuftrag);
-        }
-        for (Roboter r : roboterList) {
-            switch (r.getStatus()) {
-                // Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
-                default:
-                    if (tAuftrag.getUnterauftragsAnzahl() > 0) {
-                        try {
-                            tAuftrag.naechstenUnterauftragAusfuehren(r);
-                        } catch (Exception e) {
-                            Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
-                        }
-                    } else {
-                        break;
-                    }
-
-                    break;
-
+        if (!auftragsQueue.isEmpty()) {
+            Auftrag tAuftrag = auftragsQueue.peek();
+            if (tAuftrag.countObservers() == 0) {
+                tAuftrag.addObserver(this);
+                clock.addObserver(tAuftrag);
             }
-        }
+            for (Roboter r : roboterList) {
+                switch (r.getStatus()) {
+                    // Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
+                    default:
+                        if (tAuftrag.getUnterauftragsAnzahl() > 0) {
+                            try {
+                                tAuftrag.naechstenUnterauftragAusfuehren(r);
+                            } catch (Exception e) {
+                                Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
+                            }
+                        } else {
+                            break;
+                        }
 
+                        break;
+                }
+            }
+        } else {
+            // Keine Aufträge mehr vorhanden. Grid noch einmal neu zeichnen
+            setChanged();
+            notifyObservers();
+        }
     }
 
     public Collection<Ladestation> getLadestationen() {
@@ -204,12 +206,6 @@ public class Roboterleitsystem extends Observable implements Observer {
         return roboterList.get(roboterList.indexOf(r)).getPosition();
     }
 
-    private Runnable erstelleRoboterRunnable(Roboter roboter) {
-        Runnable runnable = () -> {
-
-        };
-        return runnable;
-    }
 
     private Runnable erstelleAuftragsRunnable(Auftrag a) {
         Runnable runnable = () -> {
@@ -242,18 +238,18 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         } else if (o instanceof Auftrag) {
             Auftrag a = (Auftrag) o;
-            if (a.getStatus() == AuftragsStatus.beendet) {
+           /* if (a.getStatus() == AuftragsStatus.beendet) {
                 // Wenn Auftrag beendet, dann aus der Queue entfernen
                 Auftrag auftrag = auftragsQueue.remove();
                 auftrag.deleteObservers();
                 verteileUnterauftraege();
             } else {
                 verteileUnterauftraege();
-            }
-            //runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
-            //naechstesRunnableAusQueueAusfuehren();
+            }*/
+            runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
+            naechstesRunnableAusQueueAusfuehren();
         } else if (o instanceof Clock) {
-            //  naechstesRunnableAusQueueAusfuehren();
+            naechstesRunnableAusQueueAusfuehren();
             for (Roboter r : roboterList) {
                 r.aktualisiereLadestand();
             }
