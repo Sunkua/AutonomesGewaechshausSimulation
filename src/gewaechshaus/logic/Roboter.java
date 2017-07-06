@@ -43,6 +43,7 @@ public class Roboter extends Observable implements Observer {
         for (PflanzenArt pa : pflanzenContainer) {
             as.pflanzeAufAbladestationAbladen(pa);
         }
+        pflanzenContainer.clear();
     }
 
     public Akku getAkku() {

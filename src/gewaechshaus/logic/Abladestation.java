@@ -2,20 +2,22 @@ package gewaechshaus.logic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Observable;
+import java.util.UUID;
 import java.util.logging.Level;
 
 
 /**
  * Implementiert die Funktionalität der Abladestation für Früchte.
  */
-public class Abladestation {
+public class Abladestation extends Observable{
 
-	private double fuellstand;
 	private AbladestationStatus status = AbladestationStatus.frei; // TODO Was ist Status?
 	private HashSet<PflanzenArt> pflanzenarten;
 	private ArrayList<PflanzenArt> container;
 	private Position gridPosition;
 	private AblageTyp ablagetyp;
+    private UUID id;
 
 	/**
 	 * Initialisiert eine Abladestation ohne Ablagetyp, Art und leerem Füllstand.
@@ -24,23 +26,18 @@ public class Abladestation {
 	 */
 	public Abladestation(Position position) {
 		this.gridPosition = position;
-		fuellstand = 0;
 		container = new ArrayList<>();
 		pflanzenarten = new HashSet<>();
 		ablagetyp = null;
 		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen.");
+        id = UUID.randomUUID();
 	}
 
-	/**
-	 * Aktualisiert den Füllstand der Abladestation.
-	 * 
-	 * @param fuellstand
-	 *            Neuer Füllstand
-	 */
-	public void updateFuellstand(int fuellstand) {
-		this.fuellstand = fuellstand;
-		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Fuellstand: "+fuellstand);
-	}
+
+    public UUID getID() {
+        return this.id;
+    }
+
 
 	/**
 	 * Gibt den Füllstand der Abladestation zurück.
@@ -48,15 +45,27 @@ public class Abladestation {
 	 * @return Aktueller Füllstand
 	 */
 	public double getFuellstand() {
-		return fuellstand;
+		double füllstand = 0;
+		for (PflanzenArt p : container){
+			switch(p){
+			case eTomate:
+				füllstand += Konstanten.GewichtTomate;
+				break;
+			case eGurke: 
+				füllstand += Konstanten.GewichtGurke;
+				break;
+			default:
+				break;
+			}
+		}
+		return füllstand;
 	}
 
 	/**
 	 * Leert die Station.
 	 */
 	public void leeren() {
-		fuellstand = 0;
-		pflanzenarten.clear();
+		container.clear();
 		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
 	}
 
@@ -78,6 +87,8 @@ public class Abladestation {
 
 	public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
 		container.add(pArt);
+		hasChanged();
+        notifyObservers();
 	}
 
 	public AbladestationStatus getStatus() {

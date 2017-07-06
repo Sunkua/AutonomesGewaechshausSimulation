@@ -74,6 +74,7 @@ public class FXGUI extends Application {
         r.AddAkku(new Akku(100, 90));
         r2.addObserver(eigenschaftsgrid);
         r2.AddAkku(new Akku(100, 90));
+        abladestation.addObserver(eigenschaftsgrid);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);

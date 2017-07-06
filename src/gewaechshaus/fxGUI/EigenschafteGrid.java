@@ -1,6 +1,7 @@
 package gewaechshaus.fxGUI;
 
 
+import gewaechshaus.logic.Abladestation;
 import gewaechshaus.logic.Roboter;
 import gewaechshaus.logic.Roboterleitsystem;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -23,6 +24,7 @@ public class EigenschafteGrid extends GridPane implements Observer {
 
 	TabPane tabPane;
 	RoboterTab roboterTab;
+	AblageTab ablageTab;
 
 	public EigenschafteGrid(Roboterleitsystem r) {
 		// TODO Auto-generated constructor stub
@@ -36,6 +38,11 @@ public class EigenschafteGrid extends GridPane implements Observer {
         roboterTab = new RoboterTab(r);
         roboterTab.setText("Roboter");
         tabPane.getTabs().add(roboterTab);
+        
+        ablageTab = new AblageTab(r);
+        ablageTab.setText("Ablagestationen");
+        tabPane.getTabs().add(ablageTab);
+        
         this.add(tabPane,0,1);
 	}
 
@@ -43,6 +50,9 @@ public class EigenschafteGrid extends GridPane implements Observer {
     public void update(Observable observable, Object o) {
         if (observable instanceof Roboter) {
         	roboterTab.UpdateData((Roboter) observable);
+        }
+        if (observable instanceof Abladestation){
+        	ablageTab.UpdateData((Abladestation) observable);
         }
     }
 }

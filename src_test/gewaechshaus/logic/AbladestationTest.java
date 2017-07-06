@@ -42,15 +42,6 @@ public class AbladestationTest {
 		assertNotNull(abladestation);
 	}
 
-	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#updateFuellstand(int)}.
-	 */
-	@Test
-	public void testUpdateFuellstand() {
-		int neuerFuellstand = 50;
-		abladestation.updateFuellstand(neuerFuellstand);
-		assertEquals(neuerFuellstand, abladestation.getFuellstand(), 0);
-	}
 
 	/**
 	 * Test method for {@link gewaechshaus.logic.Abladestation#leeren()}.
@@ -59,7 +50,6 @@ public class AbladestationTest {
 	public void testLeeren() {
 		abladestation.leeren();
 		assertEquals(0, abladestation.getFuellstand(), 0);
-		assertEquals(0, abladestation.getPflanzenart().size(), 0);
 	}
 
 }
