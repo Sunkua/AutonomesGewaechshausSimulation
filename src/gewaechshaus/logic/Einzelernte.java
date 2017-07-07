@@ -23,12 +23,6 @@ public class Einzelernte extends Unterauftrag {
      * @param roboterleitsystem Das Roboterleitsystem des Gewächshauses
      */
     public Einzelernte(Einzelpflanze ep, Roboterleitsystem roboterleitsystem) {
-        try {
-            Handler handler = new FileHandler(Konstanten.loggingFilePath);
-            log.addHandler(handler);
-        } catch (Exception e) {
-
-        }
         this.status = UnterauftragsStatus.erstellt;
         this.roboterleitsystem = roboterleitsystem;
         this.ep = ep;
