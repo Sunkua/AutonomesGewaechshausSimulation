@@ -85,6 +85,7 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
     public void update(Observable o, Object arg) {
 
         if (o instanceof Clock) {
+
             gc.clearRect(0, 0, this.getWidth(), this.getHeight());
             this.paint();
         }

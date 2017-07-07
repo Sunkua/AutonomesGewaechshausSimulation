@@ -187,6 +187,8 @@ public class FXGUI extends Application {
         stage.setOnCloseRequest(e -> {
             System.exit(0);
         });
+        canvas.paint();
         stage.show();
+
     }
 }

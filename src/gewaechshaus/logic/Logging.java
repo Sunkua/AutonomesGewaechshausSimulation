@@ -34,7 +34,7 @@ public class Logging {
      * @return Referenz des aktuellen Loggers
      */
     private static Logger getLogger() {
-    	if (logger == null) {
+        if (logger == null) {
     		try {
     			new Logging();
     		} catch (IOException e) {
@@ -52,7 +52,6 @@ public class Logging {
      */
     public static void log(String className, Level level, String msg) {
             getLogger().log(level, "Class: "+className+" Message: "+msg);
-
     }
 
 
