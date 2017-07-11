@@ -38,6 +38,11 @@ public class Pflanzenverwaltung extends Observable implements Observer {
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
 
+    /**
+     * Konstruktor für die Pflanzenverwaltung
+     *
+     * @param gitter gitter für die Maße des Gewächshauses und um die freien Positionen zu ermitteln
+     */
     public Pflanzenverwaltung(Gitter gitter) {
         super();
         this.gitter = gitter;
@@ -51,35 +56,11 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
-    public int getBreite() {
-        return breite;
-    }
-
-    public void setBreite(int breite) {
-        this.breite = breite;
-
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: " + breite);
-    }
-
-    public int getHoehe() {
-        return hoehe;
-    }
-
-    public void setHoehe(int hoehe) {
-        this.hoehe = hoehe;
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: " + hoehe);
-    }
-
-    private boolean ueberpruefePosition(Position p) {
-        if (p.getReihenID() <= maxGröße.getReihenID() &&
-                p.getSpaltenID() <= maxGröße.getSpaltenID() &&
-                p.getX() <= maxGröße.getX() &&
-                p.getY() <= maxGröße.getY()) {
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * Fügt eine Pflanze in das Gewächshaus und die Pflanzenverwaltung ein
+     * @param pflanzenArt Pflanzenart die hinzugefügt werden soll
+     * @throws Exception Wirft eine Exception, wenn keine freie Position für die Pflanze gefunden wurde
+     */
     public void pflanzeHinzufuegen(PflanzenArt pflanzenArt) throws Exception {
 
         Position p = gitter.naechsteFreiePflanzenPositionSuchen();
@@ -92,26 +73,29 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     }
 
-    public void pflanzeEntfernen(Position p) {
-        Einzelpflanze pflanze = pflanzenListe.get(p);
-        if (pflanze == null) {
-            Logging.log(this.getClass().getName(), Level.INFO, "Pflanze entfernen Befehl auf leeres Feld angewandt. Nichts wird getan");
-        } else {
-            pflanzenListe.remove(p);
+    /**
+     * Einzelpflanze, die entfernt werden soll
+     *
+     * @param einzelpflanze Einzelpflanze, die entfernt werden soll
+     */
+    public void pflanzeEntfernen(Einzelpflanze einzelpflanze) {
+        if (pflanzenListe.containsKey(einzelpflanze)) {
+            pflanzenListe.remove(einzelpflanze);
             setChanged();
             notifyObservers();
-            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + pflanze.toString() + " entfernt.");
+            Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + einzelpflanze.toString() + " entfernt.");
+        } else {
+            Logging.log(this.getClass().getName(), Level.WARNING, "Keine Pflanze an der Position gefunden. Fehler");
+            throw new NoSuchElementException("Keine Pflanze an der Position gefunden");
         }
     }
 
-    public void setMaxGröße(int zeilen, int spalten) {
-        maxGröße = new Position(spalten, zeilen);
-    }
 
-    public Position getMaxGröße() {
-        return maxGröße;
-    }
-
+    /**
+     * Gibt alle Pflanzen einer Art zurück
+     * @param pa Pflanzenart der Pflanzen in der Liste
+     * @return ArrayList mit Einzelpflanzen die der Art pa angehören
+     */
     public ArrayList<Einzelpflanze> holePflanzenVonArt(PflanzenArt pa) {
         ArrayList<Einzelpflanze> einzelpflanzen = new ArrayList<Einzelpflanze>();
 
@@ -125,6 +109,11 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         return einzelpflanzen;
     }
 
+    /**
+     * Gibt alle Pflanzen mit einem bestimmten Status zurück
+     * @param ps PflanzenStatus der Pflanzen in der Liste
+     * @return ArrayList mit Einzelpflanzen die den Status ps haben
+     */
     public ArrayList<Einzelpflanze> holePflanzenVonStatus(PflanzenStatus ps) {
         ArrayList<Einzelpflanze> einzelpflanzen = new ArrayList<Einzelpflanze>();
 
@@ -137,22 +126,42 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         return einzelpflanzen;
     }
 
+    /**
+     * Gibt alle Pflanzen von einem bestimmten Typ zurück
+     * @param pArt Pflanzenart der Pflanzen in der Map
+     * @return Map mit Einzelpflanzen die die selbe Pflanzenart pArt haben
+     */
     public Map<Position, Einzelpflanze> getPflanzenMapVonTyp(PflanzenArt pArt) {
         return pflanzenListe.entrySet().stream()
                 .filter(map -> map.getValue().getArt().equals(pArt))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    /**
+     * Gibt eine Map mit allen Pflanzen mit einem Status zurück
+     * @param pStatus Status der Pflanzen in der Map
+     * @return
+     */
     public Map<Position, Einzelpflanze> getPflanzenMapVonStatus(PflanzenStatus pStatus) {
         return pflanzenListe.entrySet().stream()
                 .filter(map -> map.getValue().getPflanzenstatus().equals(pStatus))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    /**
+     * Gibt eine Map mit allen Pflanzen zurück
+     * @return Map mit allen Pflanzen in der Pflanzenverwaltung
+     */
     public Map<Position, Einzelpflanze> getAllePflanzen() {
         return pflanzenListe;
     }
 
+    /**
+     * Gibt eine Pflanze von einer bestimmten Position zurück
+     * @param p Position an der nach der Pflanze gesucht werden soll
+     * @return Einzelpflanze der Position p
+     * @throws Exception Wirft eine Exception, wenn keine Pflanze gefunden wurde
+     */
     public Einzelpflanze holePflanzeVonPosition(Position p) throws Exception {
         Einzelpflanze pflanze = pflanzenListe.get(p);
         if (pflanze == null) {
@@ -162,6 +171,9 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         return pflanze;
     }
 
+    /**
+     * Speichert den Zustand der Pflanzenverwaltung in einer Datei
+     */
     public void pflanzenverwaltungZustandInDateiSpeichern() {
         try {
             JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
@@ -173,6 +185,9 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         }
     }
 
+    /**
+     * Liest den Zustand der Pflanzenverwaltung aus einer Datei und spielt diesen ein
+     */
     public void pflanzenVerwaltungZustandAusDateiLesen() {
         try {
             JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
@@ -186,6 +201,9 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     }
 
+    /**
+     * Löscht alle Pflanzen in der Pflanzenverwaltung
+     */
     public void löscheAllePflanzen() {
         this.pflanzenListe.clear();
     }
@@ -206,15 +224,23 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         return runnable;
     }
 
+    /**
+     * Führt das nächste Runnable aus der Queue aus
+     */
     private void naechstesRunnableAusQueueAusfuehren() {
         if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
             execService.execute(runnableQueueToExecute.poll());
         }
     }
 
+    /**
+     * Bei Clocktick wird ein Runnable erstellt, in die Queue eingefügt und das nächste getriggert
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Clock) {
+        if (o instanceof Uhr) {
             runnableQueueToExecute.add(wachsenRunnableErstellen());
             naechstesRunnableAusQueueAusfuehren();
         }

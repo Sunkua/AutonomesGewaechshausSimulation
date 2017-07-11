@@ -71,7 +71,7 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
 
         for (Abladestation al : roboterleitsystem.getAbladestationen()) {
             gc.setFill(Color.SADDLEBROWN);
-            gc.fillRect(al.getGridPosition().getSpaltenID() * size, al.getGridPosition().getReihenID() * size, size, size);
+            gc.fillRect(al.getPosition().getSpaltenID() * size, al.getPosition().getReihenID() * size, size, size);
         }
 
         for (Ladestation ls : roboterleitsystem.getLadestationen()) {
@@ -84,7 +84,7 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o instanceof Clock) {
+        if (o instanceof Uhr) {
 
             gc.clearRect(0, 0, this.getWidth(), this.getHeight());
             this.paint();

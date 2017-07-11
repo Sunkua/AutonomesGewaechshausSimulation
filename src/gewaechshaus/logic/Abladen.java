@@ -13,17 +13,28 @@ public class Abladen extends Unterauftrag {
 
     private Abladestation abladestation;
 
+    /**
+     * Konstruktor für einen Abladen-Unterauftrag
+     *
+     * @param rLeitsystem   Das Roboterleitsystem für die Berechnung der Wege
+     * @param abladestation Die Abladestation an der abgeladen werden soll
+     */
     public Abladen(Roboterleitsystem rLeitsystem, Abladestation abladestation) {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen.");
         this.roboterleitsystem = rLeitsystem;
         this.abladestation = abladestation;
         this.zustand = 0;
-        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
+        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getPosition());
         zielPosition = (Position) freieNachbarFelderVonAbladestation.toArray()[0];
     }
 
+    /**
+     * Berechnet die Zielposition, die vom Roboter angefahren werden soll. Soll immer eine Nachbarposition der
+     * eingegebenen Zielposition sein
+     * @return
+     */
     private Position berechneZielPosition() {
-        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getGridPosition());
+        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getPosition());
         return (Position) freieNachbarFelderVonAbladestation.toArray()[0];
     }
 
@@ -75,6 +86,10 @@ public class Abladen extends Unterauftrag {
         }
     }
 
+    /**
+     * Fährt den Roboter in Richtung einer seiner Nachbarpositionen
+     * @param roboter Roboter der fahren soll
+     */
     protected void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
@@ -112,7 +127,7 @@ public class Abladen extends Unterauftrag {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Clock) {
+        if (o instanceof Uhr) {
             ausfuehren(this.roboter);
         }
     }

@@ -4,15 +4,15 @@ import java.util.logging.Level;
 
 public class Position implements Comparable<Position> {
 
-    // private static final Logger log = Logger.getLogger(
-    // RelativePosition.class.getName() );
-
     private int spaltenID;
     private int reihenID;
 
     private double x;
     private double y;
 
+    /**
+     * Konstruktor eines nicht parametrisierten Positionsobjektes
+     */
     public Position() {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
@@ -166,6 +166,12 @@ public class Position implements Comparable<Position> {
         }
     }
 
+    /**
+     * Überschriebener Komparator um Positionen vergleichen zu können
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Position o) {
         // TODO Auto-generated method stub
@@ -176,7 +182,6 @@ public class Position implements Comparable<Position> {
         equals = reihenID == o.getReihenID();
         if (!equals) return 1;
         return 0;
-
     }
 
     /**
@@ -188,6 +193,12 @@ public class Position implements Comparable<Position> {
         return "X: " + this.getSpaltenID() + " Y: " + this.getReihenID();
     }
 
+
+    /**
+     * Überschriebene equals-Methode um zu prüfen ob Positionen äquivalent sind
+     * @param o Position zum vergleiche
+     * @return true wenn die Positionen übereinstimmen
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -204,6 +215,10 @@ public class Position implements Comparable<Position> {
         }
     }
 
+    /**
+     * Generiert einen HashCode aus den Attributen des Positionsobjektes
+     * @return
+     */
     @Override
     public int hashCode() {
         int result;

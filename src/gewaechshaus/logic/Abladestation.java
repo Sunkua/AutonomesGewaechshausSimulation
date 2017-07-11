@@ -34,6 +34,11 @@ public class Abladestation extends Observable{
 	}
 
 
+    /**
+     * Git die UUID zurück
+     *
+     * @return
+     */
     public UUID getID() {
         return this.id;
     }
@@ -64,53 +69,89 @@ public class Abladestation extends Observable{
 	/**
 	 * Leert die Station.
 	 */
-	public void leeren() {
-		container.clear();
-		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
-	}
+    public void leeren() {
+        container.clear();
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
+    }
 
-	public HashSet<PflanzenArt> getPflanzenart() {
-		return pflanzenarten;
-	}
+    /**
+     * Gibt alle Pflanzenarten für die Abladestation zurück
+     * @return
+     */
+    public HashSet<PflanzenArt> getPflanzenart() {
+        return pflanzenarten;
+    }
 
-	public void pflanzenArtHinzufuegen(PflanzenArt pArt) {
-		this.pflanzenarten.add(pArt);
-	}
+    /**
+     * Fügt der Abladestation eine Pflanzenart hinzu, für die Sie verantwortlich ist
+     * @param pArt Pflanzenart die hinzugefügt werden soll
+     */
+    public void pflanzenArtHinzufuegen(PflanzenArt pArt) {
+        this.pflanzenarten.add(pArt);
+    }
 
-	public void pflanzenArtEntfernen(PflanzenArt pArt) {
-		try {
-			this.pflanzenarten.remove(pArt);
-		} catch (Exception e) {
-			Logging.log(this.getClass().getName(), Level.WARNING, "Pflanzenart nicht im Set der Abladestation vorhanden");
-		}
-	}
+    /**
+     * Entfernt eine Pflanzenart aus der Verantwortlichkeit der Abladestation
+     * @param pArt Pflanzenart die entfernt werden soll
+     */
+    public void pflanzenArtEntfernen(PflanzenArt pArt) {
+        try {
+            this.pflanzenarten.remove(pArt);
+        } catch (Exception e) {
+            Logging.log(this.getClass().getName(), Level.WARNING, "Pflanzenart nicht im Set der Abladestation vorhanden");
+        }
+    }
 
-	public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
-		container.add(pArt);
-		setChanged();
-		notifyObservers();
-	}
+    /**
+     * Lädt eine Pflanze auf der Station ab
+     * @param pArt die Pflanzenart die abgeladen wird
+     */
+    public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
+        container.add(pArt);
+        setChanged();
+        notifyObservers();
+    }
 
-	public AbladestationStatus getStatus() {
-		return status;
-	}
+    /**
+     * Gibt den Status der Abladestation zurück
+     * @return Status der Abladestation
+     */
+    public AbladestationStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(AbladestationStatus as) {
-		this.status = as;
-	}
+    /**
+     * Setzt den Status einer Abladestation
+     * @param as Status, den die Abladestation haben soll
+     */
+    public void setStatus(AbladestationStatus as) {
+        this.status = as;
+    }
 
-	public Position getGridPosition() {
-		return gridPosition;
-	}
+    /**
+     * Setzt die Position der Abladestation
+     *
+     * @return Position der Abladestation
+     */
+    public Position getPosition() {
+        return gridPosition;
+    }
 
-	public AblageTyp getAblagetyp() {
-		return ablagetyp;
-	}
+    /**
+     * gibt den Typ der Abladestation zurück
+     * @return Typ der Abladestation
+     */
+    public AblageTyp getAblagetyp() {
+        return ablagetyp;
+    }
 
-	public void setAblagetyp(AblageTyp ablagetyp) {
-		this.ablagetyp = ablagetyp;
-		
-		Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ablagetyp gesetzt: "+ablagetyp.toString());
-	}
+    /**
+     * Setzt den Typ der Abladestation
+     * @param ablagetyp Typ der Abladestation
+     */
+    public void setAblagetyp(AblageTyp ablagetyp) {
+        this.ablagetyp = ablagetyp;
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ablagetyp gesetzt: "+ablagetyp.toString());
+    }
 
 }

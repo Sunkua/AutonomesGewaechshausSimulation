@@ -39,9 +39,9 @@ public class FXGUI extends Application {
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
-        Clock clock = new Clock(200);
-        Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, clock);
-        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, clock);
+        Uhr uhr = new Uhr(200);
+        Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
+        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, uhr);
         Position abladestelle = new Position(11f, 11f);
         gitter.toKarthesisch(abladestelle);
         Abladestation abladestation = new Abladestation(abladestelle);
@@ -54,8 +54,8 @@ public class FXGUI extends Application {
         pVerwaltung.addObserver(leitSystem);
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
-        clock.addObserver(leitSystem);
-        clock.addObserver(pVerwaltung);
+        uhr.addObserver(leitSystem);
+        uhr.addObserver(pVerwaltung);
 
 
 
@@ -104,7 +104,7 @@ public class FXGUI extends Application {
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 700, 700, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 3, 2, 2);
 
-        clock.addObserver(canvas);
+        uhr.addObserver(canvas);
 
         // Stage building
         stage.setScene(scene);
@@ -138,7 +138,7 @@ public class FXGUI extends Application {
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
-            clock.schritt();
+            uhr.schritt();
         });
         grid.add(simulationsSchritt, 0, 9);
 
@@ -147,12 +147,12 @@ public class FXGUI extends Application {
         Button timerPeriodeAktualisieren = new Button("Timer-Periodendauer setzen");
         NummerFeld simulationsPeriode = new NummerFeld();
 
-        timerStart.setOnAction(e -> clock.startTimer());
-        timerStop.setOnAction(e -> clock.stopTimer());
+        timerStart.setOnAction(e -> uhr.startTimer());
+        timerStop.setOnAction(e -> uhr.stopTimer());
         timerPeriodeAktualisieren.setOnAction(e -> {
             int schrittZeit = Integer.parseInt(simulationsPeriode.getText());
             if (schrittZeit > 0)
-                clock.setSchrittZeit(schrittZeit);
+                uhr.setSchrittZeit(schrittZeit);
 
         });
 

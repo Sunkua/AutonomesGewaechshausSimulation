@@ -1,8 +1,6 @@
 package gewaechshaus.logic;
 
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +30,11 @@ public class Einzelernte extends Unterauftrag {
         Logging.log(this.getClass().getName(), Level.INFO, "Einzelernte Unterauftrag erstellt");
     }
 
+    /**
+     * Gibt eine beliebige freie Nachbarposition der Zielposition zurück
+     *
+     * @return Nachbarposition der Zielpostion (eigentliche Zielposition)
+     */
     private Position berechneZielPosition() {
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
         return (Position) freieNachbarnVonPflanze.toArray()[0];
@@ -45,7 +48,7 @@ public class Einzelernte extends Unterauftrag {
      */
     @Override
     public void ausfuehren(Roboter roboter) {
-        // Zustand für Clock
+        // Zustand für Uhr
 
         this.status = UnterauftragsStatus.ausfuehrend;
         switch (zustand) {
@@ -103,6 +106,10 @@ public class Einzelernte extends Unterauftrag {
         }
     }
 
+    /**
+     * Fährt den Roboter zu einer seiner Nachbarpositionen
+     * @param roboter Robote der zu einer seiner Nachbarpositionen fahren soll
+     */
     protected void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
@@ -145,7 +152,7 @@ public class Einzelernte extends Unterauftrag {
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Clock) {
+        if (o instanceof Uhr) {
             ausfuehren(this.roboter);
         }
     }

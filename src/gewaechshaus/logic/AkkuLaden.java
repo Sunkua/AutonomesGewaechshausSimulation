@@ -12,6 +12,12 @@ public class AkkuLaden extends Unterauftrag {
 
     private Ladestation ladestation;
 
+    /**
+     * Konstruktor zum Erstellen eines Unterauftrags zum Laden des Akkus
+     *
+     * @param roboterleitsystem Leitsystem zur Berechnung der Wege
+     * @param ladestation       Ladestation an der aufgeladen werden soll
+     */
     public AkkuLaden(Roboterleitsystem roboterleitsystem, Ladestation ladestation) {
         this.ladestation = ladestation;
         this.roboterleitsystem = roboterleitsystem;
@@ -19,6 +25,10 @@ public class AkkuLaden extends Unterauftrag {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
+    /**
+     * Berechnet die Zielposition
+     * @return
+     */
     private Position berechneZielPosition() {
         List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(ladestation.getGridPosition());
         return (Position) freieNachbarFelderVonAbladestation.toArray()[0];
@@ -78,6 +88,10 @@ public class AkkuLaden extends Unterauftrag {
         }
     }
 
+    /**
+     * Fährt den Roboter zu einer seiner Nachbarpositionen
+     * @param roboter Roboter der zu einer seiner Nachbarpositionen fahren soll
+     */
     protected void fahreZuNachbarposition(Roboter roboter) {
         ArrayList<Position> wegListe;
         try {
@@ -113,9 +127,14 @@ public class AkkuLaden extends Unterauftrag {
         }
     }
 
+    /**
+     * Bei jedem Tick soll ausführen aufgerufen werden, wenn der Unterauftrag aktiv ist
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Clock) {
+        if (o instanceof Uhr) {
             ausfuehren(this.roboter);
         }
     }

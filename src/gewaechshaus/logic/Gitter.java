@@ -52,24 +52,27 @@ public class Gitter extends Observable implements Observer {
         p.berechneSpaltenPosition(gitter.length, gitterbreite);
     }
 
-    public void toGitterKoordinaten(Position p) {
-
-    }
-    
-    public Positionsbelegung getBelegung(int Reihe, int Spalte){
-    	if (Reihe < 0){
+    /**
+     * Gibt die Positionsbelegung an einer ReihenID und SpaltenID zurück
+     *
+     * @param reihenID  Reihenkoordinate bzgl. des Gitters
+     * @param spaltenID Spaltenkoordinate bzgl. des Gitters
+     * @return Gibt die Positionsbelegung an der, durch die ReihenID und SpaltenID definierten Position zurück
+     */
+    public Positionsbelegung getBelegung(int reihenID, int spaltenID) {
+        if (reihenID < 0) {
             throw new IndexOutOfBoundsException("Reihe kleiner Null");
-    	}
-    	if (Reihe >= getHoehe()){
+        }
+        if (reihenID >= getHoehe()){
             throw new IndexOutOfBoundsException("Reihe größer als breite");
-    	}
-    	if (Spalte < 0){
+        }
+        if (spaltenID < 0){
             throw new IndexOutOfBoundsException("Spalte kleiner NUll");
-    	}
-    	if (Spalte >= getBreite() ){
+        }
+        if (spaltenID >= getBreite() ){
             throw new IndexOutOfBoundsException("Spalte größer Breite");
-    	}
-    	return gitter[Spalte][Reihe];
+        }
+        return gitter[spaltenID][reihenID];
     }
 
     /**
@@ -199,6 +202,10 @@ public class Gitter extends Observable implements Observer {
         return freieNachbarn;
     }
 
+    /**
+     * Löscht die Roboterpositionen aus dem Grid.
+     * Dies wird benutzt zum aktualisieren der Positionen, wenn der / die Roboter sich um ein Kästchen bewegt / -en
+     */
     public void roboterPositionenBereinigen() {
         for (int i = 0; i < gitter.length; i++) {
             for (int j = 0; j < gitter[0].length; j++) {
@@ -410,7 +417,11 @@ public class Gitter extends Observable implements Observer {
         return gitter[x][y];
     }
 
-
+    /**
+     * Aktualisiert das Grid abhängig vom triggernden Subjekt
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Pflanzenverwaltung) {
@@ -428,7 +439,7 @@ public class Gitter extends Observable implements Observer {
 
             // Abladestationen eintragen
             for (Abladestation as : leitsystem.getAbladestationen()) {
-                this.setPosition(Positionsbelegung.abladestation, as.getGridPosition());
+                this.setPosition(Positionsbelegung.abladestation, as.getPosition());
             }
 
             for (Roboter r : leitsystem.getRoboter()) {

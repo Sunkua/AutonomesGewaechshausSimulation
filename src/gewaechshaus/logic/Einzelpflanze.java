@@ -1,6 +1,5 @@
 package gewaechshaus.logic;
 
-import java.util.Date;
 import java.util.logging.Level;
 
 /**
@@ -13,84 +12,131 @@ public class Einzelpflanze {
 	private Position position;
 	private PflanzenArt art;
 
-	public Einzelpflanze() {
+    /**
+     * Erstellt eine Einzelpflanze ohne Attribute
+     */
+    public Einzelpflanze() {
 
-		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
-	}
-	
-	public Einzelpflanze(PflanzenArt art, Position p, double gewicht, PflanzenStatus pflanzenStatus) {
-		this.art = art;
-		this.position = p;
-		this.gewicht = gewicht;
-		this.pflanzenStatus = pflanzenStatus;
-		switch(pflanzenStatus){
-		case eReif:
-			reifestatus = 100.0;
-			break;
-		case eUnreif:
-			reifestatus = 10.0;
-			break;
-		default:
-			reifestatus = 0.0;
-		}
-		
-		 Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
-	}
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+    }
 
-	public double getGewicht() {
-		return gewicht;
-	}
-	public void setGewicht(double gewicht) {
-		this.gewicht = gewicht;
-	}
-	public double getReifestatus(){
-		return reifestatus;
-	}
-	
-	public double getReifezeit() {
-		switch(art){
-		case eTomate:
-			return Konstanten.WachstumTomate;
-		case eGurke:
-			return Konstanten.WachstumGurke;
-		}
-		return 0; //ToDo Exception
-	}
-	
-	public PflanzenStatus getPflanzenstatus() {
-		return pflanzenStatus;
-	}
-	public void setPflanzenstatus(PflanzenStatus stat) {
-		this.pflanzenStatus = stat;
-		switch(pflanzenStatus){
-		case eReif:
-			reifestatus = 100.0;
-			break;
-		case eUnreif:
-			reifestatus = 10.0;
-			break;
-		default:
-			reifestatus = 0.0;
-		}
-	}
-	
+    /**
+     * Erstellt eine parametrisierte Einzelpflanze
+     * @param art Pflanzenart der Einzelpflanze
+     * @param p Position der Einzelpflanze
+     * @param gewicht Gewicht der Einzelpflanze
+     * @param pflanzenStatus Status der Einzelpflanze (Ob reif, faul etc.)
+     */
+    public Einzelpflanze(PflanzenArt art, Position p, double gewicht, PflanzenStatus pflanzenStatus) {
+        this.art = art;
+        this.position = p;
+        this.gewicht = gewicht;
+        this.pflanzenStatus = pflanzenStatus;
+        switch(pflanzenStatus){
+            case eReif:
+                reifestatus = 100.0;
+                break;
+            case eUnreif:
+                reifestatus = 10.0;
+                break;
+            default:
+                reifestatus = 0.0;
+        }
+
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+    }
+
+    /**
+     * Gibt das Gewicht der Pflanze in kg zurück
+     * @return Pflanzengewicht in kg
+     */
+    public double getGewicht() {
+        return gewicht;
+    }
+
+    /**
+     * Setzt das Gewicht der Pflanze in kg
+     * @param gewicht Pflanzengewicht in kg
+     */
+    public void setGewicht(double gewicht) {
+        this.gewicht = gewicht;
+    }
+
+    /**
+     * Gibt den Reifegrad der Pflanze zurück
+     * @return
+     */
+    public double getReifestatus(){
+        return reifestatus;
+    }
+
+
+    /**
+     * Gibt den Status der Pflanze zurück
+     * @return Pflanzenstatus
+     */
+    public PflanzenStatus getPflanzenstatus() {
+        return pflanzenStatus;
+    }
+
+    /**
+     * Setzt den Pflanzenstatus
+     * @param stat Pflanzenstatus
+     */
+    public void setPflanzenstatus(PflanzenStatus stat) {
+        this.pflanzenStatus = stat;
+        switch(pflanzenStatus){
+            case eReif:
+                reifestatus = 100.0;
+                break;
+            case eUnreif:
+                reifestatus = 10.0;
+                break;
+            default:
+                reifestatus = 0.0;
+        }
+    }
+
+    /**
+     * Setzt die Pflanzenart
+     * @param art Pflanzenart
+     */
 	public void setPflanzenart(PflanzenArt art) {
 		this.art = art;
-	}
-	
-	public void setPosition(Position p) {
-		this.position = p;
-	}
-	public Position getPosition() {
-		return position;
-	}
+    }
 
-	public PflanzenArt getArt() {
-		return art;
-	}
-	public void setArt(PflanzenArt art) {
-		this.art = art;
-	}
+    /**
+     * Gibt die Position der Pflanze zurück
+     * @return Pflanzenposition
+     */
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
+     * Setzt die Position der Pflanze
+     *
+     * @param p Pfanzenposition
+     */
+    public void setPosition(Position p) {
+        this.position = p;
+    }
+
+    /**
+     * Gibt die Art der Pflanze zurück
+     * @return
+     */
+    public PflanzenArt getArt() {
+        return art;
+    }
+
+    /**
+     * Setzt die Pflanzenart
+     * @param art Pflanzenart
+     */
+    public void setArt(PflanzenArt art) {
+        this.art = art;
+    }
 	
 	/**
 	 * Gibt die Informationen der Pflanze in lesbarer Form zurück
@@ -98,8 +144,11 @@ public class Einzelpflanze {
 	 */
 	public String toString() {
 		return "Art: "+this.getArt().toString()+" Reifegrad: "+this.getPflanzenstatus().toString()+" Position: "+this.getPosition().toString();
-	}
-	
+    }
+
+    /**
+     * Lässt die Pflanze wachsen / reifen
+     */
 	public void Wachse(){
 		switch(art){
 		case eTomate:

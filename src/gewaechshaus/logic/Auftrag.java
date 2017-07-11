@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -15,7 +18,7 @@ import java.util.stream.Collectors;
 public class Auftrag extends Observable implements Observer {
 
     private List<Unterauftrag> unterauftraege;
-    private Clock clock;
+    private Uhr uhr;
     private AuftragsStatus status;
     private LinkedBlockingQueue<Runnable> runnableQueue;
     private LinkedBlockingQueue<Runnable> executorQueue;
@@ -23,7 +26,13 @@ public class Auftrag extends Observable implements Observer {
     private Roboterleitsystem roboterleitsystem;
     private List<Unterauftrag> aktiveUnterauftraege;
 
-    public Auftrag(Clock clock, Roboterleitsystem roboterleitsystem) {
+    /**
+     * Erstellt einen Auftrag
+     *
+     * @param uhr               Uhr zum Triggern der Ereignisse
+     * @param roboterleitsystem Leitsystem zur Verteilung der Unteraufträge an die Roboter
+     */
+    public Auftrag(Uhr uhr, Roboterleitsystem roboterleitsystem) {
         runnableQueue = new LinkedBlockingQueue<>();
         executorQueue = new LinkedBlockingQueue<>();
 
@@ -33,7 +42,7 @@ public class Auftrag extends Observable implements Observer {
 
         aktiveUnterauftraege = new ArrayList<>();
         this.roboterleitsystem = roboterleitsystem;
-        this.clock = clock;
+        this.uhr = uhr;
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
         this.status = AuftragsStatus.bereit;
     }
@@ -116,7 +125,7 @@ public class Auftrag extends Observable implements Observer {
                 if (!pruefeObRoboterAktiv(r)) {
                     uAuftrag.setRoboter(r);
                     uAuftrag.addObserver(this);
-                    clock.addObserver(uAuftrag);
+                    uhr.addObserver(uAuftrag);
                     this.status = AuftragsStatus.ausfuehrend;
                     aktiveUnterauftraege.add(uAuftrag);
                 } else {
@@ -130,6 +139,11 @@ public class Auftrag extends Observable implements Observer {
 
     }
 
+    /**
+     * Prüft ob ein Roboter gerade einen Unterauftrag abarbeitet
+     * @param r zu prüfender Roboter
+     * @return true wenn Roboter beschäftigt ist, ansonsten false
+     */
     private boolean pruefeObRoboterAktiv(Roboter r) {
         for (Unterauftrag ua : aktiveUnterauftraege) {
             if (ua.getRoboter().equals(r)) {
@@ -140,6 +154,10 @@ public class Auftrag extends Observable implements Observer {
     }
 
 
+    /**
+     * Gibt eine Liste mit ausführbaren Unteraufträgen zurück
+     * @return Liste mit noch ausführbaren Unteraufträgen
+     */
     private List<Unterauftrag> getAusfuehrbareUnterauftraege() {
         return unterauftraege.stream()
                 .filter(el -> el.status.equals(UnterauftragsStatus.erstellt))
@@ -165,17 +183,26 @@ public class Auftrag extends Observable implements Observer {
     }
 
 
+    /**
+     * Führt das nächste Runnable aus der Runnable-Queue aus
+     */
     private void naechstesRunnableAusQueueAusfuehren() {
         if (runnableQueue.size() > 0 && executorQueue.isEmpty()) {
             execService.execute(runnableQueue.poll());
         }
     }
 
+    /**
+     * Erstellt ein Runnable auf Basis eines Unterauftrags. Das Runnable prüft ob der Unterauftrag beendet wurde und
+     * entfernt falls ja die Observer, damit der Unterauftrag nicht weiter getriggert wird.
+     * @param uAuftrag Unterauftrag Unterauftrag der im Runnable behandelt werden soll
+     * @return Gibt das erstellte Runnable zurück
+     */
     private Runnable unterauftragsRunnableErstellen(Unterauftrag uAuftrag) {
         Runnable r = () -> {
             if (uAuftrag.getStatus().equals(UnterauftragsStatus.beendet)) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
-                clock.deleteObserver(uAuftrag);
+                uhr.deleteObserver(uAuftrag);
                 uAuftrag.deleteObservers();
                 // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
                 if (this.unterauftraege.size() == 0) {
@@ -207,7 +234,7 @@ public class Auftrag extends Observable implements Observer {
              naechstesRunnableAusQueueAusfuehren();*/
        /*     if (uAuftrag.getStatus() == UnterauftragsStatus.beendet) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
-                clock.deleteObserver(uAuftrag);
+                uhr.deleteObserver(uAuftrag);
                 uAuftrag.deleteObservers();
                 // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
                 if (this.unterauftraege.size() == 0) {
@@ -219,7 +246,7 @@ public class Auftrag extends Observable implements Observer {
             }*/
             runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
             naechstesRunnableAusQueueAusfuehren();
-            if (o instanceof Clock) {
+            if (o instanceof Uhr) {
                 naechstesRunnableAusQueueAusfuehren();
             }
         }

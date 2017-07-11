@@ -1,6 +1,5 @@
 package gewaechshaus.logic;
 
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -9,32 +8,36 @@ import java.util.logging.Level;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 
-public class Clock extends java.util.Observable {
+public class Uhr extends java.util.Observable {
 
     private int schrittZeit;
     private ScheduledExecutorService scheduler =
             Executors.newSingleThreadScheduledExecutor();
     private Runnable task;
     private ScheduledFuture<?> futureTask;
-    private TimerTask timerTask;
 
-    public Clock(int schrittZeit) {
+    /**
+     * Erstellt ein Uhr-Objekt mit einer initialen Zeit pro Schritt in ms
+     *
+     * @param schrittZeit
+     */
+    public Uhr(int schrittZeit) {
         this.schrittZeit = schrittZeit;
-        task = new Runnable() {
-            @Override
-            public void run() {
-                exec();
-
-            }
-        };
-        log(Level.INFO, "Clock initialisiert");
+        task = () -> tick();
+        log(Level.INFO, "Uhr initialisiert");
     }
 
-    private synchronized void exec() {
+    /**
+     * Führt einen Tick der Uhr aus
+     */
+    public synchronized void tick() {
         setChanged();
         notifyObservers();
     }
 
+    /**
+     * Stoppt den Timer
+     */
     public void stopTimer() {
         if (futureTask != null) {
             futureTask.cancel(true);
@@ -42,12 +45,10 @@ public class Clock extends java.util.Observable {
         log(Level.INFO, "Simulationsuhr angehalten");
     }
 
-    public void schritt() {
-        setChanged();
-        notifyObservers();
-        log(Level.INFO, "Ein Simulationsschritt ausgeführt");
-    }
 
+    /**
+     * Startet den Timer
+     */
     public void startTimer() {
         if (futureTask == null) {
             futureTask = scheduler.scheduleAtFixedRate(task, 0, schrittZeit, MILLISECONDS);
@@ -55,6 +56,10 @@ public class Clock extends java.util.Observable {
         log(Level.INFO, "Simulationsuhr gestartet mit Periodendauert von: " + schrittZeit + "ms");
     }
 
+    /**
+     * Setzt die Schrittzeit
+     * @param schrittZeit Zeit die zwischen jedem Schritt gewartet werden soll. Angegeben in ms
+     */
     public void setSchrittZeit(int schrittZeit) {
         if (schrittZeit > 0) {
             if (futureTask != null) {
@@ -65,8 +70,14 @@ public class Clock extends java.util.Observable {
         log(Level.INFO, "Periodendauer auf: " + this.schrittZeit + "ms gesetzt");
     }
 
-    private void log(Level lv, String msg) {
-        Logging.log(this.getClass().getName(), lv, msg);
+    /**
+     * Wrapper auf die Log-Methode zur Vereinfachung
+     *
+     * @param lv        Loglevel
+     * @param nachricht Nachricht die geloggt werden soll
+     */
+    private void log(Level lv, String nachricht) {
+        Logging.log(this.getClass().getName(), lv, nachricht);
     }
 
 

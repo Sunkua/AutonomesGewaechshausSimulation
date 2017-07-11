@@ -16,11 +16,11 @@ public class Akku  extends Observable {
      * Generiert einen neuen Akku
      *
      * @param ladestand  Aktueller Ladezustand
-     * @param kritGrenze Kritischer, unterer Ladezustand
+     * @param kritischeGrenze Kritischer, unterer Ladezustand
      */
-    public Akku(double ladestand, double kritGrenze) {
+    public Akku(double ladestand, double kritischeGrenze) {
         if (istLadestandImGrenzbereich(ladestand)) {
-            this.kritischeGrenze = kritGrenze;
+            this.kritischeGrenze = kritischeGrenze;
             this.ladestand = ladestand;
         } else {
             Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Ladestand außerhalb des Gueltigkeitsbereichs!");
@@ -28,13 +28,17 @@ public class Akku  extends Observable {
         }
 
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: " + ladestand + " Kritische Grenze: " + kritGrenze);
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, "Ladestand: " + ladestand + " Kritische Grenze: " + kritischeGrenze);
         
         ladestandAlt = ladestand; 
         aktualisieren(0.0);
-
     }
 
+    /**
+     * Gibt den Ladestand des Akkus zurück
+     *
+     * @return
+     */
     public double getLadestand() {
         return this.ladestand;
     }
@@ -54,11 +58,16 @@ public class Akku  extends Observable {
             Logging.log(this.getClass().getSimpleName(), Level.SEVERE, "Neuer Ladestand außerhalb des Gueltigkeitsbereichs!");
             throw new IllegalArgumentException("Ausserhalb des zugelassenen Bereichs");
         }
-        
-        ladestandAlt = ladestand; 
+
+        ladestandAlt = ladestand;
         aktualisieren(0.0);
     }
 
+    /**
+     * Prüft ob der Ladestand innerhalb seines Grenzbereiches ist.
+     * @param ladestand Ladestand
+     * @return true wenn der Ladestand innerhalb des Grenzbereichs ist
+     */
     private boolean istLadestandImGrenzbereich(double ladestand) {
         return (ladestand <= 100 && ladestand >= 0);
     }
@@ -72,14 +81,22 @@ public class Akku  extends Observable {
         return (ladestand <= kritischeGrenze);
     }
 
+    /**
+     * Prüft ob der Akku leer ist
+     * @return True, wenn der Akku leer ist
+     */
     public boolean istLeer() {
         return (ladestand <= 0.0);
     }
 
+    /**
+     * Aktualisiert den Ladestand entsprechend der im Parameter angegebenen Schrittweite
+     * @param Schrittweite Schrittweite um die der Ladestand dekrementiert werden soll
+     */
     public void aktualisieren(double Schrittweite) {
         this.ladestand = this.ladestand + Schrittweite;
         this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
-        
+
         if(ladestand <= kritischeGrenze && ladestandAlt > kritischeGrenze){
             hasChanged();
             notifyObservers();
@@ -89,6 +106,6 @@ public class Akku  extends Observable {
             notifyObservers();
         }
         ladestandAlt = ladestand;
-        
-	}
+
+    }
 }
