@@ -51,6 +51,10 @@ public class Gitter extends Observable implements Observer {
         p.berechneReihenPosition(gitter[0].length, gitterhoehe);
         p.berechneSpaltenPosition(gitter.length, gitterbreite);
     }
+
+    public void toGitterKoordinaten(Position p) {
+
+    }
     
     public Positionsbelegung getBelegung(int Reihe, int Spalte){
     	if (Reihe < 0){
@@ -207,11 +211,18 @@ public class Gitter extends Observable implements Observer {
 
     /**
      * Sucht die nächste freie Position für eine Pflanze
-     *
+     * Gibt die erste, als Beet gekennzeichnete Position zurück
      * @return freie Position für die Pflanze
      * @throws Exception Exception wird geworfen, falls keine freie Position gefunden wurde
      */
     public Position naechsteFreiePflanzenPositionSuchen() throws Exception {
+        for (int i = 0; i < this.getBreite(); i++) {
+            for (int j = 0; j < this.getHoehe(); j++) {
+                if (this.gitter[i][j].equals(Positionsbelegung.beet)) {
+                    return new Position(i, j);
+                }
+            }
+        }/*
         for (int x = 1; x < this.getBreite() - 1; x++) {
             for (int y = 1; y < this.getHoehe() - 1; y++) {
                 if (this.gitter[x][y] == Positionsbelegung.frei && (x % Konstanten.beetBreite != 0) && (y % 4 == 2 || y % 4 == 3)) {
@@ -219,7 +230,7 @@ public class Gitter extends Observable implements Observer {
                     return new Position(x, y);
                 }
             }
-        }
+        }*/
         throw new Exception("Keine freie Position gefunden");
     }
 
@@ -347,6 +358,38 @@ public class Gitter extends Observable implements Observer {
     }
 
     /**
+     * Initialisiert die Positionen für Pflanzen als Beetbelegungen
+     */
+    public void initialisiereBeet() {
+        for (int x = 1; x < this.getBreite() - 1; x++) {
+            for (int y = 1; y < this.getHoehe() - 1; y++) {
+                if (this.gitter[x][y] == Positionsbelegung.frei && (x % Konstanten.beetBreite != 0) && (y % 4 == 2 || y % 4 == 3)) {
+                    gitter[x][y] = Positionsbelegung.beet;
+                }
+            }
+        }
+    }
+
+    /**
+     * Gibt eine beliebige freie Position für einen Roboter zurück
+     *
+     * @return Position für einen Roboter
+     */
+    public Position getNaechsteFreieRoboterPosition() throws Exception {
+        Position ergebnis;
+        for (int x = 0; x < this.getBreite(); x++) {
+            for (int y = 0; y < this.getHoehe(); y++) {
+                if (this.gitter[x][y] == Positionsbelegung.frei) {
+                    ergebnis = new Position(x, y);
+                    ergebnis.gitterNachKarthesisch(this.gitterbreite, this.gitterhoehe, getBreite(), getHoehe());
+                    return new Position(x, y);
+                }
+            }
+        }
+        throw new Exception("Keine freie Position gefunden");
+    }
+
+    /**
      * Liest die Belegung der Position aus
      *
      * @param p Position von der die Belegung gelesen werden soll
@@ -386,6 +429,10 @@ public class Gitter extends Observable implements Observer {
             // Abladestationen eintragen
             for (Abladestation as : leitsystem.getAbladestationen()) {
                 this.setPosition(Positionsbelegung.abladestation, as.getGridPosition());
+            }
+
+            for (Roboter r : leitsystem.getRoboter()) {
+                this.setPosition(Positionsbelegung.roboter, r.getPosition());
             }
         }
     }

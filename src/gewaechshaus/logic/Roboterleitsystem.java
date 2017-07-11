@@ -38,6 +38,20 @@ public class Roboterleitsystem extends Observable implements Observer {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
+    public void roboterHinzufuegen(Pflanzenverwaltung pflanzenverwaltung) {
+        try {
+            Roboter roboter = new Roboter(this, pflanzenverwaltung);
+            roboter.setPosition(gitter.getNaechsteFreieRoboterPosition());
+            roboter.setRoboterStatus(RoboterStatus.eBereit);
+            roboter.addObserver(this);
+            roboterList.add(roboter);
+            setChanged();
+            notifyObservers();
+        } catch (Exception e) {
+            Logging.log(this.getClass().getName(), Level.WARNING, "Keine freie Position gefunden. Roboter konnte nicht hinzugefügt werden");
+        }
+    }
+
 
     public List<Position> getFreieNachbarFelderVon(Position p) {
         List<Position> posListe = gitter.getFreieNachbarFelder(p);
@@ -70,19 +84,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
 
-    public boolean roboterHinzufuegen(Roboter r, Position p) {
-        if (gitter.getPositionsbelegung(p) == Positionsbelegung.frei) {
-            roboterList.add(r);
-            r.setPosition(p);
-            r.setRoboterStatus(RoboterStatus.eBereit);
-            r.addObserver(this);
-            setChanged();
-            notifyObservers();
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public Unterauftrag getUnterauftrag(int ID) {
         return null;

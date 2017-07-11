@@ -22,13 +22,10 @@ public class Roboter extends Observable implements Observer {
     public Roboter(Roboterleitsystem roboterleitsystem, Pflanzenverwaltung pv) {
         this.pv = pv;
         pflanzenContainer = new ArrayList<>();
-        akku = new Akku(100, 90);
+        akku = new Akku(100, Konstanten.kritischeLadeschwelle);
         id = UUID.randomUUID();
     }
-    public void AddAkku( Akku a){
-    	akku = a;
-    	akku.addObserver(this); // geht nicht .. warum auch immer..
-    }
+
 
     public UUID getID() {
         return this.id;
@@ -107,6 +104,7 @@ public class Roboter extends Observable implements Observer {
     }
 
     public void setPosition(Position position) {
+
         this.position = position;
     }
 

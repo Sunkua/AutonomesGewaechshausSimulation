@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.util.logging.Level;
+
 
 public class FXGUI extends Application {
     public static void main(String[] args) {
@@ -32,8 +34,10 @@ public class FXGUI extends Application {
 
         // TODO Auto-generated method
 
-        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(new Position(12, 12));
+
         Gitter gitter = new Gitter(12f, 12f, 12, 12);
+
+        Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
         Clock clock = new Clock(200);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, clock);
@@ -48,32 +52,25 @@ public class FXGUI extends Application {
 
 
         pVerwaltung.addObserver(leitSystem);
-
         pVerwaltung.addObserver(gitter);
-
         leitSystem.addObserver(gitter);
         clock.addObserver(leitSystem);
         clock.addObserver(pVerwaltung);
 
-        Roboter r = new Roboter(leitSystem, pVerwaltung);
-        Roboter r2 = new Roboter(leitSystem, pVerwaltung);
 
-        Position roboPos = new Position(5f, 5f);
-        Position roboPos2 = new Position(0f, 0f);
-        gitter.toKarthesisch(roboPos);
-        gitter.toKarthesisch(roboPos2);
-
-        leitSystem.roboterHinzufuegen(r, roboPos);
-        leitSystem.roboterHinzufuegen(r2, roboPos2);
 
         leitSystem.abladestationHinzufuegen(abladestation);
         leitSystem.ladestationHinzufuegen(ladestation);
 
+        // Roboter hinzufügen
+        leitSystem.roboterHinzufuegen(pVerwaltung);
+        leitSystem.roboterHinzufuegen(pVerwaltung);
+        leitSystem.roboterHinzufuegen(pVerwaltung);
+
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
-        r.addObserver(eigenschaftsgrid);
-        r.AddAkku(new Akku(100, 90));
-        r2.addObserver(eigenschaftsgrid);
-        r2.AddAkku(new Akku(100, 90));
+        for (Roboter r : leitSystem.getRoboter()) {
+            r.addObserver(eigenschaftsgrid);
+        }
         abladestation.addObserver(eigenschaftsgrid);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
@@ -101,7 +98,6 @@ public class FXGUI extends Application {
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
         grid.add(interaktionsGrid, 3, 3);
-
         grid.add(eigenschaftsgrid, 3, 4);
 
         // Canvas-Building, Event-Listeners redraw on rescale
@@ -166,20 +162,16 @@ public class FXGUI extends Application {
         grid.add(timerPeriodeAktualisieren, 1, 11);
         grid.add(simulationsPeriode, 0, 11);
 
-        for (int i = 0; i < gitter.getBreite(); i++) {
-            for (int j = 0; j < gitter.getHoehe(); j++) {
-                if (i % 5 != 0 && j % 3 != 0) {
-                    try {
-                        Position p = gitter.naechsteFreiePflanzenPositionSuchen();
-                        Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, p, 0.5, PflanzenStatus.eReif);
-                        pVerwaltung.pflanzeHinzufuegen(t);
-                    } catch (Exception e) {
-                        break;
-                    }
-                }
+
+        // Pflanzen hinzufügen
+        for (int i = 0; i < 5; i++) {
+            try {
+                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
+            } catch (Exception e) {
+                Logging.log(this.getClass().getName(), Level.WARNING, "Keine freie Pflanzenposition gefunden");
             }
         }
-       
 
         //  Einzelpflanze t = new Einzelpflanze(PflanzenArt.eGurke, new Position(5, 4), 0.5, PflanzenStatus.eReif, null);
         //pVerwaltung.pflanzeHinzufuegen(t);

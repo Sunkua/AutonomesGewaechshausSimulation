@@ -17,8 +17,8 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 
-@XmlRootElement(namespace = "gewaeshaus.logic")
-public class Pflanzenverwaltung extends Observable implements Observer{
+@XmlRootElement(namespace = "gewaechshaus.logic")
+public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Hält die Liste von Pflanzen inkl. deren Positionen
@@ -33,20 +33,21 @@ public class Pflanzenverwaltung extends Observable implements Observer{
     private double realeHoehe;
     private int breite;
     private int hoehe;
+    private Gitter gitter;
     private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
 
-    public Pflanzenverwaltung(Position maxGroeße) {
+    public Pflanzenverwaltung(Gitter gitter) {
         super();
-        this.maxGröße = maxGroeße;
+        this.gitter = gitter;
+        gitter.initialisiereBeet();
         pflanzenListe = new HashMap<>();
         runnableQueueToExecute = new LinkedBlockingQueue<>();
         executorQueue = new LinkedBlockingQueue<Runnable>();
         execService = new ThreadPoolExecutor(1, 1,
                 10, TimeUnit.MILLISECONDS,
                 executorQueue);
-
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
@@ -60,15 +61,12 @@ public class Pflanzenverwaltung extends Observable implements Observer{
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Breite gesetzt: " + breite);
     }
 
-
-
     public int getHoehe() {
         return hoehe;
     }
 
     public void setHoehe(int hoehe) {
         this.hoehe = hoehe;
-
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Hoehe gesetzt: " + hoehe);
     }
 
@@ -82,19 +80,18 @@ public class Pflanzenverwaltung extends Observable implements Observer{
         return false;
     }
 
-    public void pflanzeHinzufuegen(Einzelpflanze ep) {
-        if (!ueberpruefePosition(ep.getPosition())) {
-            throw new IndexOutOfBoundsException("Position außerhalb der Pflanzenverwaltung");
-        }
+    public void pflanzeHinzufuegen(PflanzenArt pflanzenArt) throws Exception {
+
+        Position p = gitter.naechsteFreiePflanzenPositionSuchen();
+        Einzelpflanze ep = new Einzelpflanze(pflanzenArt, p, Konstanten.GewichtGurke, PflanzenStatus.eUnreif);
         pflanzenListe.put(ep.getPosition(), ep);
         setChanged();
         notifyObservers();
-
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + ep.toString() + " hinzugefügt");
+
+
     }
 
-
-    //
     public void pflanzeEntfernen(Position p) {
         Einzelpflanze pflanze = pflanzenListe.get(p);
         if (pflanze == null) {
@@ -103,7 +100,6 @@ public class Pflanzenverwaltung extends Observable implements Observer{
             pflanzenListe.remove(p);
             setChanged();
             notifyObservers();
-
             Logging.log(this.getClass().getSimpleName(), Level.INFO, "Pflanze " + pflanze.toString() + " entfernt.");
         }
     }
@@ -138,7 +134,6 @@ public class Pflanzenverwaltung extends Observable implements Observer{
                 einzelpflanzen.add(pflanze);
             }
         }
-
         return einzelpflanzen;
     }
 
@@ -157,7 +152,6 @@ public class Pflanzenverwaltung extends Observable implements Observer{
     public Map<Position, Einzelpflanze> getAllePflanzen() {
         return pflanzenListe;
     }
-
 
     public Einzelpflanze holePflanzeVonPosition(Position p) throws Exception {
         Einzelpflanze pflanze = pflanzenListe.get(p);
@@ -192,12 +186,15 @@ public class Pflanzenverwaltung extends Observable implements Observer{
 
     }
 
-
     public void löscheAllePflanzen() {
-    	this.pflanzenListe.clear();
+        this.pflanzenListe.clear();
     }
 
-
+    /**
+     * Erstellt das Runnable für das Handling des Pflanzenwachstums
+     *
+     * @return Runnable, das alle Pflanzen wachsen lässt und den Canvas notified
+     */
     private Runnable wachsenRunnableErstellen() {
         Runnable runnable = () -> {
             for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
@@ -217,7 +214,7 @@ public class Pflanzenverwaltung extends Observable implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-    	if(o instanceof Clock){
+        if (o instanceof Clock) {
             runnableQueueToExecute.add(wachsenRunnableErstellen());
             naechstesRunnableAusQueueAusfuehren();
         }

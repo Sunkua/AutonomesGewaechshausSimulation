@@ -149,6 +149,23 @@ public class Position implements Comparable<Position> {
         } else throw new IndexOutOfBoundsException("MaxSpalten und MaxBreite müssen größer als 0 sein");
     }
 
+    /**
+     * Setzt die karthesischen Koordinaten bei einer Position, falls diese mit Integern erstellt wurde
+     *
+     * @param maxBreite
+     * @param maxHoehe
+     */
+    public void gitterNachKarthesisch(double maxBreite, double maxHoehe, int maxSpalten, int maxReihen) {
+        // Prüfe ob Position mit Fließkommawerten initialisiert wurde
+        if (this.getY() == 0 && this.getX() == 0) {
+            double einheitProSpalte = maxBreite / maxSpalten;
+            double einheitProReihe = maxReihen / maxHoehe;
+
+            this.setX(this.getSpaltenID() * einheitProSpalte);
+            this.setY(this.getReihenID() * einheitProReihe);
+        }
+    }
+
     @Override
     public int compareTo(Position o) {
         // TODO Auto-generated method stub
