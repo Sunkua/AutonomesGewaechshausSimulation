@@ -10,6 +10,7 @@ import org.mockito.junit.MockitoRule;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -80,10 +81,6 @@ public class PflanzenverwaltungTest {
             pv.holePflanzeVonPosition(ep.getPosition());
         }
     */
-    @Test
-    public void pflanze_von_leerer_Position_entfernen() throws Exception {
-        pv.pflanzeEntfernen(new Position(0, 0));
-    }
 
     @Test
     public void holePflanzenVonTyp() throws Exception {
@@ -111,12 +108,13 @@ public class PflanzenverwaltungTest {
 
     @Test
     public void getAllePflanzen_keine_Pflanzen_Im_System() {
-        for (Position p : map.keySet()) {
-            pv.pflanzeEntfernen(p);
+    	Map<Position, Einzelpflanze> allePflanzen = pv.getAllePflanzen();
+        for (Entry<Position, Einzelpflanze> pflanze : allePflanzen.entrySet()) {
+            pv.pflanzeEntfernen(pflanze.getValue());
         }
-        Map<Position, Einzelpflanze> ergebnis = pv.getAllePflanzen();
+        allePflanzen = pv.getAllePflanzen();
         
-        assertEquals(ergebnis.size(), 0);
+        assertEquals(allePflanzen.size(), 0);
     }
 
     @Test

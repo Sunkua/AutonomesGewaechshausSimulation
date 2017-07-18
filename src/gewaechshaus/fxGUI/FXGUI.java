@@ -41,7 +41,7 @@ public class FXGUI extends Application {
 
         Uhr uhr = new Uhr(200);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
-        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, gitter, uhr);
+        Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
         Position abladestelle = new Position(11f, 11f);
         gitter.toKarthesisch(abladestelle);
         Abladestation abladestation = new Abladestation(abladestelle);
@@ -138,7 +138,7 @@ public class FXGUI extends Application {
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
-            uhr.schritt();
+            uhr.tick();
         });
         grid.add(simulationsSchritt, 0, 9);
 
