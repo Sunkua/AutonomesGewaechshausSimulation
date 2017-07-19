@@ -77,32 +77,20 @@ public class FXGUI extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-
+        // Set width and height
+        Scene scene = new Scene(grid, 400, 400, Color.BLACK);
         // Left Pane
         Text scenetitle = new Text("Gewächshausverwaltungssoftware");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0);
-
-        Separator titleSeparator = new Separator();
-        grid.add(titleSeparator, 0, 2, 2, 1);
-
-        // Set width and height
-        Scene scene = new Scene(grid, 500, 500, Color.BLACK);
-
-        // Left-Right separator
-        Separator leftRightSeparator = new Separator();
-        leftRightSeparator.setOrientation(Orientation.VERTICAL);
-        grid.add(leftRightSeparator, 2, 2, 1, 10);
-
-
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
-        grid.add(interaktionsGrid, 3, 3);
-        grid.add(eigenschaftsgrid, 3, 4);
+        grid.add(interaktionsGrid, 3, 0);
+        grid.add(eigenschaftsgrid, 3, 1);
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 700, 700, pVerwaltung, leitSystem);
-        grid.add(canvas, 0, 3, 2, 2);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
+        grid.add(canvas, 0, 1, 2, 2);
 
         uhr.addObserver(canvas);
 
@@ -117,30 +105,19 @@ public class FXGUI extends Application {
         stage.setWidth(primaryScreenBounds.getWidth() - 150);
         stage.setHeight(primaryScreenBounds.getHeight() - 150);
 
-        TextField zeile = new TextField();
-        TextField spalte = new TextField();
-        Label lbZeile = new Label("Zeile");
-        Label lbSpalte = new Label("Spalte");
-
-        grid.add(lbZeile, 0, 6);
-        grid.add(zeile, 0, 7);
-        grid.add(lbSpalte, 1, 6);
-        grid.add(spalte, 1, 7);
-
-
         Button gurkenErnte = new Button("Gurken ernten");
         gurkenErnte.setOnAction(
                 e -> {
                     Auftrag gurkenErnten = auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke);
                     leitSystem.auftragHinzufuegen(gurkenErnten);
                 });
-        grid.add(gurkenErnte, 0, 8);
+        grid.add(gurkenErnte, 0, 4);
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
             uhr.tick();
         });
-        grid.add(simulationsSchritt, 0, 9);
+        grid.add(simulationsSchritt, 0, 5);
 
         Button timerStart = new Button("Simulationsuhr starten");
         Button timerStop = new Button("Simulationsuhr anhalten");
@@ -157,10 +134,10 @@ public class FXGUI extends Application {
         });
 
 
-        grid.add(timerStart, 0, 10);
-        grid.add(timerStop, 1, 10);
-        grid.add(timerPeriodeAktualisieren, 1, 11);
-        grid.add(simulationsPeriode, 0, 11);
+        grid.add(timerStart, 0, 6);
+        grid.add(timerStop, 1, 6);
+        grid.add(timerPeriodeAktualisieren, 1, 7);
+        grid.add(simulationsPeriode, 0, 7);
 
 
         // Pflanzen hinzufügen

@@ -30,7 +30,7 @@ public class AkkuLaden extends Unterauftrag {
      * @return
      */
     private Position berechneZielPosition() {
-        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(ladestation.getGridPosition());
+        List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(ladestation.getPosition());
         return (Position) freieNachbarFelderVonAbladestation.toArray()[0];
     }
 

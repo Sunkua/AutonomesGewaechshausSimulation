@@ -377,6 +377,18 @@ public class Gitter extends Observable implements Observer {
         }
     }
 
+    public ArrayList<Position> getWege() {
+        ArrayList<Position> positionen = new ArrayList<>();
+        for (int x = 0; x < this.getBreite(); x++) {
+            for (int y = 0; y < this.getHoehe(); y++) {
+                if (getPositionsbelegung(x, y).equals(Positionsbelegung.frei)) {
+                    positionen.add(new Position(x, y));
+                }
+            }
+        }
+        return positionen;
+    }
+
     /**
      * Gibt eine beliebige freie Position für einen Roboter zurück
      *
@@ -434,7 +446,7 @@ public class Gitter extends Observable implements Observer {
             Roboterleitsystem leitsystem = (Roboterleitsystem) o;
             // Ladestationen eintragen
             for (Ladestation ls : leitsystem.getLadestationen()) {
-                this.setPosition(Positionsbelegung.ladestation, ls.getGridPosition());
+                this.setPosition(Positionsbelegung.ladestation, ls.getPosition());
             }
 
             // Abladestationen eintragen

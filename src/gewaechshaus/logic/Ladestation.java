@@ -13,7 +13,7 @@ public class Ladestation {
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 
-    public Position getGridPosition() {
+    public Position getPosition() {
         return gridPosition;
     }
 

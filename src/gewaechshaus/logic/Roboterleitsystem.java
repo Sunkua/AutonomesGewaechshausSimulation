@@ -158,7 +158,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @param ladestation Ladestation zum Entfernen
      */
     public void ladestationEntfernen(Ladestation ladestation) {
-        ladestationen.remove(ladestation.getGridPosition());
+        ladestationen.remove(ladestation.getPosition());
     }
 
     /**
@@ -166,8 +166,8 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @param ladestation Ladestation zum Hinzufügen
      */
     public void ladestationHinzufuegen(Ladestation ladestation) {
-        if (gitter.getPositionsbelegung(ladestation.getGridPosition()).equals(Positionsbelegung.frei)) {
-            ladestationen.put(ladestation.getGridPosition(), ladestation);
+        if (gitter.getPositionsbelegung(ladestation.getPosition()).equals(Positionsbelegung.frei)) {
+            ladestationen.put(ladestation.getPosition(), ladestation);
             setChanged();
             notifyObservers();
         }
