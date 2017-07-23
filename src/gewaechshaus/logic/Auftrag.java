@@ -203,6 +203,8 @@ public class Auftrag extends Observable implements Observer {
             if (uAuftrag.getStatus().equals(UnterauftragsStatus.beendet)) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
                 uhr.deleteObserver(uAuftrag);
+                Roboter roboter = uAuftrag.getRoboter();
+                roboter.setUnterauftrag(null);
                 uAuftrag.deleteObservers();
                 // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
                 if (this.unterauftraege.size() == 0) {

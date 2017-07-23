@@ -51,6 +51,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
     public void setRoboter(Roboter r) {
         this.roboter = r;
         r.setRoboterStatus(RoboterStatus.eBeschaeftigt);
+        r.setUnterauftrag(this);
     }
 
     /**

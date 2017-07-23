@@ -15,6 +15,17 @@ public class Roboter extends Observable implements Observer {
     private Position vorherigePosition;
     private UUID id;
 
+    private Unterauftrag unterauftrag;
+
+    public Unterauftrag getUnterauftrag() {
+        return unterauftrag;
+    }
+
+    public void setUnterauftrag(Unterauftrag unterauftrag) {
+        this.unterauftrag = unterauftrag;
+        setChanged();
+        notifyObservers();
+    }
     private Pflanzenverwaltung pv;
     private Akku akku;
 

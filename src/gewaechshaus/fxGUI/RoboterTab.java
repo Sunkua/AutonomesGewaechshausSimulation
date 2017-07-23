@@ -2,6 +2,7 @@ package gewaechshaus.fxGUI;
 
 import gewaechshaus.logic.Roboter;
 import gewaechshaus.logic.Roboterleitsystem;
+import gewaechshaus.logic.Unterauftrag;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +23,8 @@ public class RoboterTab extends Tab {
 
         robotList = FXCollections.observableArrayList();
         for (Roboter robot : roboterleitsystem.getRoboter()) {
-            RobotRecord rec = new RobotRecord(robot.getID().toString(), robot.getPosition().toString(), "n/a", robot.getLadestand(), robot.getFüllstandString());
+
+            RobotRecord rec = new RobotRecord(robot.getID().toString(), robot.getPosition().toString(), unterauftragAlsString(robot.getUnterauftrag()), robot.getLadestand(), robot.getFüllstandString());
             robotList.add(rec);
         }
         robotTable = new TableView<>();
@@ -60,9 +62,18 @@ public class RoboterTab extends Tab {
                 rr.setFieldLadung(r.getLadestand());
                 rr.setFieldPosition(r.getPosition().toString());
                 rr.setFieldFüllstand(r.getFüllstandString());
+                rr.setFieldAuftrag(unterauftragAlsString(r.getUnterauftrag()));
                 robotTable.refresh();
                 break;
             }
+        }
+    }
+
+    private String unterauftragAlsString(Unterauftrag uAuftrag) {
+        if (uAuftrag == null) {
+            return "Kein aktueller Auftrag";
+        } else {
+            return uAuftrag.toString();
         }
     }
 

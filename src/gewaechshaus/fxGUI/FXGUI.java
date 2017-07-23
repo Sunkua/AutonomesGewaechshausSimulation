@@ -78,14 +78,14 @@ public class FXGUI extends Application {
         Text scenetitle = new Text("Gewächshausverwaltungssoftware");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0);
-        Aktionsgrid interaktionsGrid = new Aktionsgrid();
+        //   Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
 
-        grid.add(eigenschaftsgrid, 3, 2);
+
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
-        grid.add(canvas, 0, 1, 2, 2);
+        grid.add(canvas, 0, 4, 1, 2);
 
         uhr.addObserver(canvas);
 
@@ -100,19 +100,17 @@ public class FXGUI extends Application {
         stage.setWidth(primaryScreenBounds.getWidth() - 150);
         stage.setHeight(primaryScreenBounds.getHeight() - 150);
 
-        Button gurkenErnte = new Button("Gurken ernten");
-        gurkenErnte.setOnAction(
-                e -> {
-                    Auftrag gurkenErnten = auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke);
-                    leitSystem.auftragHinzufuegen(gurkenErnten);
-                });
-        grid.add(gurkenErnte, 0, 4);
+
+        GridPane simulationsGrid = new GridPane();
+        simulationsGrid.setHgap(10);
+        simulationsGrid.setVgap(10);
+        simulationsGrid.setPadding(new Insets(25, 25, 25, 25));
 
         Button simulationsSchritt = new Button("Simulationsschritt");
         simulationsSchritt.setOnAction(e -> {
             uhr.tick();
         });
-        grid.add(simulationsSchritt, 0, 5);
+
 
         Button timerStart = new Button("Simulationsuhr starten");
         Button timerStop = new Button("Simulationsuhr anhalten");
@@ -128,10 +126,12 @@ public class FXGUI extends Application {
 
         });
 
-        grid.add(timerStart, 0, 6);
-        grid.add(timerStop, 1, 6);
-        grid.add(timerPeriodeAktualisieren, 1, 7);
-        grid.add(simulationsPeriode, 0, 7);
+
+        simulationsGrid.add(timerStart, 0, 0);
+        simulationsGrid.add(timerStop, 1, 0);
+        simulationsGrid.add(timerPeriodeAktualisieren, 0, 2);
+        simulationsGrid.add(simulationsPeriode, 1, 2);
+        simulationsGrid.add(simulationsSchritt, 0, 3);
 
 
         ObservableList<String> options =
@@ -228,14 +228,14 @@ public class FXGUI extends Application {
         aktionsgrid.add(pflanzenAuswahl, 0, 0);
         aktionsgrid.add(pflanzeHinzufuegen, 0, 1);
         aktionsgrid.add(pflanzenEinerArtErnten, 1, 1);
-        aktionsgrid.add(pflanzenEinerArtScannen, 1, 2);
-        aktionsgrid.add(reifePflanzenErnten, 2, 2);
+        aktionsgrid.add(pflanzenEinerArtScannen, 0, 2);
+        aktionsgrid.add(reifePflanzenErnten, 1, 2);
 
-        grid.add(aktionsgrid, 3, 0);
+        grid.add(aktionsgrid, 3, 0, 1, 2);
         Separator sep = new Separator();
-        grid.add(sep, 3, 1);
-
-
+        grid.add(sep, 3, 2);
+        grid.add(simulationsGrid, 3, 3, 1, 2);
+        grid.add(eigenschaftsgrid, 3, 5);
 
 
 
