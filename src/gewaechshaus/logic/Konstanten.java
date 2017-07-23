@@ -14,6 +14,6 @@ public class Konstanten {
     public static int maximalerFuellstand = 2;
     public static double GewichtGurke = 0.3;
     public static double GewichtTomate = 0.2;
-    public static double WachstumGurke = 0.1; // % pro Uhr-Tick
-    public static double WachstumTomate = 0.1;// % pro Uhr-Tick
+    public static double WachstumGurke = 0.5; // % pro Uhr-Tick
+    public static double WachstumTomate = 0.5;// % pro Uhr-Tick
 }

@@ -67,7 +67,7 @@ public class Uhr extends java.util.Observable {
             }
             futureTask = scheduler.scheduleAtFixedRate(task, 0, schrittZeit, MILLISECONDS);
         }
-        log(Level.INFO, "Periodendauer auf: " + this.schrittZeit + "ms gesetzt");
+        log(Level.INFO, "Periodendauer auf: " + schrittZeit + "ms gesetzt");
     }
 
     /**

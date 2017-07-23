@@ -153,11 +153,17 @@ public class Einzelpflanze {
 		switch(art){
 		case eTomate:
 			reifestatus += Konstanten.WachstumTomate;
+
 		case eGurke:
 			reifestatus += Konstanten.WachstumGurke;
-		}
 
-		reifestatus = Math.max(Math.min(reifestatus, 100), 0);
+        }
+        reifestatus = Math.max(Math.min(reifestatus, 100), 0);
+
+        if (reifestatus == 100) {
+            setPflanzenstatus(PflanzenStatus.eReif);
+        }
+
 	}
 		
 }

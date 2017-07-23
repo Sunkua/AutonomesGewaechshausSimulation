@@ -2,15 +2,13 @@ package gewaechshaus.fxGUI;
 
 import gewaechshaus.logic.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,6 +17,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 
@@ -30,11 +31,7 @@ public class FXGUI extends Application {
 
     @Override
     public void start(Stage stage) {
-
-
         // TODO Auto-generated method
-
-
         Gitter gitter = new Gitter(12f, 12f, 12, 12);
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
@@ -50,13 +47,11 @@ public class FXGUI extends Application {
         gitter.toKarthesisch(ladestelle);
         Ladestation ladestation = new Ladestation(ladestelle);
 
-
         pVerwaltung.addObserver(leitSystem);
         pVerwaltung.addObserver(gitter);
         leitSystem.addObserver(gitter);
         uhr.addObserver(leitSystem);
         uhr.addObserver(pVerwaltung);
-
 
 
         leitSystem.abladestationHinzufuegen(abladestation);
@@ -85,8 +80,8 @@ public class FXGUI extends Application {
         grid.add(scenetitle, 0, 0);
         Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
-        grid.add(interaktionsGrid, 3, 0);
-        grid.add(eigenschaftsgrid, 3, 1);
+
+        grid.add(eigenschaftsgrid, 3, 2);
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
@@ -133,11 +128,121 @@ public class FXGUI extends Application {
 
         });
 
-
         grid.add(timerStart, 0, 6);
         grid.add(timerStop, 1, 6);
         grid.add(timerPeriodeAktualisieren, 1, 7);
         grid.add(simulationsPeriode, 0, 7);
+
+
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "Gurken",
+                        "Tomaten"
+                );
+        ComboBox pflanzenAuswahl = new ComboBox(options);
+        pflanzenAuswahl.setValue("Gurken");
+
+        // Pflanze hinzufügen
+        Button pflanzeHinzufuegen = new Button("Pflanze Hinzufügen");
+        pflanzeHinzufuegen.setOnAction(e -> {
+            String comboboxWert = (String) pflanzenAuswahl.getValue();
+            try {
+                switch (comboboxWert) {
+                    case "Gurken":
+                        pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
+                        canvas.paint();
+                        break;
+                    case "Tomaten":
+                        pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+                        canvas.paint();
+                        break;
+                    default:
+                        Logging.log(this.getClass().getName(), Level.WARNING, "ungültiger Wert aus Combobox für das Hinzufügen ausgewählt");
+                        break;
+                }
+            } catch (Exception ex) {
+                // Hier Info-Dialog einfügen
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText(null);
+                alert.setContentText("Achtung, es konnte keine Pflanze hinzugefügt werden, da das Gewächshaus über keine weiteren leeren Beete verfügt");
+                alert.showAndWait();
+                Logging.log(this.getClass().getName(), Level.WARNING, "Pflanze konnte nicht hinzugefügt werden");
+            }
+        });
+
+
+        // Reife Pflanzen ernten
+        Button reifePflanzenErnten = new Button("Reife Pflanzen ernten");
+        reifePflanzenErnten.setOnAction(e -> {
+            leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonStatusErnten(PflanzenStatus.eReif));
+        });
+
+        Button pflanzenEinerArtErnten = new Button("Pflanzen einer Art ernten");
+        pflanzenEinerArtErnten.setOnAction(e -> {
+            List<String> choices = new ArrayList<>();
+            choices.add("Tomaten");
+            choices.add("Gurken");
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Gurken", choices);
+            dialog.setTitle("Pflanzenart-Auswahl");
+            dialog.setContentText("Bitte wählen Sie eine zu erntende Pflanzenart");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(pArt -> {
+                switch (pArt) {
+                    case "Tomaten":
+                        leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eTomate));
+                        break;
+                    case "Gurken":
+                        leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonArtErnten(PflanzenArt.eGurke));
+                        break;
+                }
+            });
+        });
+
+        Button pflanzenEinerArtScannen = new Button("Pflanzen einer Art scannen");
+        pflanzenEinerArtScannen.setOnAction(e -> {
+            List<String> choices = new ArrayList<>();
+            choices.add("Tomaten");
+            choices.add("Gurken");
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("Gurken", choices);
+            dialog.setTitle("Pflanzenart-Auswahl");
+            dialog.setContentText("Bitte wählen Sie eine zu scannende Pflanzenart");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(pArt -> {
+                switch (pArt) {
+                    case "Tomaten":
+                        leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonArtScannen(PflanzenArt.eTomate));
+                        break;
+                    case "Gurken":
+                        leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonArtScannen(PflanzenArt.eGurke));
+                        break;
+                }
+            });
+        });
+
+
+        GridPane aktionsgrid = new GridPane();
+        aktionsgrid.setHgap(10);
+        aktionsgrid.setVgap(10);
+        aktionsgrid.setPadding(new Insets(25, 25, 25, 25));
+        aktionsgrid.add(pflanzenAuswahl, 0, 0);
+        aktionsgrid.add(pflanzeHinzufuegen, 0, 1);
+        aktionsgrid.add(pflanzenEinerArtErnten, 1, 1);
+        aktionsgrid.add(pflanzenEinerArtScannen, 1, 2);
+        aktionsgrid.add(reifePflanzenErnten, 2, 2);
+
+        grid.add(aktionsgrid, 3, 0);
+        Separator sep = new Separator();
+        grid.add(sep, 3, 1);
+
+
+
+
+
+
+
+
+
 
 
         // Pflanzen hinzufügen
