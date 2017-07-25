@@ -146,7 +146,7 @@ public class PositionTest {
 	@Test
 	public void hashCode_mit_Integer_Initialisierung() {
 		position = new Position(10, 10);
-		assertEquals(position.hashCode(), 307520);
+		assertEquals(position.hashCode(), 75804992);
 	}
 
 	@Test

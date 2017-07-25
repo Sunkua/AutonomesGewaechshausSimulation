@@ -54,6 +54,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Fügt eine Pflanze in das Gewächshaus und die Pflanzenverwaltung ein
+     *
      * @param pflanzenArt Pflanzenart die hinzugefügt werden soll
      * @throws Exception Wirft eine Exception, wenn keine freie Position für die Pflanze gefunden wurde
      */
@@ -89,6 +90,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt alle Pflanzen einer Art zurück
+     *
      * @param pa Pflanzenart der Pflanzen in der Liste
      * @return ArrayList mit Einzelpflanzen die der Art pa angehören
      */
@@ -107,6 +109,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt alle Pflanzen mit einem bestimmten Status zurück
+     *
      * @param ps PflanzenStatus der Pflanzen in der Liste
      * @return ArrayList mit Einzelpflanzen die den Status ps haben
      */
@@ -124,6 +127,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt alle Pflanzen von einem bestimmten Typ zurück
+     *
      * @param pArt Pflanzenart der Pflanzen in der Map
      * @return Map mit Einzelpflanzen die die selbe Pflanzenart pArt haben
      */
@@ -135,6 +139,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt eine Map mit allen Pflanzen mit einem Status zurück
+     *
      * @param pStatus Status der Pflanzen in der Map
      * @return
      */
@@ -146,6 +151,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt eine Map mit allen Pflanzen zurück
+     *
      * @return Map mit allen Pflanzen in der Pflanzenverwaltung
      */
     public Map<Position, Einzelpflanze> getAllePflanzen() {
@@ -154,6 +160,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Gibt eine Pflanze von einer bestimmten Position zurück
+     *
      * @param p Position an der nach der Pflanze gesucht werden soll
      * @return Einzelpflanze der Position p
      * @throws Exception Wirft eine Exception, wenn keine Pflanze gefunden wurde
@@ -230,6 +237,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     /**
      * Bei Clocktick wird ein Runnable erstellt, in die Queue eingefügt und das nächste getriggert
+     *
      * @param o
      * @param arg
      */

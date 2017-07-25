@@ -1,6 +1,8 @@
 package gewaechshaus.logic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 import java.util.logging.Level;
 
 /**
@@ -121,6 +123,7 @@ public class Einzelernte extends Unterauftrag {
 
     /**
      * Fährt den Roboter zu einer seiner Nachbarpositionen
+     *
      * @param roboter Robote der zu einer seiner Nachbarpositionen fahren soll
      */
     protected void fahreZuNachbarposition(Roboter roboter) {
@@ -156,6 +159,7 @@ public class Einzelernte extends Unterauftrag {
             roboter.warte();
         }
     }
+
     /**
      * Update-Methode des Observers. Wird bei jedem Schritt der Uhr gecalled
      *

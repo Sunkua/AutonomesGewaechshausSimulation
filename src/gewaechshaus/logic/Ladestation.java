@@ -10,7 +10,7 @@ public class Ladestation {
     public Ladestation(Position pos) {
         status = LadestationStatus.frei;
         gridPosition = pos;
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
     }
 
     public Position getPosition() {

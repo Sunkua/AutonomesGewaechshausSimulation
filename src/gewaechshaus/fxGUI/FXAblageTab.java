@@ -18,10 +18,10 @@ public class FXAblageTab extends Tab {
 
     public FXAblageTab(Roboterleitsystem r) {
         super();
-		roboterleitsystem = r;
+        roboterleitsystem = r;
 
         abladeList = FXCollections.observableArrayList();
-        for ( Abladestation a : roboterleitsystem.getAbladestationen()){
+        for (Abladestation a : roboterleitsystem.getAbladestationen()) {
             AblageRecord rec = new AblageRecord(a.getID().toString(), a.getPosition().toString(), String.format("%.2f", a.getFuellstand()) + " kg");
             abladeList.add(rec);
         }
@@ -44,17 +44,17 @@ public class FXAblageTab extends Tab {
         abladeTable.setItems(abladeList);
 
         setContent(abladeTable);
-	}
+    }
 
-    public void UpdateData(Abladestation a){
-		 for (AblageRecord ar : this.abladeList) {
-		     if (ar.getFieldName().equals(a.getID().toString())) {
-		         //TODO Auftrag vom Leitsystem erfragen
-		         ar.setFieldFüllstand(String.format("%.2f", a.getFuellstand()));
-		         abladeTable.refresh();
-		         break;
-		     }
-		 }
+    public void UpdateData(Abladestation a) {
+        for (AblageRecord ar : this.abladeList) {
+            if (ar.getFieldName().equals(a.getID().toString())) {
+                //TODO Auftrag vom Leitsystem erfragen
+                ar.setFieldFüllstand(String.format("%.2f", a.getFuellstand()));
+                abladeTable.refresh();
+                break;
+            }
+        }
     }
 
     public class AblageRecord {

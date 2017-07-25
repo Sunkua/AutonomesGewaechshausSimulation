@@ -30,6 +30,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
 
     /**
      * Führt einen Unterauftrag aus
+     *
      * @param roboter Roboter auf dem der Unterauftrag ausgeführt werden soll
      */
     public void ausfuehren(Roboter roboter) {
@@ -38,6 +39,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
 
     /**
      * Gibt den Roboter zurück, der dem Unterauftrag zugewiesen ist
+     *
      * @return
      */
     public Roboter getRoboter() {
@@ -46,6 +48,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
 
     /**
      * Setzt den Roboter des Unterauftrags
+     *
      * @param r Roboter für den Unterauftrag
      */
     public void setRoboter(Roboter r) {

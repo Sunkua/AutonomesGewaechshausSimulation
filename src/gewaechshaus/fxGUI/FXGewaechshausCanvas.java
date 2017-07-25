@@ -7,7 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by sunku on 06.06.2017.
@@ -27,7 +28,11 @@ public class FXGewaechshausCanvas extends Canvas {
     private AnimationTimer animationsTimer;
 
     public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe, Pflanzenverwaltung pflanzenverwaltung, Roboterleitsystem roboterleitsystem) {
+
+
         super(breite, hoehe);
+
+
         animationsTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -110,7 +115,6 @@ public class FXGewaechshausCanvas extends Canvas {
         }
 
     }
-
 
 
 }

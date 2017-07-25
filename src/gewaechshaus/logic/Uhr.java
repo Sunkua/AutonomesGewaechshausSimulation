@@ -58,6 +58,7 @@ public class Uhr extends java.util.Observable {
 
     /**
      * Setzt die Schrittzeit
+     *
      * @param schrittZeit Zeit die zwischen jedem Schritt gewartet werden soll. Angegeben in ms
      */
     public void setSchrittZeit(int schrittZeit) {

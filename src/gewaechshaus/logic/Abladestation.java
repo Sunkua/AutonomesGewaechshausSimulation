@@ -10,28 +10,28 @@ import java.util.logging.Level;
 /**
  * Implementiert die Funktionalität der Abladestation für Früchte.
  */
-public class Abladestation extends Observable{
+public class Abladestation extends Observable {
 
-	private AbladestationStatus status = AbladestationStatus.frei; // TODO Was ist Status?
-	private HashSet<PflanzenArt> pflanzenarten;
-	private ArrayList<PflanzenArt> container;
-	private Position gridPosition;
-	private AblageTyp ablagetyp;
+    private AbladestationStatus status = AbladestationStatus.frei; // TODO Was ist Status?
+    private HashSet<PflanzenArt> pflanzenarten;
+    private ArrayList<PflanzenArt> container;
+    private Position gridPosition;
+    private AblageTyp ablagetyp;
     private UUID id;
 
-	/**
-	 * Initialisiert eine Abladestation ohne Ablagetyp, Art und leerem Füllstand.
-	 * 
-	 * @param position Position im Gewächtshaus
-	 */
-	public Abladestation(Position position) {
-		this.gridPosition = position;
-		container = new ArrayList<>();
-		pflanzenarten = new HashSet<>();
-		ablagetyp = null;
-		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen.");
+    /**
+     * Initialisiert eine Abladestation ohne Ablagetyp, Art und leerem Füllstand.
+     *
+     * @param position Position im Gewächtshaus
+     */
+    public Abladestation(Position position) {
+        this.gridPosition = position;
+        container = new ArrayList<>();
+        pflanzenarten = new HashSet<>();
+        ablagetyp = null;
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen.");
         id = UUID.randomUUID();
-	}
+    }
 
 
     /**
@@ -44,31 +44,31 @@ public class Abladestation extends Observable{
     }
 
 
-	/**
-	 * Gibt den Füllstand der Abladestation zurück.
-	 * 
-	 * @return Aktueller Füllstand
-	 */
-	public double getFuellstand() {
-		double füllstand = 0;
-		for (PflanzenArt p : container){
-			switch(p){
-			case eTomate:
-				füllstand += Konstanten.GewichtTomate;
-				break;
-			case eGurke: 
-				füllstand += Konstanten.GewichtGurke;
-				break;
-			default:
-				break;
-			}
-		}
-		return füllstand;
-	}
+    /**
+     * Gibt den Füllstand der Abladestation zurück.
+     *
+     * @return Aktueller Füllstand
+     */
+    public double getFuellstand() {
+        double füllstand = 0;
+        for (PflanzenArt p : container) {
+            switch (p) {
+                case eTomate:
+                    füllstand += Konstanten.GewichtTomate;
+                    break;
+                case eGurke:
+                    füllstand += Konstanten.GewichtGurke;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return füllstand;
+    }
 
-	/**
-	 * Leert die Station.
-	 */
+    /**
+     * Leert die Station.
+     */
     public void leeren() {
         container.clear();
         Logging.log(this.getClass().getSimpleName(), Level.INFO, "Station geleert");
@@ -76,6 +76,7 @@ public class Abladestation extends Observable{
 
     /**
      * Gibt alle Pflanzenarten für die Abladestation zurück
+     *
      * @return
      */
     public HashSet<PflanzenArt> getPflanzenart() {
@@ -84,6 +85,7 @@ public class Abladestation extends Observable{
 
     /**
      * Fügt der Abladestation eine Pflanzenart hinzu, für die Sie verantwortlich ist
+     *
      * @param pArt Pflanzenart die hinzugefügt werden soll
      */
     public void pflanzenArtHinzufuegen(PflanzenArt pArt) {
@@ -92,6 +94,7 @@ public class Abladestation extends Observable{
 
     /**
      * Entfernt eine Pflanzenart aus der Verantwortlichkeit der Abladestation
+     *
      * @param pArt Pflanzenart die entfernt werden soll
      */
     public void pflanzenArtEntfernen(PflanzenArt pArt) {
@@ -104,6 +107,7 @@ public class Abladestation extends Observable{
 
     /**
      * Lädt eine Pflanze auf der Station ab
+     *
      * @param pArt die Pflanzenart die abgeladen wird
      */
     public void pflanzeAufAbladestationAbladen(PflanzenArt pArt) {
@@ -114,6 +118,7 @@ public class Abladestation extends Observable{
 
     /**
      * Gibt den Status der Abladestation zurück
+     *
      * @return Status der Abladestation
      */
     public AbladestationStatus getStatus() {
@@ -122,6 +127,7 @@ public class Abladestation extends Observable{
 
     /**
      * Setzt den Status einer Abladestation
+     *
      * @param as Status, den die Abladestation haben soll
      */
     public void setStatus(AbladestationStatus as) {
@@ -139,6 +145,7 @@ public class Abladestation extends Observable{
 
     /**
      * gibt den Typ der Abladestation zurück
+     *
      * @return Typ der Abladestation
      */
     public AblageTyp getAblagetyp() {
@@ -147,11 +154,12 @@ public class Abladestation extends Observable{
 
     /**
      * Setzt den Typ der Abladestation
+     *
      * @param ablagetyp Typ der Abladestation
      */
     public void setAblagetyp(AblageTyp ablagetyp) {
         this.ablagetyp = ablagetyp;
-        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ablagetyp gesetzt: "+ablagetyp.toString());
+        Logging.log(this.getClass().getSimpleName(), Level.INFO, "Neuer Ablagetyp gesetzt: " + ablagetyp.toString());
     }
 
 }

@@ -14,14 +14,14 @@ import java.util.Observer;
 
 public class FXEigenschaftenGUI extends GridPane implements Observer {
 
-	TabPane tabPane;
+    TabPane tabPane;
     FXRoboterTab roboterTab;
     FXAblageTab ablageTab;
 
     public FXEigenschaftenGUI(Roboterleitsystem r) {
         // TODO Auto-generated constructor stub
-		super();
-		this.setAlignment(Pos.CENTER_LEFT);
+        super();
+        this.setAlignment(Pos.CENTER_LEFT);
         this.setHgap(10);
         this.setVgap(10);
 
@@ -34,17 +34,17 @@ public class FXEigenschaftenGUI extends GridPane implements Observer {
         ablageTab = new FXAblageTab(r);
         ablageTab.setText("Ablagestationen");
         tabPane.getTabs().add(ablageTab);
-        
-        this.add(tabPane,0,1);
-	}
+
+        this.add(tabPane, 0, 1);
+    }
 
     @Override
     public void update(Observable observable, Object o) {
         if (observable instanceof Roboter) {
-        	roboterTab.UpdateData((Roboter) observable);
+            roboterTab.UpdateData((Roboter) observable);
         }
-        if (observable instanceof Abladestation){
-        	ablageTab.UpdateData((Abladestation) observable);
+        if (observable instanceof Abladestation) {
+            ablageTab.UpdateData((Abladestation) observable);
         }
     }
 }

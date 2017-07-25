@@ -46,6 +46,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Fügt einen Roboter in das Leitsystem ein
+     *
      * @param pflanzenverwaltung Die Pflanzenverwaltung für den Roboter
      */
     public void roboterHinzufuegen(Pflanzenverwaltung pflanzenverwaltung) {
@@ -65,6 +66,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt die freien Nachbarfelder einer Position zurück
+     *
      * @param p Position deren Nachbarn gesucht werden
      * @return Liste mit freien Nachbarn
      */
@@ -74,6 +76,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt die Positionen der Roboter zurück
+     *
      * @return Set von Roboterpositionen
      */
     public Set<Position> getRoboterPositionen() {
@@ -101,6 +104,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt die Abladestationen zurück
+     *
      * @return Abladestationen
      */
     public Collection<Abladestation> getAbladestationen() {
@@ -109,6 +113,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt die Roboter zurück
+     *
      * @return Roboter
      */
     public List<Roboter> getRoboter() {
@@ -130,6 +135,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Fügt einen Auftrag hinzu
+     *
      * @param auftrag Auftrag
      */
     public void auftragHinzufuegen(Auftrag auftrag) {
@@ -149,6 +155,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Fügt eine Abladestation in das System ein
+     *
      * @param abladestation Abladestation zum Hinzufügen
      */
     public void abladestationHinzufuegen(Abladestation abladestation) {
@@ -161,6 +168,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Entfernt eine Abladestation
+     *
      * @param abladestation Abladestation zum Entfernen
      */
     public void abladestationEntfernen(Abladestation abladestation) {
@@ -169,6 +177,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Entfernt eine Ladestation aus dem System
+     *
      * @param ladestation Ladestation zum Entfernen
      */
     public void ladestationEntfernen(Ladestation ladestation) {
@@ -177,6 +186,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Fügt eine Ladestation in das System ein
+     *
      * @param ladestation Ladestation zum Hinzufügen
      */
     public void ladestationHinzufuegen(Ladestation ladestation) {
@@ -223,6 +233,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt eine Collection mit allen Ladestation im System zurück
+     *
      * @return Collection mit allen Ladestationen
      */
     public Collection<Ladestation> getLadestationen() {
@@ -231,6 +242,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt eine freie Ladestation zurück
+     *
      * @return freie Ladestationen
      */
     public Ladestation getFreieLadestation() {
@@ -244,6 +256,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt eine freie Abladestation zurück
+     *
      * @return freie Abladestationen
      */
     public Abladestation getFreieAbladestation() {
@@ -257,6 +270,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Gibt den Roboter an einer bestimmten Position zurück
+     *
      * @param p Position p
      * @return Roboter an Position p
      * @throws Exception Wirft Exception, wenn kein Roboter gefunden wurde
@@ -272,6 +286,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Erstellt ein Runnable zum verteilen von Unteraufträgen aus dem Auftrag oder zum beenden des Auftrags
+     *
      * @param a Auftrag mit zu verteilenden Unteraufträgen oder zum beenden
      * @return Runnable für Auftrag
      */
@@ -293,6 +308,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 
     /**
      * Update Routine
+     *
      * @param o
      * @param arg
      */

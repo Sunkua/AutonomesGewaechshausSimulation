@@ -6,16 +6,21 @@ package gewaechshaus.logic;
 public enum PflanzenStatus {
     eReif, eUnreif, eGeerntet;
 
-	/**
-	 * Gibt eine lesbare Form des Enums zurück.
-	 * @return String Wert als String
-	 */
+    /**
+     * Gibt eine lesbare Form des Enums zurück.
+     *
+     * @return String Wert als String
+     */
     public String toString() {
-        switch(this) {
-          case eReif: return "Reif";
-          case eUnreif: return "Unreif";
-          case eGeerntet: return "Geerntet";
-          default: return "UNDEF";
+        switch (this) {
+            case eReif:
+                return "Reif";
+            case eUnreif:
+                return "Unreif";
+            case eGeerntet:
+                return "Geerntet";
+            default:
+                return "UNDEF";
         }
     }
 }

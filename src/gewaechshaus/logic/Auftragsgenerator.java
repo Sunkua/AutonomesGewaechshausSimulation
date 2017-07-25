@@ -42,6 +42,7 @@ public class Auftragsgenerator {
 
     /**
      * Gibt einen Auftrag zurück, der eine Liste von Unteraufträgen enthält, die Pflanzen mit einem bestimmten Status scannen
+     *
      * @param pStatus Status der Pflanzen die gescannt werden sollen
      * @return Auftrag mit entsprechenden Unteraufträgen
      */
@@ -57,6 +58,7 @@ public class Auftragsgenerator {
 
     /**
      * Gibt einen Auftrag zurück, der eine Liste von Unteraufträgen enthält, die Pflanzen einer Art ernten
+     *
      * @param pflanzenArt Die Art der Pflanzen die geerntet werden sollen
      * @return Auftrag mit entsprechenden Unteraufträgen
      */
@@ -71,6 +73,7 @@ public class Auftragsgenerator {
 
     /**
      * Gibt einen Auftrag zurück, der eine Liste von Unteraufträgen enthält, die Pflanzen mit einem bestimmten Status scannen
+     *
      * @param pStatus Der Status der Pflanzen die geerntet werden sollen
      * @return Auftrag mit entsprechenden Unteraufträgen
      */

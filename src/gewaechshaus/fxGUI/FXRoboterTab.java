@@ -90,8 +90,8 @@ public class FXRoboterTab extends Tab {
             this.fieldAuftrag = new SimpleStringProperty(Aufrag);
 
             Double l = new Double(Ladung);
-            double tmp = Math.round(l*100);
-            l = tmp /100;
+            double tmp = Math.round(l * 100);
+            l = tmp / 100;
             this.fieldLadung = new SimpleStringProperty(l.toString() + " %");
 
             this.fieldFüllstand = new SimpleStringProperty(Füllstand);
@@ -127,17 +127,17 @@ public class FXRoboterTab extends Tab {
 
         public void setFieldLadung(double fieldLadung) {
             Double l = new Double(fieldLadung);
-            double tmp = Math.round(l*100);
-            l = tmp /100;
+            double tmp = Math.round(l * 100);
+            l = tmp / 100;
             this.fieldLadung.set(l.toString() + " %");
         }
 
-		public String getFieldFüllstand() {
-			return fieldFüllstand.get();
-		}
+        public String getFieldFüllstand() {
+            return fieldFüllstand.get();
+        }
 
-		public void setFieldFüllstand(String fieldFüllstand) {
-			this.fieldFüllstand.set(fieldFüllstand);
-		}
+        public void setFieldFüllstand(String fieldFüllstand) {
+            this.fieldFüllstand.set(fieldFüllstand);
+        }
     }
 }

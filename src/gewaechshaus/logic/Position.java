@@ -198,6 +198,7 @@ public class Position implements Comparable<Position> {
 
     /**
      * Überschriebene equals-Methode um zu prüfen ob Positionen äquivalent sind
+     *
      * @param o Position zum vergleiche
      * @return true wenn die Positionen übereinstimmen
      */
@@ -215,6 +216,7 @@ public class Position implements Comparable<Position> {
 
     /**
      * Generiert einen HashCode aus den Attributen des Positionsobjektes
+     *
      * @return
      */
     @Override

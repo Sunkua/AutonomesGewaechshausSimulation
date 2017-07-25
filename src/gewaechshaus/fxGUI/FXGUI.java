@@ -32,14 +32,16 @@ public class FXGUI extends Application {
     @Override
     public void start(Stage stage) {
         // TODO Auto-generated method
-        Gitter gitter = new Gitter(25f, 25f, 25, 25);
+        // Breite und Höhe werden als fester Wert angenommen, der der Feldanzahl entspricht. Die richtigen Maße müssten
+        // relativ zur Feldanzahl bzw. Breite oder Höhe berechnet werden
+        Gitter gitter = new Gitter(24, 24f, 24, 24);
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
         Uhr uhr = new Uhr(300);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
-        Position abladestelle = new Position(24f, 24f);
+        Position abladestelle = new Position(23f, 23f);
         Position abladestelle2 = new Position(0f, 0f);
 
         gitter.toKarthesisch(abladestelle);
@@ -47,8 +49,8 @@ public class FXGUI extends Application {
         Abladestation abladestation = new Abladestation(abladestelle);
         Abladestation abladestation2 = new Abladestation(abladestelle2);
 
-        Position ladestelle = new Position(0f, 24f);
-        Position ladestelle2 = new Position(24f, 0f);
+        Position ladestelle = new Position(0f, 23f);
+        Position ladestelle2 = new Position(23f, 0f);
         gitter.toKarthesisch(ladestelle);
         gitter.toKarthesisch(ladestelle2);
         Ladestation ladestation = new Ladestation(ladestelle);
@@ -67,7 +69,7 @@ public class FXGUI extends Application {
         leitSystem.ladestationHinzufuegen(ladestation2);
 
         // Roboter hinzufügen
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             leitSystem.roboterHinzufuegen(pVerwaltung);
         }
 
@@ -91,10 +93,8 @@ public class FXGUI extends Application {
         //   Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
 
-
-
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 15), gitter, 750, 750, pVerwaltung, leitSystem);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 8), gitter, 1200, 1200, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 4, 1, 2);
 
         // Stage building
@@ -147,7 +147,7 @@ public class FXGUI extends Application {
                         "Gurken",
                         "Tomaten"
                 );
-        
+
         ComboBox<String> pflanzenAuswahl = new ComboBox<String>(options);
         pflanzenAuswahl.setValue("Gurken");
 
@@ -248,9 +248,8 @@ public class FXGUI extends Application {
         grid.add(eigenschaftsgrid, 3, 5);
 
 
-
         // Pflanzen hinzufügen
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             try {
                 //       pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
                 pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);

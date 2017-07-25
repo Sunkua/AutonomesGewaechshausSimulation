@@ -63,13 +63,13 @@ public class Gitter extends Observable implements Observer {
         if (reihenID < 0) {
             throw new IndexOutOfBoundsException("Reihe kleiner Null");
         }
-        if (reihenID >= getHoehe()){
+        if (reihenID >= getHoehe()) {
             throw new IndexOutOfBoundsException("Reihe größer als breite");
         }
-        if (spaltenID < 0){
+        if (spaltenID < 0) {
             throw new IndexOutOfBoundsException("Spalte kleiner NUll");
         }
-        if (spaltenID >= getBreite() ){
+        if (spaltenID >= getBreite()) {
             throw new IndexOutOfBoundsException("Spalte größer Breite");
         }
         return gitter[spaltenID][reihenID];
@@ -219,6 +219,7 @@ public class Gitter extends Observable implements Observer {
     /**
      * Sucht die nächste freie Position für eine Pflanze
      * Gibt die erste, als Beet gekennzeichnete Position zurück
+     *
      * @return freie Position für die Pflanze
      * @throws Exception Exception wird geworfen, falls keine freie Position gefunden wurde
      */
@@ -431,6 +432,7 @@ public class Gitter extends Observable implements Observer {
 
     /**
      * Aktualisiert das Grid abhängig vom triggernden Subjekt
+     *
      * @param o
      * @param arg
      */

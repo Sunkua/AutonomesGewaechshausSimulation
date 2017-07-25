@@ -2,27 +2,23 @@ package gewaechshaus.logic;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PflanzenverwaltungTest {
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
-    @Mock
-    Gitter gitterMock;
+
+
     private Pflanzenverwaltung pv;
     private Einzelpflanze ep;
     private HashMap<Position, Einzelpflanze> map;
+    Gitter gitter;
 
     /**
      * Kommentar 29.06.2017: Einzelpflanze benötigt kein Mocking.
@@ -31,28 +27,14 @@ public class PflanzenverwaltungTest {
      */
     @Before
     public void setUp() throws Exception {
-        Gitter gitter = new Gitter(10f, 10f, 10, 10);
+
+        gitter = mock(Gitter.class);
         pv = new Pflanzenverwaltung(gitter);
-        ep = new Einzelpflanze(PflanzenArt.eGurke,
-                new Position(4, 4),
-                10f,
-                PflanzenStatus.eUnreif);
-        Einzelpflanze epGurke = new Einzelpflanze(PflanzenArt.eGurke,
-                new Position(4, 5),
-                12f,
-                PflanzenStatus.eReif);
-        Einzelpflanze epTomate = new Einzelpflanze(PflanzenArt.eTomate,
-                new Position(4, 6),
-                12f,
-                PflanzenStatus.eReif);
-        map = new HashMap<>();
-        map.put(ep.getPosition(), ep);
-        map.put(epGurke.getPosition(), epGurke);
-        map.put(epTomate.getPosition(), epTomate);
-/*
-        pv.pflanzeHinzufuegen(ep);
-        pv.pflanzeHinzufuegen(epGurke);
-        pv.pflanzeHinzufuegen(epTomate);*/
+        when(gitter.getBreite()).thenReturn(10);
+        when(gitter.getHoehe()).thenReturn(10);
+        when(gitter.naechsteFreiePflanzenPositionSuchen()).thenReturn(new Position(1, 1));
+
+        pv.pflanzeHinzufuegen(PflanzenArt.eGurke);
     }
 
     @After
@@ -86,7 +68,7 @@ public class PflanzenverwaltungTest {
     public void holePflanzenVonTyp() throws Exception {
         Map<Position, Einzelpflanze> ergebnis = pv.getPflanzenMapVonTyp(PflanzenArt.eGurke);
         for (Einzelpflanze pflanze : ergebnis.values()) {
-            assertTrue(map.containsValue(pflanze));
+            assertTrue(pflanze.getArt().equals(PflanzenArt.eGurke));
         }
     }
 
@@ -103,23 +85,15 @@ public class PflanzenverwaltungTest {
     @Test
     public void getAllePflanzen() throws Exception {
         Map<Position, Einzelpflanze> ergebnis = pv.getAllePflanzen();
-        assertEquals(ergebnis, map);
-    }
-
-    @Test
-    public void getAllePflanzen_keine_Pflanzen_Im_System() {
-    	Map<Position, Einzelpflanze> allePflanzen = pv.getAllePflanzen();
-        for (Entry<Position, Einzelpflanze> pflanze : allePflanzen.entrySet()) {
-            pv.pflanzeEntfernen(pflanze.getValue());
+        for (Einzelpflanze p : ergebnis.values()) {
+            assertTrue(p.getArt().equals(PflanzenArt.eGurke));
         }
-        allePflanzen = pv.getAllePflanzen();
-        assertEquals(allePflanzen.size(), 0);
     }
 
     @Test
     public void hole_Pflanze_von_vorhandener_Position() throws Exception {
-        Einzelpflanze pflanze = pv.holePflanzeVonPosition(new Position(4,4));
-        assertEquals(pflanze, ep);
+        Einzelpflanze pflanze = pv.holePflanzeVonPosition(new Position(1, 1));
+        assertEquals(PflanzenArt.eGurke, pflanze.getArt());
     }
 
     @Test (expected = Exception.class)
