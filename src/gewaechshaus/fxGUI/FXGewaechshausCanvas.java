@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Created by sunku on 06.06.2017.
  */
-public class FXGewaechshausCanvas extends Canvas implements Observer {
+public class FXGewaechshausCanvas extends Canvas {
     private Gitter gitter;
     private int size;
     private GraphicsContext gc;
@@ -111,14 +111,6 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
 
-        if (o instanceof Uhr) {
-
-            // gc.clearRect(0, 0, this.getWidth(), this.getHeight());
-            //this.paint();
-        }
-    }
 
 }

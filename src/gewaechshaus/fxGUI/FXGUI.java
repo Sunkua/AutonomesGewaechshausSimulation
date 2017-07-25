@@ -71,7 +71,7 @@ public class FXGUI extends Application {
             leitSystem.roboterHinzufuegen(pVerwaltung);
         }
 
-        EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
+        FXEigenschaftenGUI eigenschaftsgrid = new FXEigenschaftenGUI(leitSystem);
         for (Roboter r : leitSystem.getRoboter()) {
             r.addObserver(eigenschaftsgrid);
         }
@@ -96,8 +96,6 @@ public class FXGUI extends Application {
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 15), gitter, 750, 750, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 4, 1, 2);
-
-        uhr.addObserver(canvas);
 
         // Stage building
         stage.setScene(scene);
@@ -251,12 +249,6 @@ public class FXGUI extends Application {
 
 
 
-
-
-
-
-
-
         // Pflanzen hinzufügen
         for (int i = 0; i < 10; i++) {
             try {
@@ -275,6 +267,5 @@ public class FXGUI extends Application {
         });
         canvas.paint();
         stage.show();
-
     }
 }
