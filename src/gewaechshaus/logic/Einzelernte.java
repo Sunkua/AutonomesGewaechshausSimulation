@@ -12,7 +12,6 @@ public class Einzelernte extends Unterauftrag {
     private static final Logger log = Logger.getLogger(Einzelernte.class.getName());
     private Position zielPosition;
     private Einzelpflanze ep;
-    private int zustand = 0;
 
     /**
      * Konstruktor eines Unterauftrags, der eine einzelne Pflanze erntet
