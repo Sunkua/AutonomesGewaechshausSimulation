@@ -63,9 +63,10 @@ public class EinzelpflanzeTest {
 		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eReif);
 	}
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void setReifestatusZuHochExeption() {
+	@Test
+	public void setReifestatusZuHochRuecksetzungAuf100() {
 		einzelpflanze.setReifestatus(100.1);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetReif);
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)

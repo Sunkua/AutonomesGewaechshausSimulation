@@ -66,10 +66,13 @@ public class Einzelpflanze {
 	 * @param reifestatus
 	 */
 	public void setReifestatus(double reifestatus) {
-		if(reifestatus < 0 || reifestatus > 100)
+		if (reifestatus < 0)
 			throw new IndexOutOfBoundsException("Der Reifestatus darf nur zwischen 0 und 100 liegen");
-		
-		this.reifestatus = reifestatus;
+		else if (reifestatus > 100)
+			this.reifestatus = 100;
+		else {
+			this.reifestatus = reifestatus;
+		}
 		if (reifestatus > 90.0) {
 			this.pflanzenStatus = PflanzenStatus.eReif;
 		} else {
