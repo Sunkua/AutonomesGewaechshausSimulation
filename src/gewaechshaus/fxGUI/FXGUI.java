@@ -139,7 +139,8 @@ public class FXGUI extends Application {
                         "Gurken",
                         "Tomaten"
                 );
-        ComboBox pflanzenAuswahl = new ComboBox(options);
+        
+        ComboBox<String> pflanzenAuswahl = new ComboBox<String>(options);
         pflanzenAuswahl.setValue("Gurken");
 
         // Pflanze hinzufügen

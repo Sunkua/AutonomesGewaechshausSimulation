@@ -29,10 +29,6 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
     @XmlElement
     private Position maxGröße = new Position(0, 0);
-    private double realeBreite;
-    private double realeHoehe;
-    private int breite;
-    private int hoehe;
     private Gitter gitter;
     private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
     private LinkedBlockingQueue<Runnable> executorQueue;

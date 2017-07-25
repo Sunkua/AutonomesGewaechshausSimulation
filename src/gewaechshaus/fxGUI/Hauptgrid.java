@@ -6,7 +6,6 @@ import javafx.scene.layout.GridPane;
 
 public class Hauptgrid extends GridPane {
 	
-	private Aktionsgrid aktionsgrid;
 	private Button ernten;
     private Button scannen;
     private Button pflanzeHinzufuegen;
@@ -14,7 +13,6 @@ public class Hauptgrid extends GridPane {
 	
 	public Hauptgrid(Aktionsgrid aktionsgrid) {
 		super();
-		this.aktionsgrid = aktionsgrid;
 		
 		// Design des Grids
 		this.setAlignment(Pos.CENTER_LEFT);

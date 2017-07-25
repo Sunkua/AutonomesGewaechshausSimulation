@@ -29,23 +29,23 @@ public class RoboterTab extends Tab {
         }
         robotTable = new TableView<>();
 
-        TableColumn columnName = new TableColumn("Name");
+        TableColumn<RobotRecord, String> columnName = new TableColumn<RobotRecord, String>("Name");
         columnName.setMinWidth(200);
         columnName.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldName"));
 
-        TableColumn columnPosition = new TableColumn("Position");
+        TableColumn<RobotRecord, String> columnPosition = new TableColumn<RobotRecord, String>("Position");
         columnPosition.setMinWidth(100);
         columnPosition.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldPosition"));
 
-        TableColumn columnAuftrag = new TableColumn("Aktueller Autrag");
+        TableColumn<RobotRecord, String> columnAuftrag = new TableColumn<RobotRecord, String>("Aktueller Autrag");
         columnAuftrag.setMinWidth(100);
         columnAuftrag.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldAuftrag"));
 
-        TableColumn columnAkku = new TableColumn("Akkulandung");
+        TableColumn<RobotRecord, String> columnAkku = new TableColumn<RobotRecord, String>("Akkulandung");
         columnAkku.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldLadung"));
         columnAkku.setMinWidth(80);
 
-        TableColumn columnFüllstand = new TableColumn("Füllstand");
+        TableColumn<RobotRecord, String> columnFüllstand = new TableColumn<RobotRecord, String>("Füllstand");
         columnFüllstand.setCellValueFactory(new PropertyValueFactory<RobotRecord, String>("fieldFüllstand"));
         columnFüllstand.setMinWidth(100);
 

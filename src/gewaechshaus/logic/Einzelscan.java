@@ -8,11 +8,7 @@ import java.util.logging.Level;
  */
 public class Einzelscan extends Unterauftrag {
 
-    private Roboter roboter;
-    private Einzelpflanze ep;
-
-    public Einzelscan(Einzelpflanze ep) {
-        this.ep = ep;
+    public Einzelscan() {
         
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }

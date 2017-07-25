@@ -26,16 +26,16 @@ public class AblageTab extends Tab {
         }
         abladeTable = new TableView<>();
 
-        TableColumn columnName = new TableColumn("Name");
+        TableColumn<AblageRecord, String> columnName = new TableColumn<AblageRecord, String>("Name");
         columnName.setMinWidth(200);
         columnName.setCellValueFactory(new PropertyValueFactory<AblageRecord, String>("fieldName"));
 
-        TableColumn columnPosition = new TableColumn("Position");
+        TableColumn<AblageRecord, String> columnPosition = new TableColumn<AblageRecord, String>("Position");
         columnPosition.setMinWidth(100);
         columnPosition.setCellValueFactory(new PropertyValueFactory<AblageRecord, String>("fieldPosition"));
 
 
-        TableColumn columnFüllstand = new TableColumn("Füllstand");
+        TableColumn<AblageRecord, String> columnFüllstand = new TableColumn<AblageRecord, String>("Füllstand");
         columnFüllstand.setCellValueFactory(new PropertyValueFactory<AblageRecord, String>("fieldFüllstand"));
         columnFüllstand.setMinWidth(100);
 

@@ -29,8 +29,4 @@ public class Ladestation {
         this.status = ls;
     }
 
-    public void roboterLaden(Roboter roboter) {
-        Akku akku = roboter.getAkku();
-    }
-
 }

@@ -2,14 +2,12 @@ package gewaechshaus.logic;
 
 import java.util.*;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Erstellt einen Auftrag zum Ernten einer einzelnen Pflanze.
  */
 public class Einzelernte extends Unterauftrag {
 
-    private static final Logger log = Logger.getLogger(Einzelernte.class.getName());
     private Position zielPosition;
     private Einzelpflanze ep;
 

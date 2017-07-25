@@ -261,20 +261,6 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
     /**
-     * Gibt eine Liste mit bereiten Robotern zurück
-     * @return bereite Roboter
-     */
-    private ArrayList<Roboter> getFreieRoboter() {
-        ArrayList<Roboter> freieRoboter = new ArrayList<>();
-        for (Roboter r : roboterList) {
-            if (r.getStatus().equals(RoboterStatus.eBereit)) {
-                freieRoboter.add(r);
-            }
-        }
-        return freieRoboter;
-    }
-
-    /**
      * Gibt den Roboter an einer bestimmten Position zurück
      * @param p Position p
      * @return Roboter an Position p

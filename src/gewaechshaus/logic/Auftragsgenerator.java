@@ -5,11 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import java.util.logging.Logger;
-
 public class Auftragsgenerator {
-
-    private static final Logger log = Logger.getLogger(Auftragsgenerator.class.getName());
 
     private Pflanzenverwaltung pVerwaltung;
     private Roboterleitsystem roboterleitsystem;
@@ -38,7 +34,7 @@ public class Auftragsgenerator {
         Auftrag auftrag = new Auftrag(uhr, roboterleitsystem);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonTyp(pArt);
-        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan(v)));
+        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan()));
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }
@@ -53,7 +49,7 @@ public class Auftragsgenerator {
         Auftrag auftrag = new Auftrag(uhr, roboterleitsystem);
         List<Unterauftrag> unterauftragsListe = new ArrayList<Unterauftrag>();
         Map<Position, Einzelpflanze> pflanzen = pVerwaltung.getPflanzenMapVonStatus(pStatus);
-        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan(v)));
+        pflanzen.forEach((k, v) -> unterauftragsListe.add(new Einzelscan()));
         auftrag.setUnterauftraege(unterauftragsListe);
         return auftrag;
     }

@@ -10,7 +10,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Implementiert die Verwaltung von Aufträgen in Unteraufträgen.
@@ -153,17 +152,6 @@ public class Auftrag extends Observable implements Observer {
         return false;
     }
 
-
-    /**
-     * Gibt eine Liste mit ausführbaren Unteraufträgen zurück
-     * @return Liste mit noch ausführbaren Unteraufträgen
-     */
-    private List<Unterauftrag> getAusfuehrbareUnterauftraege() {
-        return unterauftraege.stream()
-                .filter(el -> el.status.equals(UnterauftragsStatus.erstellt))
-                .collect(Collectors.toList());
-    }
-
     /**
      * Liefert die Liste von Unteraufträgen zurück.
      *
@@ -178,7 +166,7 @@ public class Auftrag extends Observable implements Observer {
      *
      * @param unterauftraege Neue Unteraufträge
      */
-    public void setUnterauftraege(List unterauftraege) {
+    public void setUnterauftraege(List<Unterauftrag> unterauftraege) {
         this.unterauftraege = unterauftraege;
     }
 
