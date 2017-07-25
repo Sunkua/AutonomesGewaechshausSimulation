@@ -228,7 +228,8 @@ public class FXGUI extends Application {
         aktionsgrid.add(pflanzenAuswahl, 0, 0);
         aktionsgrid.add(pflanzeHinzufuegen, 0, 1);
         aktionsgrid.add(pflanzenEinerArtErnten, 1, 1);
-        aktionsgrid.add(pflanzenEinerArtScannen, 0, 2);
+        // Scannen ist nicht implementiert
+        //  aktionsgrid.add(pflanzenEinerArtScannen, 0, 2);
         aktionsgrid.add(reifePflanzenErnten, 1, 2);
 
         grid.add(aktionsgrid, 3, 0, 1, 2);
