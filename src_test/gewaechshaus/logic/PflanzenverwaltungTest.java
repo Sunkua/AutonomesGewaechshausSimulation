@@ -36,7 +36,7 @@ public class PflanzenverwaltungTest {
         ep = new Einzelpflanze(PflanzenArt.eGurke,
                 new Position(4, 4),
                 10f,
-                PflanzenStatus.eFaul);
+                PflanzenStatus.eUnreif);
         Einzelpflanze epGurke = new Einzelpflanze(PflanzenArt.eGurke,
                 new Position(4, 5),
                 12f,
