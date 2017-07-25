@@ -113,7 +113,6 @@ public class PflanzenverwaltungTest {
             pv.pflanzeEntfernen(pflanze.getValue());
         }
         allePflanzen = pv.getAllePflanzen();
-        
         assertEquals(allePflanzen.size(), 0);
     }
 

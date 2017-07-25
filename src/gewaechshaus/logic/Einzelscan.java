@@ -13,7 +13,6 @@ public class Einzelscan extends Unterauftrag {
 
     public Einzelscan(Einzelpflanze ep) {
         this.ep = ep;
-        
         Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName()+" geladen");
     }
 

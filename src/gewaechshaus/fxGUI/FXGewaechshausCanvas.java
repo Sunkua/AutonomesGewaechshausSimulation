@@ -1,6 +1,7 @@
 package gewaechshaus.fxGUI;
 
 import gewaechshaus.logic.*;
+import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -23,10 +24,17 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
     private Image wegBild;
     private Image ladeStationBild;
     private Image abladeStationBild;
-
+    private AnimationTimer animationsTimer;
 
     public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe, Pflanzenverwaltung pflanzenverwaltung, Roboterleitsystem roboterleitsystem) {
         super(breite, hoehe);
+        animationsTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                gc.clearRect(0, 0, getWidth(), getHeight());
+                paint();
+            }
+        };
         this.gitter = g;
         this.size = size;
         this.roboterleitsystem = roboterleitsystem;
@@ -39,7 +47,8 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
         abladeStationBild = new Image("gewaechshaus/images/abladestation.png");
 
         gc = this.getGraphicsContext2D();
-        paint();
+        animationsTimer.start();
+
     }
 
     public void paint() {
@@ -107,8 +116,8 @@ public class FXGewaechshausCanvas extends Canvas implements Observer {
 
         if (o instanceof Uhr) {
 
-            gc.clearRect(0, 0, this.getWidth(), this.getHeight());
-            this.paint();
+            // gc.clearRect(0, 0, this.getWidth(), this.getHeight());
+            //this.paint();
         }
     }
 
