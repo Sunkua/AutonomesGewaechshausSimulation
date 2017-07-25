@@ -135,8 +135,8 @@ public class PositionTest {
 	@Test
 	public void equals_mit_null_vergleich_False() {
 		position = new Position(10, 10);
-		assertFalse(position.equals(null));
-	}
+        assertFalse(position == null);
+    }
 
 	@Test
 	public void hashCode_ohne_Initialisierung() {

@@ -178,7 +178,7 @@ public class Position implements Comparable<Position> {
     public int compareTo(Position o) {
         // TODO Auto-generated method stub
         if (o == this) return 0;
-        boolean equals = false;
+        boolean equals;
         equals = spaltenID == o.getSpaltenID();
         if (!equals) return -1;
         equals = reihenID == o.getReihenID();
@@ -210,11 +210,7 @@ public class Position implements Comparable<Position> {
         if (reihenID == -1 || spaltenID == -1) {
             return false;
         }
-        if (reihenID == position.getReihenID() && spaltenID == position.getSpaltenID()) {
-            return true;
-        } else {
-            return false;
-        }
+        return reihenID == position.getReihenID() && spaltenID == position.getSpaltenID();
     }
 
     /**

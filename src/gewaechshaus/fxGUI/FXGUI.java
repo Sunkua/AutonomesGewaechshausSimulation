@@ -154,7 +154,7 @@ public class FXGUI extends Application {
         // Pflanze hinzufügen
         Button pflanzeHinzufuegen = new Button("Pflanze Hinzufügen");
         pflanzeHinzufuegen.setOnAction(e -> {
-            String comboboxWert = (String) pflanzenAuswahl.getValue();
+            String comboboxWert = pflanzenAuswahl.getValue();
             try {
                 switch (comboboxWert) {
                     case "Gurken":
@@ -250,7 +250,7 @@ public class FXGUI extends Application {
 
 
         // Pflanzen hinzufügen
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             try {
                 //       pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
                 pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);

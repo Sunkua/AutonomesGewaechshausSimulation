@@ -140,6 +140,7 @@ public class Auftrag extends Observable implements Observer {
 
     /**
      * Prüft ob ein Roboter gerade einen Unterauftrag abarbeitet
+     *
      * @param r zu prüfender Roboter
      * @return true wenn Roboter beschäftigt ist, ansonsten false
      */
@@ -183,11 +184,12 @@ public class Auftrag extends Observable implements Observer {
     /**
      * Erstellt ein Runnable auf Basis eines Unterauftrags. Das Runnable prüft ob der Unterauftrag beendet wurde und
      * entfernt falls ja die Observer, damit der Unterauftrag nicht weiter getriggert wird.
+     *
      * @param uAuftrag Unterauftrag Unterauftrag der im Runnable behandelt werden soll
      * @return Gibt das erstellte Runnable zurück
      */
     private Runnable unterauftragsRunnableErstellen(Unterauftrag uAuftrag) {
-        Runnable r = () -> {
+        return () -> {
             if (uAuftrag.getStatus().equals(UnterauftragsStatus.beendet)) {
                 // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
                 uhr.deleteObserver(uAuftrag);
@@ -197,14 +199,13 @@ public class Auftrag extends Observable implements Observer {
                 // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
                 if (this.unterauftraege.size() == 0) {
                     this.status = AuftragsStatus.beendet;
-                    Logging.log(this.getClass().getName(), Level.INFO, "Auftrag wurde beendet");
+
                 }
                 aktiveUnterauftraege.remove(uAuftrag);
                 setChanged();
                 notifyObservers();
             }
         };
-        return r;
     }
 
     /**
@@ -221,9 +222,10 @@ public class Auftrag extends Observable implements Observer {
             Unterauftrag uAuftrag = (Unterauftrag) o;
             runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
             naechstesRunnableAusQueueAusfuehren();
-            if (o instanceof Uhr) {
-                naechstesRunnableAusQueueAusfuehren();
-            }
+        }
+        if (o instanceof Uhr) {
+            naechstesRunnableAusQueueAusfuehren();
+
         }
     }
 }

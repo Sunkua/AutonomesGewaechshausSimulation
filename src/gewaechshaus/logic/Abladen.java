@@ -114,8 +114,7 @@ public class Abladen extends Unterauftrag {
 			if (wegListe.size() > 1) {
 				wegListe.remove(wegListe.size() - 1);
 			}
-			Position nPos = roboter.getPosition();
-			nPos = wegListe.get(wegListe.size() - 1);
+			Position nPos = wegListe.get(wegListe.size() - 1);
 
 			Position rPos = roboter.getPosition();
 			// Fahre in Richtung der Position

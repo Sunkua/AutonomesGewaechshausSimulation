@@ -69,8 +69,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @return Liste mit freien Nachbarn
      */
     public List<Position> getFreieNachbarFelderVon(Position p) {
-        List<Position> posListe = gitter.getFreieNachbarFelder(p);
-        return posListe;
+        return gitter.getFreieNachbarFelder(p);
     }
 
     /**
@@ -97,11 +96,7 @@ public class Roboterleitsystem extends Observable implements Observer {
             return false;
         }
         Positionsbelegung pb = gitter.getPositionsbelegung(p);
-        if (pb.equals(Positionsbelegung.weg) || pb.equals(Positionsbelegung.frei) || r.getPosition().equals(p)) {
-            return true;
-        } else {
-            return false;
-        }
+        return pb.equals(Positionsbelegung.weg) || pb.equals(Positionsbelegung.frei) || r.getPosition().equals(p);
     }
 
     /**
@@ -281,18 +276,20 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @return Runnable für Auftrag
      */
     private Runnable erstelleAuftragsRunnable(Auftrag a) {
-        Runnable runnable = () -> {
+        return () -> {
             if (a.getStatus() == AuftragsStatus.beendet) {
+
                 // Wenn Auftrag beendet, dann aus der Queue entfernen
                 Auftrag auftrag = auftragsQueue.remove();
                 auftrag.deleteObservers();
+                Logging.log(this.getClass().getName(), Level.INFO, "Auftrag wurde beendet");
                 verteileUnterauftraege();
             } else {
                 verteileUnterauftraege();
             }
         };
-        return runnable;
     }
+
 
     /**
      * Update Routine

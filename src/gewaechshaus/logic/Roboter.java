@@ -31,7 +31,6 @@ public class Roboter extends Observable implements Observer {
 	 * Konstruktor für den Roboter
 	 *
 	 * @param roboterleitsystem
-	 * @param pv
 	 */
 	public Roboter(Roboterleitsystem roboterleitsystem) {
 		pflanzenContainer = new ArrayList<>();

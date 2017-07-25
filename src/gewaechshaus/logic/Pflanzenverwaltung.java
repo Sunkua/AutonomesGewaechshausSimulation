@@ -210,14 +210,13 @@ public class Pflanzenverwaltung extends Observable implements Observer {
      * @return Runnable, das alle Pflanzen wachsen lässt und den Canvas notified
      */
     private Runnable wachsenRunnableErstellen() {
-        Runnable runnable = () -> {
+        return () -> {
             for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
                 entry.getValue().Wachse();
             }
             setChanged();
             notifyObservers();
         };
-        return runnable;
     }
 
     /**

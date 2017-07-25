@@ -65,9 +65,6 @@ public class Akku extends Observable {
 
 	/**
 	 * Prüft ob der Ladestand innerhalb seines Arbeitsbereiches 0 bis 100 ist.
-	 * 
-	 * @param double
-	 *            ladestand
 	 * @return true wenn der Ladestand innerhalb des Gültigkeitsbereichs ist
 	 */
 	private boolean istLadestandImArbeitsbereich(double ladestand) {
@@ -75,11 +72,9 @@ public class Akku extends Observable {
 	}
 
 	/**
-	 * Setzt den aktuellen Ladezustand
-	 *
-	 * @param ladestand
-	 *            Neuer Ladezustand
-	 */
+     * Setzt die kritische Ladestands-Grenze des Akkus ab der der Roboter zur Ladestation fahren soll
+     * @param kritischeGrenze kritische Grenze in Prozent
+     */
 	public void setKritischeGrenze(double kritischeGrenze) {
 
 		if (istkritischeGrenzeImGueltigkeitsbereich(kritischeGrenze)) {
@@ -95,13 +90,10 @@ public class Akku extends Observable {
 	}
 
 	/**
-	 * Prüft ob die kritische Grenze innerhalb seines Gültigkeitsbereichs 0 bis 100
-	 * ist.
-	 * 
-	 * @param double
-	 *            kritischeGrenze
-	 * @return true wenn der Ladestand innerhalb des Gültigkeitsbereichs ist
-	 */
+     * Prüft ob die angegebene kritische Grenze innerhalb ihres Gültigkeitsbereiches ist
+     * @param kritischeGrenze
+     * @return
+     */
 	private boolean istkritischeGrenzeImGueltigkeitsbereich(double kritischeGrenze) {
 		return (kritischeGrenze <= 100 && kritischeGrenze >= 0);
 	}
