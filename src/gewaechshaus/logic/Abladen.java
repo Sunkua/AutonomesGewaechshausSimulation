@@ -31,11 +31,18 @@ public class Abladen extends Unterauftrag {
     /**
      * Berechnet die Zielposition, die vom Roboter angefahren werden soll. Soll immer eine Nachbarposition der
      * eingegebenen Zielposition sein
+     *
      * @return
      */
     private Position berechneZielPosition() {
+        Position p;
         List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem.getFreieNachbarFelderVon(abladestation.getPosition());
-        return (Position) freieNachbarFelderVonAbladestation.toArray()[0];
+        try {
+            p = (Position) freieNachbarFelderVonAbladestation.toArray()[0];
+        } catch (Exception e) {
+            p = null;
+        }
+        return p;
     }
 
     /**
@@ -88,6 +95,7 @@ public class Abladen extends Unterauftrag {
 
     /**
      * Fährt den Roboter in Richtung einer seiner Nachbarpositionen
+     *
      * @param roboter Roboter der fahren soll
      */
     protected void fahreZuNachbarposition(Roboter roboter) {

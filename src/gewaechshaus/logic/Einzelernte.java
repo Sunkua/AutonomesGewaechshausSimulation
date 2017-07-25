@@ -26,7 +26,11 @@ public class Einzelernte extends Unterauftrag {
         this.ep = ep;
         this.zustand = 0;
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
-        zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
+        try {
+            zielPosition = (Position) freieNachbarnVonPflanze.toArray()[0];
+        } catch (Exception e) {
+            zielPosition = null;
+        }
         Logging.log(this.getClass().getName(), Level.INFO, "Einzelernte Unterauftrag erstellt");
     }
 
