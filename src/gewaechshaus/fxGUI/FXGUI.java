@@ -32,20 +32,27 @@ public class FXGUI extends Application {
     @Override
     public void start(Stage stage) {
         // TODO Auto-generated method
-        Gitter gitter = new Gitter(12f, 12f, 12, 12);
+        Gitter gitter = new Gitter(25f, 25f, 25, 25);
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
-        Uhr uhr = new Uhr(200);
+        Uhr uhr = new Uhr(300);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
-        Position abladestelle = new Position(11f, 11f);
-        gitter.toKarthesisch(abladestelle);
-        Abladestation abladestation = new Abladestation(abladestelle);
+        Position abladestelle = new Position(24f, 24f);
+        Position abladestelle2 = new Position(0f, 0f);
 
-        Position ladestelle = new Position(10f, 11f);
+        gitter.toKarthesisch(abladestelle);
+        gitter.toKarthesisch(abladestelle2);
+        Abladestation abladestation = new Abladestation(abladestelle);
+        Abladestation abladestation2 = new Abladestation(abladestelle2);
+
+        Position ladestelle = new Position(0f, 24f);
+        Position ladestelle2 = new Position(24f, 0f);
         gitter.toKarthesisch(ladestelle);
+        gitter.toKarthesisch(ladestelle2);
         Ladestation ladestation = new Ladestation(ladestelle);
+        Ladestation ladestation2 = new Ladestation(ladestelle2);
 
         pVerwaltung.addObserver(leitSystem);
         pVerwaltung.addObserver(gitter);
@@ -55,18 +62,21 @@ public class FXGUI extends Application {
 
 
         leitSystem.abladestationHinzufuegen(abladestation);
+        leitSystem.abladestationHinzufuegen(abladestation2);
         leitSystem.ladestationHinzufuegen(ladestation);
+        leitSystem.ladestationHinzufuegen(ladestation2);
 
         // Roboter hinzufügen
-        leitSystem.roboterHinzufuegen(pVerwaltung);
-        leitSystem.roboterHinzufuegen(pVerwaltung);
-        leitSystem.roboterHinzufuegen(pVerwaltung);
+        for (int i = 0; i < 3; i++) {
+            leitSystem.roboterHinzufuegen(pVerwaltung);
+        }
 
         EigenschafteGrid eigenschaftsgrid = new EigenschafteGrid(leitSystem);
         for (Roboter r : leitSystem.getRoboter()) {
             r.addObserver(eigenschaftsgrid);
         }
         abladestation.addObserver(eigenschaftsgrid);
+        abladestation2.addObserver(eigenschaftsgrid);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
@@ -84,7 +94,7 @@ public class FXGUI extends Application {
 
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 10), gitter, 500, 500, pVerwaltung, leitSystem);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 15), gitter, 750, 750, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 4, 1, 2);
 
         uhr.addObserver(canvas);
@@ -248,9 +258,9 @@ public class FXGUI extends Application {
 
 
         // Pflanzen hinzufügen
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             try {
-                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+                //       pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
                 pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
             } catch (Exception e) {
                 Logging.log(this.getClass().getName(), Level.WARNING, "Keine freie Pflanzenposition gefunden");

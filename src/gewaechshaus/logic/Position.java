@@ -27,6 +27,8 @@ public class Position implements Comparable<Position> {
         if (spalte >= 0 && zeile >= 0) {
             spaltenID = spalte;
             reihenID = zeile;
+            x = spalte;
+            y = zeile;
         } else
             throw new IndexOutOfBoundsException("Spalten und Zeilenkoordinaten müssen >= 0 sein");
     }

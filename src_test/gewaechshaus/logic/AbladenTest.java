@@ -46,8 +46,6 @@ public class AbladenTest {
 
 		Mockito.when(roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition)).thenReturn(wegListe);
 
-		abladen.fahreZuNachbarposition(roboter);
-
 		Mockito.verify(roboter).fahreNachUnten();
 	}
 

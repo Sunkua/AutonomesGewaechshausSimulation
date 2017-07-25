@@ -85,8 +85,8 @@ public class AkkuLaden extends Unterauftrag {
 			// ladestation.roboterLaden(roboter);
 			// Lade Roboter, bis der Ladestand > 95 % ist
 			roboter.setRoboterStatus(RoboterStatus.eLädt);
-			if (roboter.getAkku().getLadestand() > 99f) {
-				zustand++;
+            if (roboter.getAkku().getLadestand() > 95f) {
+                zustand++;
 				ladestation.setLadestationStatus(LadestationStatus.frei);
 				roboter.deleteObserver(this);
 

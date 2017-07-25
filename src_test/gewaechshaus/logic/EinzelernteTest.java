@@ -42,7 +42,7 @@ public class EinzelernteTest {
 
 	@Test
 	public void fahreZuNachbarpositionNachUntenPositiv() throws KeinWegGefundenException {
-		roboter = Mockito.mock(Roboter.class);
+		//roboter = Mockito.mock(Roboter.class);
 		Mockito.when(roboter.getPosition()).thenReturn(new Position(2, 1));
 		
 		roboterleitsystem = Mockito.mock(Roboterleitsystem.class);
