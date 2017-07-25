@@ -50,7 +50,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      */
     public void roboterHinzufuegen(Pflanzenverwaltung pflanzenverwaltung) {
         try {
-            Roboter roboter = new Roboter(this, pflanzenverwaltung);
+            Roboter roboter = new Roboter(this);
             roboter.setPosition(gitter.getNaechsteFreieRoboterPosition());
             roboter.setRoboterStatus(RoboterStatus.eBereit);
             roboter.addObserver(this);

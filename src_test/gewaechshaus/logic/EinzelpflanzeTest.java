@@ -5,27 +5,86 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
-
 public class EinzelpflanzeTest {
-	Einzelpflanze einzelpflanzeOhne;
-	Einzelpflanze einzelpflanzeMit;
+	Einzelpflanze einzelpflanze;
 	Position position = new Position(4, 4);
 	double gewicht = 1.3;
 
-    @Before
-    public void init() {
-    	einzelpflanzeOhne = new Einzelpflanze();
-    	einzelpflanzeMit = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif);
-    }
-    
-    @Test
-    public void erstelle_Einzelpflanze_ohne_Inhalt_ist_nicht_null() throws Exception {
-    	assertFalse(einzelpflanzeOhne.equals(null));
-    }
+	double erwartetReif = 100.0;
+	double erwartetUnreif = 10.0;
+	double erwartetSonstiges = 0.0;
 
-    @Test
-    public void erstelle_Einzelpflanze_mit_Inhalt_ist_nicht_null() throws Exception {
-    	assertFalse(einzelpflanzeMit.equals(null));
-    }
+	double erwartetWachseTomate = erwartetUnreif + Konstanten.WachstumTomate;
+	double erwartetWachseGruke = erwartetUnreif + Konstanten.WachstumGurke;
+
+	@Before
+	public void init() {
+		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eUnreif);
+	}
+
+	@Test
+	public void erstelleEinzelpflanzeNichtNull() throws Exception {
+		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif);
+		assertFalse(einzelpflanze.equals(null));
+	}
+
+	@Test
+	public void setPflanzenStatusReif() {
+		einzelpflanze.setPflanzenStatus(PflanzenStatus.eReif);
+		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eReif);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetReif);
+	}
+
+	@Test
+	public void setPflanzenStatusUnreif() {
+		einzelpflanze.setPflanzenStatus(PflanzenStatus.eUnreif);
+		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eUnreif);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetUnreif);
+	}
+
+	@Test
+	public void setPflanzenStatusKein() {
+		einzelpflanze.setPflanzenStatus(PflanzenStatus.eGeerntet);
+		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eGeerntet);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetSonstiges);
+	}
+
+	@Test
+	public void setReifestatusUnreifPositiv() {
+		einzelpflanze.setReifestatus(erwartetUnreif);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetUnreif);
+		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eUnreif);
+	}
+
+	@Test
+	public void setReifestatusReifPositiv() {
+		einzelpflanze.setReifestatus(erwartetReif);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetReif);
+		assertEquals(einzelpflanze.getPflanzenstatus(), PflanzenStatus.eReif);
+	}
+
+	@Test
+	public void setReifestatusZuHochRuecksetzungAuf100() {
+		einzelpflanze.setReifestatus(100.1);
+		assertTrue(einzelpflanze.getReifestatus() == erwartetReif);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void setReifestatusZuTiefExeption() {
+		einzelpflanze.setReifestatus(-0.1);
+	}
+
+	@Test
+	public void WachseTomate() {
+		einzelpflanze = new Einzelpflanze(PflanzenArt.eTomate, position, gewicht, PflanzenStatus.eUnreif);
+		einzelpflanze.Wachse();
+		assertTrue(einzelpflanze.getReifestatus() == erwartetWachseTomate);
+	}
+
+	@Test
+	public void WachseGurke() {
+		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eUnreif);
+		einzelpflanze.Wachse();
+		assertTrue(einzelpflanze.getReifestatus() == erwartetWachseGruke);
+	}
 }

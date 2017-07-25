@@ -15,6 +15,7 @@ public class EinzelernteTest {
 	Roboterleitsystem roboterleitsystem;
 	Position zielPosition;
 	ArrayList<Position> wegListe;
+	ArrayList<Position> freieNachbarfelder;
 
 	@Before
 	public void init() throws KeinWegGefundenException {
@@ -26,7 +27,7 @@ public class EinzelernteTest {
 		ep = Mockito.mock(Einzelpflanze.class);
 		Mockito.when(ep.getPosition()).thenReturn(zielPosition);
 
-		ArrayList<Position> freieNachbarfelder = new ArrayList<Position>();
+		freieNachbarfelder = new ArrayList<Position>();
 		freieNachbarfelder.add(zielPosition);
 
 		wegListe = new ArrayList<Position>();
@@ -43,6 +44,10 @@ public class EinzelernteTest {
 	public void fahreZuNachbarpositionNachUntenPositiv() throws KeinWegGefundenException {
 		//roboter = Mockito.mock(Roboter.class);
 		Mockito.when(roboter.getPosition()).thenReturn(new Position(2, 1));
+		
+		roboterleitsystem = Mockito.mock(Roboterleitsystem.class);
+		Mockito.when(roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition()))
+				.thenReturn(freieNachbarfelder);
 
 		Mockito.when(roboterleitsystem.getPfadVonNach(roboter.getPosition(), zielPosition)).thenReturn(wegListe);
 
