@@ -86,6 +86,25 @@ public class Roboterleitsystem extends Observable implements Observer {
     }
 
     /**
+     * Gibt an ob eine Position für einen Roboter befahrbar ist
+     *
+     * @param p zu prüfende Position
+     * @param r Roboter der zu Posiiton fahren soll damit eigene Position nicht berücksichtigt wird
+     * @return true wenn befahrbar ansonsten false
+     */
+    public boolean istPositionBefahrbar(Position p, Roboter r) {
+        if (p == null) {
+            return false;
+        }
+        Positionsbelegung pb = gitter.getPositionsbelegung(p);
+        if (pb.equals(Positionsbelegung.weg) || pb.equals(Positionsbelegung.frei) || r.getPosition().equals(p)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Gibt die Abladestationen zurück
      * @return Abladestationen
      */
