@@ -39,8 +39,15 @@ public class Einzelernte extends Unterauftrag {
      * @return Nachbarposition der Zielpostion (eigentliche Zielposition)
      */
     private Position berechneZielPosition() {
+
         List<Position> freieNachbarnVonPflanze = roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition());
-        return (Position) freieNachbarnVonPflanze.toArray()[0];
+        Position p;
+        try {
+            p = (Position) freieNachbarnVonPflanze.toArray()[0];
+        } catch (Exception e) {
+            p = null;
+        }
+        return p;
     }
 
     /**
@@ -73,6 +80,11 @@ public class Einzelernte extends Unterauftrag {
                 break;
             // Fahre zu Position
             case 1:
+                if (!roboterleitsystem.istPositionBefahrbar(zielPosition, roboter) || zielPosition == null) {
+                    zielPosition = berechneZielPosition();
+                    roboter.warte();
+                    break;
+                }
                 if (!roboter.getPosition().equals(zielPosition)) {
                     fahreZuNachbarposition(roboter);
                 } else {
