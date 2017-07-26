@@ -50,7 +50,7 @@ public class Logging {
      * @param msg       Nachricht, die zu loggen ist
      */
     public static void log(String className, Level level, String msg) {
-        //   getLogger().log(level, "Class: "+className+" Message: "+msg);
+        getLogger().log(level, "Class: " + className + " Message: " + msg);
     }
 
 

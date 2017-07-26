@@ -37,6 +37,10 @@ public class Roboter extends Observable implements Observer {
         notifyObservers();
     }
 
+    public int getFuellstand() {
+        return pflanzenContainer.size();
+    }
+
     /**
      * Gibt die UUID des Roboters zurück
      *

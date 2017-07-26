@@ -1,12 +1,12 @@
 package gewaechshaus.logic;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 public class EinzelernteTest {
 	Einzelernte einzelernte;
@@ -44,7 +44,7 @@ public class EinzelernteTest {
 	public void fahreZuNachbarpositionNachUntenPositiv() throws KeinWegGefundenException {
 		//roboter = Mockito.mock(Roboter.class);
 		Mockito.when(roboter.getPosition()).thenReturn(new Position(2, 1));
-		
+
 		roboterleitsystem = Mockito.mock(Roboterleitsystem.class);
 		Mockito.when(roboterleitsystem.getFreieNachbarFelderVon(ep.getPosition()))
 				.thenReturn(freieNachbarfelder);

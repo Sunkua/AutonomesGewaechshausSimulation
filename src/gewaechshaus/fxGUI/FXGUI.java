@@ -94,7 +94,7 @@ public class FXGUI extends Application {
 
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 8), gitter, 1200, 1200, pVerwaltung, leitSystem);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 12), gitter, 1200, 1200, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 4, 1, 2);
 
         // Stage building
