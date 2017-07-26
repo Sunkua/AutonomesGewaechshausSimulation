@@ -378,8 +378,11 @@ public class Roboterleitsystem extends Observable implements Observer {
             naechstesRunnableAusQueueAusfuehren();
             for (Roboter r : roboterListe) {
                 r.aktualisiereLadestand();
-            }
 
+            }
         }
+
+
     }
 }
+
