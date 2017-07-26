@@ -127,11 +127,11 @@ public class Akku extends Observable {
         this.ladestand = Math.max(Math.min(this.ladestand, 100), 0);
 
         if (ladestand <= kritischeGrenze && ladestandAlt > kritischeGrenze) {
-            hasChanged();
+            setChanged();
             notifyObservers();
         }
         if (ladestand <= 0.0 && ladestandAlt > 0.0) {
-            hasChanged();
+            setChanged();
             notifyObservers();
         }
         ladestandAlt = ladestand;
