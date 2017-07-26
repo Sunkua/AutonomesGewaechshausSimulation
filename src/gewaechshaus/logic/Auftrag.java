@@ -136,8 +136,6 @@ public class Auftrag extends Observable implements Observer {
             throw new Exception("Mehr Unteraufträge aktiv als Roboter im System. Fehler wahrscheinlich auf Multithreading zurückzuführen");
 
         }
-
-
     }
 
     /**
