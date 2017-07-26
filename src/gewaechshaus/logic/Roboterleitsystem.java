@@ -1,5 +1,7 @@
 package gewaechshaus.logic;
 
+import jdk.nashorn.internal.ir.Block;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -8,10 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 
@@ -45,7 +44,7 @@ public class Roboterleitsystem extends Observable implements Observer {
         ladestationen = new HashMap<>();
         roboterListe = new ArrayList<Roboter>();
         this.gitter = gitter;
-        runnableQueueZumAusfuehren = new LinkedBlockingQueue<>();
+        runnableQueueZumAusfuehren = new LinkedBlockingQueue<Runnable>();
         executorQueue = new LinkedBlockingQueue<Runnable>();
         execService = new ThreadPoolExecutor(1, 1,
                 10, TimeUnit.MILLISECONDS,
@@ -305,10 +304,15 @@ public class Roboterleitsystem extends Observable implements Observer {
             if (a.getStatus() == AuftragsStatus.beendet) {
 
                 // Wenn Auftrag beendet, dann aus der Queue entfernen
-                Auftrag auftrag = auftragsQueue.remove();
-                auftrag.deleteObservers();
-                Logging.log(this.getClass().getName(), Level.INFO, "Auftrag wurde beendet");
-                verteileUnterauftraege();
+                try {
+                    Auftrag auftrag = auftragsQueue.remove();
+                    auftrag.deleteObservers();
+                    Logging.log(this.getClass().getName(), Level.INFO, "Auftrag wurde beendet");
+                    verteileUnterauftraege();
+                } catch (Exception e) {
+                    Logging.log(this.getClass().getName(), Level.INFO, "Thread versucht Auftrag mehrfach zu beenden");
+                }
+
             } else {
                 verteileUnterauftraege();
             }

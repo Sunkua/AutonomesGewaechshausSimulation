@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -83,21 +84,31 @@ public class FXGUI extends Application {
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setPadding(new Insets(25));
+        ColumnConstraints col0 = new ColumnConstraints();
+        ColumnConstraints col1 = new ColumnConstraints();
+        col0.setPercentWidth(60);
+        col1.setPercentWidth(40);
+        grid.getColumnConstraints().addAll(col0, col1);
+
+
         // Set width and height
+
         Scene scene = new Scene(grid, 400, 400, Color.BLACK);
         // Left Pane
         Text scenetitle = new Text("Gewächshausverwaltungssoftware");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-        grid.add(scenetitle, 0, 0);
+
+        grid.add(scenetitle, 0, 0, 1, 1);
+
 
         //   Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / Konstanten.skalierungsfaktor), gitter, Konstanten.canvasDimensionX, Konstanten.canvasDimensionY, pVerwaltung, leitSystem);
-        grid.add(canvas, 0, 4, 1, 2);
+        grid.add(canvas, 0, 2, 1, 2);
 
         // Stage building
         stage.setScene(scene);
