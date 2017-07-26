@@ -28,9 +28,9 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 
 
     @XmlElement
-    private Position maxGröße = new Position(0, 0);
+    private Position maxGroesse = new Position(0, 0);
     private Gitter gitter;
-    private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
+    private LinkedBlockingQueue<Runnable> runnableQueueZumAusfuehren;
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
 
@@ -44,7 +44,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         this.gitter = gitter;
         gitter.initialisiereBeet();
         pflanzenListe = new HashMap<>();
-        runnableQueueToExecute = new LinkedBlockingQueue<>();
+        runnableQueueZumAusfuehren = new LinkedBlockingQueue<>();
         executorQueue = new LinkedBlockingQueue<Runnable>();
         execService = new ThreadPoolExecutor(1, 1,
                 10, TimeUnit.MILLISECONDS,
@@ -182,7 +182,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
             JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            m.marshal(this, new File("zustand"));
+            m.marshal(this, new File("Pflanzenverwaltung_Zustand.xml"));
         } catch (Exception e) {
             Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
@@ -195,9 +195,9 @@ public class Pflanzenverwaltung extends Observable implements Observer {
         try {
             JAXBContext context = JAXBContext.newInstance(Pflanzenverwaltung.class);
             Unmarshaller m = context.createUnmarshaller();
-            Pflanzenverwaltung pflanzenverwaltung = (Pflanzenverwaltung) m.unmarshal(new FileReader("zustand"));
+            Pflanzenverwaltung pflanzenverwaltung = (Pflanzenverwaltung) m.unmarshal(new FileReader("Pflanzenverwaltung_Zustand.xml"));
             this.pflanzenListe = pflanzenverwaltung.pflanzenListe;
-            this.maxGröße = pflanzenverwaltung.maxGröße;
+            this.maxGroesse = pflanzenverwaltung.maxGroesse;
         } catch (Exception e) {
             Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
         }
@@ -230,8 +230,8 @@ public class Pflanzenverwaltung extends Observable implements Observer {
      * Führt das nächste Runnable aus der Queue aus
      */
     private void naechstesRunnableAusQueueAusfuehren() {
-        if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
-            execService.execute(runnableQueueToExecute.poll());
+        if (runnableQueueZumAusfuehren.size() > 0 && executorQueue.isEmpty()) {
+            execService.execute(runnableQueueZumAusfuehren.poll());
         }
     }
 
@@ -244,7 +244,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Uhr) {
-            runnableQueueToExecute.add(wachsenRunnableErstellen());
+            runnableQueueZumAusfuehren.add(wachsenRunnableErstellen());
             naechstesRunnableAusQueueAusfuehren();
         }
     }

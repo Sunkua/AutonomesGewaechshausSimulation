@@ -1,6 +1,12 @@
 package gewaechshaus.logic;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
+import java.io.FileReader;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -9,15 +15,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 
-@XmlRootElement(namespace = "gewaeshaus.logic")
+@XmlRootElement(namespace = "gewaechshaus.logic")
 public class Roboterleitsystem extends Observable implements Observer {
 
+    @XmlElement
     private Queue<Auftrag> auftragsQueue;
+    @XmlElement
     private HashMap<Position, Abladestation> abladestationen;
+    @XmlElement
     private HashMap<Position, Ladestation> ladestationen;
-    private List<Roboter> roboterList;
+    @XmlElement
+    private List<Roboter> roboterListe;
     private Gitter gitter;
-    private LinkedBlockingQueue<Runnable> runnableQueueToExecute;
+    private LinkedBlockingQueue<Runnable> runnableQueueZumAusfuehren;
     private LinkedBlockingQueue<Runnable> executorQueue;
     private ExecutorService execService;
     private Uhr uhr;
@@ -33,9 +43,9 @@ public class Roboterleitsystem extends Observable implements Observer {
         auftragsQueue = new LinkedList<Auftrag>();
         abladestationen = new HashMap<>();
         ladestationen = new HashMap<>();
-        roboterList = new ArrayList<Roboter>();
+        roboterListe = new ArrayList<Roboter>();
         this.gitter = gitter;
-        runnableQueueToExecute = new LinkedBlockingQueue<>();
+        runnableQueueZumAusfuehren = new LinkedBlockingQueue<>();
         executorQueue = new LinkedBlockingQueue<Runnable>();
         execService = new ThreadPoolExecutor(1, 1,
                 10, TimeUnit.MILLISECONDS,
@@ -55,7 +65,7 @@ public class Roboterleitsystem extends Observable implements Observer {
             roboter.setPosition(gitter.getNaechsteFreieRoboterPosition());
             roboter.setRoboterStatus(RoboterStatus.eBereit);
             roboter.addObserver(this);
-            roboterList.add(roboter);
+            roboterListe.add(roboter);
             setChanged();
             notifyObservers();
         } catch (Exception e) {
@@ -81,7 +91,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      */
     public Set<Position> getRoboterPositionen() {
         Set<Position> res = new HashSet<>();
-        for (Roboter r : roboterList) {
+        for (Roboter r : roboterListe) {
             res.add(r.getPosition());
         }
         return res;
@@ -117,7 +127,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @return Roboter
      */
     public List<Roboter> getRoboter() {
-        return roboterList;
+        return roboterListe;
     }
 
     /**
@@ -148,8 +158,8 @@ public class Roboterleitsystem extends Observable implements Observer {
      */
     private void naechstesRunnableAusQueueAusfuehren() {
 
-        if (runnableQueueToExecute.size() > 0 && executorQueue.isEmpty()) {
-            execService.execute(runnableQueueToExecute.poll());
+        if (runnableQueueZumAusfuehren.size() > 0 && executorQueue.isEmpty()) {
+            execService.execute(runnableQueueZumAusfuehren.poll());
         }
     }
 
@@ -207,7 +217,7 @@ public class Roboterleitsystem extends Observable implements Observer {
                 tAuftrag.addObserver(this);
                 uhr.addObserver(tAuftrag);
             }
-            for (Roboter r : roboterList) {
+            for (Roboter r : roboterListe) {
                 switch (r.getStatus()) {
                     // Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
                     default:
@@ -276,7 +286,7 @@ public class Roboterleitsystem extends Observable implements Observer {
      * @throws Exception Wirft Exception, wenn kein Roboter gefunden wurde
      */
     public Roboter getRoboterAnPosition(Position p) throws Exception {
-        for (Roboter r : roboterList) {
+        for (Roboter r : roboterListe) {
             if (r.getPosition().equals(p)) {
                 return r;
             }
@@ -305,6 +315,37 @@ public class Roboterleitsystem extends Observable implements Observer {
         };
     }
 
+    /**
+     * Speichert den aktuellen Zustand inklusiver der Aufträge in einer Datei
+     */
+    public void roboterLeitsystemZustandInDateiSpeichern() {
+        try {
+            JAXBContext context = JAXBContext.newInstance(Roboterleitsystem.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(this, new File("Roboterleitsystem_Zustand.xml"));
+        } catch (Exception e) {
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
+        }
+    }
+
+    /**
+     * Liest den Zustand eines Roboterleitsystems aus einer Datei und spielt diesen ein
+     */
+    public void roboterLeitsystemZustandAusDateiLesen() {
+        try {
+            JAXBContext context = JAXBContext.newInstance(Roboterleitsystem.class);
+            Unmarshaller m = context.createUnmarshaller();
+            Roboterleitsystem roboterleitsystem = (Roboterleitsystem) m.unmarshal(new FileReader("Roboterleitsystem_Zustand.xml"));
+            this.auftragsQueue = roboterleitsystem.auftragsQueue;
+            this.abladestationen = roboterleitsystem.abladestationen;
+            this.ladestationen = roboterleitsystem.ladestationen;
+            this.roboterListe = roboterleitsystem.roboterListe;
+        } catch (Exception e) {
+            Logging.log(this.getClass().getSimpleName(), Level.SEVERE, e.getMessage());
+        }
+    }
+
 
     /**
      * Update Routine
@@ -327,11 +368,11 @@ public class Roboterleitsystem extends Observable implements Observer {
 
         } else if (o instanceof Auftrag) {
             Auftrag a = (Auftrag) o;
-            runnableQueueToExecute.add(erstelleAuftragsRunnable(a));
+            runnableQueueZumAusfuehren.add(erstelleAuftragsRunnable(a));
             naechstesRunnableAusQueueAusfuehren();
         } else if (o instanceof Uhr) {
             naechstesRunnableAusQueueAusfuehren();
-            for (Roboter r : roboterList) {
+            for (Roboter r : roboterListe) {
                 r.aktualisiereLadestand();
             }
 
