@@ -34,14 +34,14 @@ public class FXGUI extends Application {
         // TODO Auto-generated method
         // Breite und Höhe werden als fester Wert angenommen, der der Feldanzahl entspricht. Die richtigen Maße müssten
         // relativ zur Feldanzahl bzw. Breite oder Höhe berechnet werden
-        Gitter gitter = new Gitter(24, 24f, 24, 24);
+        Gitter gitter = new Gitter(12, 12f, 12, 12);
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
         Uhr uhr = new Uhr(300);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
-        Position abladestelle = new Position(23f, 23f);
+        Position abladestelle = new Position(11, 11f);
         Position abladestelle2 = new Position(0f, 0f);
 
         gitter.toKarthesisch(abladestelle);
@@ -49,8 +49,8 @@ public class FXGUI extends Application {
         Abladestation abladestation = new Abladestation(abladestelle);
         Abladestation abladestation2 = new Abladestation(abladestelle2);
 
-        Position ladestelle = new Position(0f, 23f);
-        Position ladestelle2 = new Position(23f, 0f);
+        Position ladestelle = new Position(0f, 11f);
+        Position ladestelle2 = new Position(11f, 0f);
         gitter.toKarthesisch(ladestelle);
         gitter.toKarthesisch(ladestelle2);
         Ladestation ladestation = new Ladestation(ladestelle);
@@ -89,12 +89,14 @@ public class FXGUI extends Application {
         // Left Pane
         Text scenetitle = new Text("Gewächshausverwaltungssoftware");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
         grid.add(scenetitle, 0, 0);
+
         //   Aktionsgrid interaktionsGrid = new Aktionsgrid();
 
 
         // Canvas-Building, Event-Listeners redraw on rescale
-        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / 12), gitter, 1200, 1200, pVerwaltung, leitSystem);
+        FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / Konstanten.skalierungsfaktor), gitter, Konstanten.canvasDimensionX, Konstanten.canvasDimensionY, pVerwaltung, leitSystem);
         grid.add(canvas, 0, 4, 1, 2);
 
         // Stage building

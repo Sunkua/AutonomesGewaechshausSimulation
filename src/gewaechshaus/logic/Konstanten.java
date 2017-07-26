@@ -16,4 +16,10 @@ public class Konstanten {
     public static double GewichtTomate = 0.2;
     public static double WachstumGurke = 0.2; // % pro Uhr-Tick
     public static double WachstumTomate = 0.4;// % pro Uhr-Tick
+
+    // Skalierung und Auflösung des Canvas
+    public static int canvasDimensionX = 500;
+    public static int canvasDimensionY = 500;
+    // Kleiner == größer
+    public static int skalierungsfaktor = 10;
 }
