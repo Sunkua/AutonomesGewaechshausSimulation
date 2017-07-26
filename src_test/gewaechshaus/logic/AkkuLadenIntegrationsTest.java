@@ -1,10 +1,7 @@
 package gewaechshaus.logic;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 

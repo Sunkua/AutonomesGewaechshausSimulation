@@ -16,7 +16,6 @@ public class PflanzenverwaltungTest {
 
 
     private Pflanzenverwaltung pv;
-    private Einzelpflanze ep;
     private HashMap<Position, Einzelpflanze> map;
     Gitter gitter;
 
