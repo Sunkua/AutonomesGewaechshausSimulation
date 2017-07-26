@@ -35,14 +35,14 @@ public class FXGUI extends Application {
         // TODO Auto-generated method
         // Breite und Höhe werden als fester Wert angenommen, der der Feldanzahl entspricht. Die richtigen Maße müssten
         // relativ zur Feldanzahl bzw. Breite oder Höhe berechnet werden
-        Gitter gitter = new Gitter(12, 12f, 12, 12);
+        Gitter gitter = new Gitter(24, 24f, 24, 24);
 
         Pflanzenverwaltung pVerwaltung = new Pflanzenverwaltung(gitter);
 
         Uhr uhr = new Uhr(300);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
-        Position abladestelle = new Position(11, 11f);
+        Position abladestelle = new Position(23, 23f);
         Position abladestelle2 = new Position(0f, 0f);
 
         gitter.toKarthesisch(abladestelle);
@@ -50,8 +50,8 @@ public class FXGUI extends Application {
         Abladestation abladestation = new Abladestation(abladestelle);
         Abladestation abladestation2 = new Abladestation(abladestelle2);
 
-        Position ladestelle = new Position(0f, 11f);
-        Position ladestelle2 = new Position(11f, 0f);
+        Position ladestelle = new Position(0f, 23f);
+        Position ladestelle2 = new Position(23f, 0f);
         gitter.toKarthesisch(ladestelle);
         gitter.toKarthesisch(ladestelle2);
         Ladestation ladestation = new Ladestation(ladestelle);
@@ -70,7 +70,7 @@ public class FXGUI extends Application {
         leitSystem.ladestationHinzufuegen(ladestation2);
 
         // Roboter hinzufügen
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             leitSystem.roboterHinzufuegen(pVerwaltung);
         }
 
@@ -85,11 +85,6 @@ public class FXGUI extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25));
-        ColumnConstraints col0 = new ColumnConstraints();
-        ColumnConstraints col1 = new ColumnConstraints();
-        col0.setPercentWidth(60);
-        col1.setPercentWidth(40);
-        grid.getColumnConstraints().addAll(col0, col1);
 
 
         // Set width and height
@@ -108,7 +103,7 @@ public class FXGUI extends Application {
 
         // Canvas-Building, Event-Listeners redraw on rescale
         FXGewaechshausCanvas canvas = new FXGewaechshausCanvas((int) Math.round(scene.getWidth() / Konstanten.skalierungsfaktor), gitter, Konstanten.canvasDimensionX, Konstanten.canvasDimensionY, pVerwaltung, leitSystem);
-        grid.add(canvas, 0, 2, 1, 2);
+        grid.add(canvas, 0, 4, 1, 2);
 
         // Stage building
         stage.setScene(scene);
@@ -136,6 +131,15 @@ public class FXGUI extends Application {
         Button timerStart = new Button("Simulationsuhr starten");
         Button timerStop = new Button("Simulationsuhr anhalten");
         Button timerPeriodeAktualisieren = new Button("Timer-Periodendauer setzen");
+        Button loggingAnAus = new Button("Logging ausschalten");
+        loggingAnAus.setOnAction(e -> {
+            Konstanten.loggingAn = !Konstanten.loggingAn;
+            if (Konstanten.loggingAn) {
+                loggingAnAus.setText("Logging ausschalten");
+            } else {
+                loggingAnAus.setText("Logging anschalten");
+            }
+        });
         NummerFeld simulationsPeriode = new NummerFeld();
 
         timerStart.setOnAction(e -> uhr.startTimer());
@@ -153,6 +157,7 @@ public class FXGUI extends Application {
         simulationsGrid.add(timerPeriodeAktualisieren, 0, 2);
         simulationsGrid.add(simulationsPeriode, 1, 2);
         simulationsGrid.add(simulationsSchritt, 0, 3);
+        simulationsGrid.add(loggingAnAus, 1, 3);
 
 
         ObservableList<String> options =
