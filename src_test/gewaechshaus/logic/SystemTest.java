@@ -60,6 +60,9 @@ public class SystemTest {
         	a++;
         }
         
+        // Teste ob es wirklich nicht mehr leer ist oder er nur aus der Schleife geflogen ist
+        Assert.assertFalse(pVerwaltung.holePflanzenVonStatus(PflanzenStatus.eReif).isEmpty());
+        
         leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonStatusErnten(PflanzenStatus.eReif));
         
         a = 0; // Safeguard, falls der Roboter nicht fährt.
