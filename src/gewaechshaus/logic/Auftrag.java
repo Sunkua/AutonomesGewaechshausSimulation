@@ -220,12 +220,32 @@ public class Auftrag extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Unterauftrag) {
             Unterauftrag uAuftrag = (Unterauftrag) o;
-            runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
-            naechstesRunnableAusQueueAusfuehren();
+
+            Runnable runnable = () -> {
+                if (uAuftrag.getStatus().equals(UnterauftragsStatus.beendet)) {
+                    // Unterauftrag als Observer entfernen, damit Ausführen nicht mehr bei jedem Schritt getriggert wird
+                    uhr.deleteObserver(uAuftrag);
+                    Roboter roboter = uAuftrag.getRoboter();
+                    roboter.setUnterauftrag(null);
+                    uAuftrag.deleteObservers();
+                    // Roboterleitsystem benachrichtigen, damit es nächsten Unterauftrag anstoßen kann
+                    if (unterauftraege.size() == 0) {
+                        status = AuftragsStatus.beendet;
+
+                    }
+                    aktiveUnterauftraege.remove(uAuftrag);
+                    setChanged();
+                    notifyObservers();
+                }
+            };
+
+            runnable.run();
+            //   runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
+            // naechstesRunnableAusQueueAusfuehren();
         }
-        if (o instanceof Uhr) {
+   /*     if (o instanceof Uhr) {
             naechstesRunnableAusQueueAusfuehren();
 
-        }
+        }*/
     }
 }
