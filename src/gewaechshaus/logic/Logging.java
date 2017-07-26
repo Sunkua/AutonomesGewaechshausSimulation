@@ -14,6 +14,7 @@ public class Logging {
     private static Logger logger = null;
     public Handler fileHandler = null;
 
+
     /**
      * Initialisiert den Logger, gibt ihm einen Filehandler zum Schreiben in eine Datei und formatiert die Ausgabe.
      *
@@ -50,7 +51,9 @@ public class Logging {
      * @param msg       Nachricht, die zu loggen ist
      */
     public static void log(String className, Level level, String msg) {
-        getLogger().log(level, "Class: " + className + " Message: " + msg);
+        if (Konstanten.loggingAn) {
+            getLogger().log(level, "Class: " + className + " Message: " + msg);
+        }
     }
 
 

@@ -19,9 +19,7 @@ public class Auftrag extends Observable implements Observer {
     private List<Unterauftrag> unterauftraege;
     private Uhr uhr;
     private AuftragsStatus status;
-    private LinkedBlockingQueue<Runnable> runnableQueue;
-    private LinkedBlockingQueue<Runnable> executorQueue;
-    private ExecutorService execService;
+
     private Roboterleitsystem roboterleitsystem;
     private List<Unterauftrag> aktiveUnterauftraege;
 
@@ -32,13 +30,6 @@ public class Auftrag extends Observable implements Observer {
      * @param roboterleitsystem Leitsystem zur Verteilung der Unteraufträge an die Roboter
      */
     public Auftrag(Uhr uhr, Roboterleitsystem roboterleitsystem) {
-        runnableQueue = new LinkedBlockingQueue<>();
-        executorQueue = new LinkedBlockingQueue<>();
-
-        execService = new ThreadPoolExecutor(1, 1,
-                10, TimeUnit.MILLISECONDS,
-                executorQueue);
-
         aktiveUnterauftraege = new ArrayList<>();
         this.roboterleitsystem = roboterleitsystem;
         this.uhr = uhr;
@@ -172,14 +163,6 @@ public class Auftrag extends Observable implements Observer {
     }
 
 
-    /**
-     * Führt das nächste Runnable aus der Runnable-Queue aus
-     */
-    private void naechstesRunnableAusQueueAusfuehren() {
-        if (runnableQueue.size() > 0 && executorQueue.isEmpty()) {
-            execService.execute(runnableQueue.poll());
-        }
-    }
 
     /**
      * Erstellt ein Runnable auf Basis eines Unterauftrags. Das Runnable prüft ob der Unterauftrag beendet wurde und
@@ -240,12 +223,6 @@ public class Auftrag extends Observable implements Observer {
             };
 
             runnable.run();
-            //   runnableQueue.add(unterauftragsRunnableErstellen(uAuftrag));
-            // naechstesRunnableAusQueueAusfuehren();
         }
-   /*     if (o instanceof Uhr) {
-            naechstesRunnableAusQueueAusfuehren();
-
-        }*/
     }
 }
