@@ -8,24 +8,23 @@ import java.util.logging.Level;
  */
 public class Einzelscan extends Unterauftrag {
 
-    public Einzelscan() {
+	public Einzelscan() {
 
-        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
-    }
+		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+	}
 
+	/**
+	 * Startet die Ausführung des Auftrags.
+	 */
+	@Override
+	public void ausfuehren(Roboter roboter) {
+		if (roboter != null) {
 
-    /**
-     * Startet die Ausführung des Auftrags.
-     */
-    @Override
-    public void ausfuehren(Roboter roboter) {
-        if (roboter != null) {
+		}
+	}
 
-        }
-    }
+	@Override
+	public void update(Observable o, Object arg) {
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
+	}
 }

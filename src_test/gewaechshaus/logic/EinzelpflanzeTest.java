@@ -25,8 +25,8 @@ public class EinzelpflanzeTest {
 	@Test
 	public void erstelleEinzelpflanzeNichtNull() throws Exception {
 		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif);
-        assertFalse(einzelpflanze == null);
-    }
+		assertFalse(einzelpflanze == null);
+	}
 
 	@Test
 	public void setPflanzenStatusReif() {
