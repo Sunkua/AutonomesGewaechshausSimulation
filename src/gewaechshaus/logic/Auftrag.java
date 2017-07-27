@@ -39,6 +39,7 @@ public class Auftrag extends Observable implements Observer {
 	}
 
 	/**
+	 * Gibt den Status des Auftrags zurück
 	 * @return Auftragsstatus
 	 */
 	public AuftragsStatus getStatus() {
@@ -207,8 +208,7 @@ public class Auftrag extends Observable implements Observer {
 	 * keine Unteraufträge mehr wird das Leitsystem benachrichtigt, dass der
 	 * Auftrag abgeschlossen ist
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Unterauftrag
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

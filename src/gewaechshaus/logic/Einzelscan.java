@@ -9,12 +9,11 @@ import java.util.logging.Level;
 public class Einzelscan extends Unterauftrag {
 
 	public Einzelscan() {
-
 		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
 	}
 
 	/**
-	 * Startet die Ausführung des Auftrags.
+	 * Nicht implementiert, lediglich als Stub
 	 */
 	@Override
 	public void ausfuehren(Roboter roboter) {
@@ -23,6 +22,9 @@ public class Einzelscan extends Unterauftrag {
 		}
 	}
 
+	/**
+	 * Nicht implementiert, lediglich als Stub
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 

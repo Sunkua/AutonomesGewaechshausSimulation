@@ -34,7 +34,7 @@ public class Abladen extends Unterauftrag {
 	 * Berechnet die Zielposition, die vom Roboter angefahren werden soll. Soll
 	 * immer eine Nachbarposition der eingegebenen Zielposition sein
 	 *
-	 * @return
+	 * @return Gibt die Position des Ziels zurück
 	 */
 	private Position berechneZielPosition() {
 		Position p;
@@ -50,6 +50,7 @@ public class Abladen extends Unterauftrag {
 
 	/**
 	 * Startet die Ausführung des Auftrags.
+	 * @param roboter Roboter für den Auftrag
 	 */
 	@Override
 	public void ausfuehren(Roboter roboter) {
@@ -139,6 +140,10 @@ public class Abladen extends Unterauftrag {
 		}
 	}
 
+	/**
+	 * Updatefunktion zur Aktualisierung
+	 * @param o Uhr
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof Uhr) {

@@ -39,7 +39,7 @@ public class Abladestation extends Observable {
 	/**
 	 * Git die UUID zurück
 	 *
-	 * @return
+	 * @return ID der Abladestation
 	 */
 	public UUID getID() {
 		return this.id;
@@ -78,7 +78,7 @@ public class Abladestation extends Observable {
 	/**
 	 * Gibt alle Pflanzenarten für die Abladestation zurück
 	 *
-	 * @return
+	 * @return Pflanzenarten der Station
 	 */
 	public HashSet<PflanzenArt> getPflanzenart() {
 		return pflanzenarten;

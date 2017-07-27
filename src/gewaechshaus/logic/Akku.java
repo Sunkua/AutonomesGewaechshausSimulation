@@ -35,7 +35,7 @@ public class Akku extends Observable {
 	/**
 	 * Gibt den Ladestand des Akkus zurück
 	 *
-	 * @return
+	 * @return Ladestand
 	 */
 	public double getLadestand() {
 		return this.ladestand;
@@ -101,8 +101,8 @@ public class Akku extends Observable {
 	 * Prüft ob die angegebene kritische Grenze innerhalb ihres
 	 * Gültigkeitsbereiches ist
 	 *
-	 * @param kritischeGrenze
-	 * @return
+	 * @param kritischeGrenze Grenze, auf die geprüft werden soll
+	 * @return Gültigkeit
 	 */
 	private boolean istkritischeGrenzeImGueltigkeitsbereich(double kritischeGrenze) {
 		return (kritischeGrenze <= 100 && kritischeGrenze >= 0);

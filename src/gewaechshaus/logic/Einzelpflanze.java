@@ -64,7 +64,7 @@ public class Einzelpflanze {
 	/**
 	 * Gibt den Reifegrad der Pflanze zurück
 	 *
-	 * @return
+	 * @return Aktueller Reifestatus
 	 */
 	public double getReifestatus() {
 		return reifestatus;
@@ -73,7 +73,7 @@ public class Einzelpflanze {
 	/**
 	 * Setzt den Reifestatus und damit auch den Pflanzenstatus
 	 *
-	 * @param reifestatus
+	 * @param reifestatus Neuer Reifestatus
 	 */
 	public void setReifestatus(double reifestatus) {
 		if (reifestatus < 0)
@@ -181,7 +181,7 @@ public class Einzelpflanze {
 	/**
 	 * Lässt die Pflanze wachsen / reifen
 	 */
-	public void Wachse() {
+	public void wachse() {
 		switch (art) {
 		case eTomate:
 			setReifestatus(reifestatus + Konstanten.WachstumTomate);
