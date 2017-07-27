@@ -6,22 +6,21 @@ package gewaechshaus.logic;
  */
 public class KeinWegGefundenException extends Exception {
 
-	
-	private static final long serialVersionUID = -4348278189646857624L;
 
-	/**
-	 * Stub zum Abfangen eines Aufrufs ohne Nachricht
-	 */
-	public KeinWegGefundenException() {
-	}
+    private static final long serialVersionUID = -4348278189646857624L;
 
-	/**
-	 * Konstruktor
-	 *
-	 * @param nachricht
-	 *            Nachricht in der Exception
-	 */
-	public KeinWegGefundenException(String nachricht) {
-		super(nachricht);
-	}
+    /**
+     * Stub zum Abfangen eines Aufrufs ohne Nachricht
+     */
+    public KeinWegGefundenException() {
+    }
+
+    /**
+     * Konstruktor
+     *
+     * @param nachricht Nachricht in der Exception
+     */
+    public KeinWegGefundenException(String nachricht) {
+        super(nachricht);
+    }
 }

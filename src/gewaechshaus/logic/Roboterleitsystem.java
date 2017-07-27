@@ -8,7 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
@@ -34,10 +37,8 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Konstruktor für ein Roboterleitsystem
 	 *
-	 * @param gitter
-	 *            Gitter für die Wegberechnung
-	 * @param uhr
-	 *            Uhr zum triggern der Events
+	 * @param gitter Gitter für die Wegberechnung
+	 * @param uhr    Uhr zum triggern der Events
 	 */
 	public Roboterleitsystem(Gitter gitter, Uhr uhr) {
 		this.uhr = uhr;
@@ -56,8 +57,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Fügt einen Roboter in das Leitsystem ein
 	 *
-	 * @param pflanzenverwaltung
-	 *            Die Pflanzenverwaltung für den Roboter
+	 * @param pflanzenverwaltung Die Pflanzenverwaltung für den Roboter
 	 */
 	public void roboterHinzufuegen(Pflanzenverwaltung pflanzenverwaltung) {
 		try {
@@ -77,8 +77,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Gibt die freien Nachbarfelder einer Position zurück
 	 *
-	 * @param p
-	 *            Position deren Nachbarn gesucht werden
+	 * @param p Position deren Nachbarn gesucht werden
 	 * @return Liste mit freien Nachbarn
 	 */
 	public List<Position> getFreieNachbarFelderVon(Position p) {
@@ -101,11 +100,9 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Gibt an ob eine Position für einen Roboter befahrbar ist
 	 *
-	 * @param p
-	 *            zu prüfende Position
-	 * @param r
-	 *            Roboter der zu Posiiton fahren soll damit eigene Position
-	 *            nicht berücksichtigt wird
+	 * @param p zu prüfende Position
+	 * @param r Roboter der zu Posiiton fahren soll damit eigene Position
+	 *          nicht berücksichtigt wird
 	 * @return true wenn befahrbar ansonsten false
 	 */
 	public boolean istPositionBefahrbar(Position p, Roboter r) {
@@ -137,14 +134,11 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Gibt den Pfad von einer Koordinate zur anderen als Liste zurück
 	 *
-	 * @param von
-	 *            von Position
-	 * @param nach
-	 *            nach Position
+	 * @param von  von Position
+	 * @param nach nach Position
 	 * @return liste von Koordinaten, die abgefahren werden müssen um ans Ziel
-	 *         zu gelangen
-	 * @throws KeinWegGefundenException
-	 *             Wirft Exception, wenn kein Weg gefunden wurde
+	 * zu gelangen
+	 * @throws KeinWegGefundenException Wirft Exception, wenn kein Weg gefunden wurde
 	 */
 	public ArrayList<Position> getPfadVonNach(Position von, Position nach) throws KeinWegGefundenException {
 		return gitter.kuerzesterWegNach(von, nach);
@@ -153,8 +147,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Fügt einen Auftrag hinzu
 	 *
-	 * @param auftrag
-	 *            Auftrag
+	 * @param auftrag Auftrag
 	 */
 	public void auftragHinzufuegen(Auftrag auftrag) {
 		auftragsQueue.add(auftrag);
@@ -175,8 +168,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Fügt eine Abladestation in das System ein
 	 *
-	 * @param abladestation
-	 *            Abladestation zum Hinzufügen
+	 * @param abladestation Abladestation zum Hinzufügen
 	 */
 	public void abladestationHinzufuegen(Abladestation abladestation) {
 		if (gitter.getPositionsbelegung(abladestation.getPosition()).equals(Positionsbelegung.frei)) {
@@ -189,8 +181,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Entfernt eine Abladestation
 	 *
-	 * @param abladestation
-	 *            Abladestation zum Entfernen
+	 * @param abladestation Abladestation zum Entfernen
 	 */
 	public void abladestationEntfernen(Abladestation abladestation) {
 		abladestationen.remove(abladestation.getPosition());
@@ -199,8 +190,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Entfernt eine Ladestation aus dem System
 	 *
-	 * @param ladestation
-	 *            Ladestation zum Entfernen
+	 * @param ladestation Ladestation zum Entfernen
 	 */
 	public void ladestationEntfernen(Ladestation ladestation) {
 		ladestationen.remove(ladestation.getPosition());
@@ -209,8 +199,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Fügt eine Ladestation in das System ein
 	 *
-	 * @param ladestation
-	 *            Ladestation zum Hinzufügen
+	 * @param ladestation Ladestation zum Hinzufügen
 	 */
 	public void ladestationHinzufuegen(Ladestation ladestation) {
 		if (gitter.getPositionsbelegung(ladestation.getPosition()).equals(Positionsbelegung.frei)) {
@@ -232,19 +221,19 @@ public class Roboterleitsystem extends Observable implements Observer {
 			}
 			for (Roboter r : roboterListe) {
 				switch (r.getStatus()) {
-				// Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
-				default:
-					if (tAuftrag.getUnterauftragsAnzahl() > 0) {
-						try {
-							tAuftrag.naechstenUnterauftragAusfuehren(r);
-						} catch (Exception e) {
-							Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
+					// Wenn Roboter bereit, dann naechsten Unterauftrag ausfuehren
+					default:
+						if (tAuftrag.getUnterauftragsAnzahl() > 0) {
+							try {
+								tAuftrag.naechstenUnterauftragAusfuehren(r);
+							} catch (Exception e) {
+								Logging.log(this.getClass().getName(), Level.WARNING, e.getMessage());
+							}
+						} else {
+							break;
 						}
-					} else {
-						break;
-					}
 
-					break;
+						break;
 				}
 			}
 		} else {
@@ -294,11 +283,9 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Gibt den Roboter an einer bestimmten Position zurück
 	 *
-	 * @param p
-	 *            Position p
+	 * @param p Position p
 	 * @return Roboter an Position p
-	 * @throws Exception
-	 *             Wirft Exception, wenn kein Roboter gefunden wurde
+	 * @throws Exception Wirft Exception, wenn kein Roboter gefunden wurde
 	 */
 	public Roboter getRoboterAnPosition(Position p) throws Exception {
 		for (Roboter r : roboterListe) {
@@ -313,8 +300,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	 * Erstellt ein Runnable zum verteilen von Unteraufträgen aus dem Auftrag
 	 * oder zum beenden des Auftrags
 	 *
-	 * @param a
-	 *            Auftrag mit zu verteilenden Unteraufträgen oder zum beenden
+	 * @param a Auftrag mit zu verteilenden Unteraufträgen oder zum beenden
 	 * @return Runnable für Auftrag
 	 */
 	private Runnable erstelleAuftragsRunnable(Auftrag a) {

@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /**
@@ -25,10 +21,8 @@ public class Auftrag extends Observable implements Observer {
 	/**
 	 * Erstellt einen Auftrag
 	 *
-	 * @param uhr
-	 *            Uhr zum Triggern der Ereignisse
-	 * @param roboterleitsystem
-	 *            Leitsystem zur Verteilung der Unteraufträge an die Roboter
+	 * @param uhr               Uhr zum Triggern der Ereignisse
+	 * @param roboterleitsystem Leitsystem zur Verteilung der Unteraufträge an die Roboter
 	 */
 	public Auftrag(Uhr uhr, Roboterleitsystem roboterleitsystem) {
 		aktiveUnterauftraege = new ArrayList<>();
@@ -40,6 +34,7 @@ public class Auftrag extends Observable implements Observer {
 
 	/**
 	 * Gibt den Status des Auftrags zurück
+	 *
 	 * @return Auftragsstatus
 	 */
 	public AuftragsStatus getStatus() {
@@ -79,41 +74,39 @@ public class Auftrag extends Observable implements Observer {
 	 * freien Unterauftrag aus. Wenn der Roboter nicht den Status bereit hat,
 	 * dann führe dem Status entsprechenden Unterauftrag aus
 	 *
-	 * @param r
-	 *            Roboter mit dem der Unterauftrag ausgeführt werden soll
-	 * @throws Exception
-	 *             Wirft eine Exception, wenn kein freier Roboter für die
-	 *             Ausführung gefunden wurde
+	 * @param r Roboter mit dem der Unterauftrag ausgeführt werden soll
+	 * @throws Exception Wirft eine Exception, wenn kein freier Roboter für die
+	 *                   Ausführung gefunden wurde
 	 */
 	public void naechstenUnterauftragAusfuehren(Roboter r) throws Exception {
 
 		if (aktiveUnterauftraege.size() <= roboterleitsystem.getRoboter().size()) {
 			Unterauftrag uAuftrag;
 			switch (r.getStatus()) {
-			case eBereit:
-				uAuftrag = popUnterauftrag();
-				break;
-			case eBehaelterVoll:
-				try {
-					uAuftrag = new Abladen(roboterleitsystem, roboterleitsystem.getFreieAbladestation());
-				} catch (Exception e) {
-					// Wenn keine freie Abladestation gefunden wurde, dann warte
-					r.warte();
-					return;
-				}
-				break;
-			case eAkkuKritisch:
-				try {
-					uAuftrag = new AkkuLaden(roboterleitsystem, roboterleitsystem.getFreieLadestation());
-				} catch (Exception e) {
-					// Wenn keine freie Ladestation gefunden wurde, dann warte
-					// bis Ladestation frei wird
-					r.warte();
-					return;
-				}
-				break;
-			default:
-				uAuftrag = null;
+				case eBereit:
+					uAuftrag = popUnterauftrag();
+					break;
+				case eBehaelterVoll:
+					try {
+						uAuftrag = new Abladen(roboterleitsystem, roboterleitsystem.getFreieAbladestation());
+					} catch (Exception e) {
+						// Wenn keine freie Abladestation gefunden wurde, dann warte
+						r.warte();
+						return;
+					}
+					break;
+				case eAkkuKritisch:
+					try {
+						uAuftrag = new AkkuLaden(roboterleitsystem, roboterleitsystem.getFreieLadestation());
+					} catch (Exception e) {
+						// Wenn keine freie Ladestation gefunden wurde, dann warte
+						// bis Ladestation frei wird
+						r.warte();
+						return;
+					}
+					break;
+				default:
+					uAuftrag = null;
 			}
 			if (uAuftrag != null) {
 				// Wenn Roboter keinen Unterauftrag zugewiesen hat
@@ -138,8 +131,7 @@ public class Auftrag extends Observable implements Observer {
 	/**
 	 * Prüft ob ein Roboter gerade einen Unterauftrag abarbeitet
 	 *
-	 * @param r
-	 *            zu prüfender Roboter
+	 * @param r zu prüfender Roboter
 	 * @return true wenn Roboter beschäftigt ist, ansonsten false
 	 */
 	private boolean pruefeObRoboterAktiv(Roboter r) {
@@ -163,8 +155,7 @@ public class Auftrag extends Observable implements Observer {
 	/**
 	 * Ersetzt die komplette Liste von Unteraufträgen.
 	 *
-	 * @param unterauftraege
-	 *            Neue Unteraufträge
+	 * @param unterauftraege Neue Unteraufträge
 	 */
 	public void setUnterauftraege(List<Unterauftrag> unterauftraege) {
 		this.unterauftraege = unterauftraege;
@@ -175,9 +166,8 @@ public class Auftrag extends Observable implements Observer {
 	 * ob der Unterauftrag beendet wurde und entfernt falls ja die Observer,
 	 * damit der Unterauftrag nicht weiter getriggert wird.
 	 *
-	 * @param uAuftrag
-	 *            Unterauftrag Unterauftrag der im Runnable behandelt werden
-	 *            soll
+	 * @param uAuftrag Unterauftrag Unterauftrag der im Runnable behandelt werden
+	 *                 soll
 	 * @return Gibt das erstellte Runnable zurück
 	 */
 	private Runnable unterauftragsRunnableErstellen(Unterauftrag uAuftrag) {

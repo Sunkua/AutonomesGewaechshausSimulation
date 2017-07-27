@@ -16,39 +16,39 @@ import java.util.Observer;
  */
 public class FXEigenschaftenGUI extends GridPane implements Observer {
 
-	TabPane tabPane;
-	FXRoboterTab roboterTab;
-	FXAblageTab ablageTab;
+    TabPane tabPane;
+    FXRoboterTab roboterTab;
+    FXAblageTab ablageTab;
 
-	public FXEigenschaftenGUI(Roboterleitsystem r) {
-		super();
-		this.setAlignment(Pos.CENTER_LEFT);
-		this.setHgap(10);
-		this.setVgap(10);
+    public FXEigenschaftenGUI(Roboterleitsystem r) {
+        super();
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.setHgap(10);
+        this.setVgap(10);
 
-		tabPane = new TabPane();
-		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		roboterTab = new FXRoboterTab(r);
-		roboterTab.setText("Roboter");
-		tabPane.getTabs().add(roboterTab);
+        tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+        roboterTab = new FXRoboterTab(r);
+        roboterTab.setText("Roboter");
+        tabPane.getTabs().add(roboterTab);
 
-		ablageTab = new FXAblageTab(r);
-		ablageTab.setText("Ablagestationen");
-		tabPane.getTabs().add(ablageTab);
+        ablageTab = new FXAblageTab(r);
+        ablageTab.setText("Ablagestationen");
+        tabPane.getTabs().add(ablageTab);
 
-		this.add(tabPane, 0, 1);
-	}
+        this.add(tabPane, 0, 1);
+    }
 
-	/**
-	 * Angepasste Updatemethode zur Aktualisierung der Daten
-	 */
-	@Override
-	public void update(Observable observable, Object o) {
-		if (observable instanceof Roboter) {
-			roboterTab.UpdateData((Roboter) observable);
-		}
-		if (observable instanceof Abladestation) {
-			ablageTab.UpdateData((Abladestation) observable);
-		}
-	}
+    /**
+     * Angepasste Updatemethode zur Aktualisierung der Daten
+     */
+    @Override
+    public void update(Observable observable, Object o) {
+        if (observable instanceof Roboter) {
+            roboterTab.UpdateData((Roboter) observable);
+        }
+        if (observable instanceof Abladestation) {
+            ablageTab.UpdateData((Abladestation) observable);
+        }
+    }
 }

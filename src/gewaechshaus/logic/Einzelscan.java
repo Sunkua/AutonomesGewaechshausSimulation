@@ -8,25 +8,25 @@ import java.util.logging.Level;
  */
 public class Einzelscan extends Unterauftrag {
 
-	public Einzelscan() {
-		Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
-	}
+    public Einzelscan() {
+        Logging.log(this.getClass().getSimpleName(), Level.CONFIG, this.getClass().getSimpleName() + " geladen");
+    }
 
-	/**
-	 * Nicht implementiert, lediglich als Stub
-	 */
-	@Override
-	public void ausfuehren(Roboter roboter) {
-		if (roboter != null) {
+    /**
+     * Nicht implementiert, lediglich als Stub
+     */
+    @Override
+    public void ausfuehren(Roboter roboter) {
+        if (roboter != null) {
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * Nicht implementiert, lediglich als Stub
-	 */
-	@Override
-	public void update(Observable o, Object arg) {
+    /**
+     * Nicht implementiert, lediglich als Stub
+     */
+    @Override
+    public void update(Observable o, Object arg) {
 
-	}
+    }
 }
