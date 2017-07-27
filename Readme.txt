@@ -1,4 +1,16 @@
-Gewächshaus Simulator
+    /\        | |
+   /  \  _   _| |_ ___  _ __   ___  _ __ ___   ___  ___
+  / /\ \| | | | __/ _ \| '_ \ / _ \| '_ ` _ \ / _ \/ __|
+ / ____ \ |_| | || (_) | | | | (_) | | | | | |  __/\__ \
+/_/    \_\__,_|\__\___/|_| |_|\___/|_| |_| |_|\___||___/
+
+  _____                              _         _
+ / ____|                            | |       | |
+| |  __  _____      ____ _  ___  ___| |__  ___| |__   __ _ _   _ ___
+| | |_ |/ _ \ \ /\ / / _` |/ _ \/ __| '_ \/ __| '_ \ / _` | | | / __|
+| |__| |  __/\ V  V / (_| |  __/ (__| | | \__ \ | | | (_| | |_| \__ \
+ \_____|\___| \_/\_/ \__,_|\___|\___|_| |_|___/_| |_|\__,_|\__,_|___/
+
 
 Erstellt von Jannik Best, Paul Grundmann, Benjamin Junker, Nick Teschner
 
@@ -16,8 +28,8 @@ Ausführen
 3. Button "Reife Pflanzen ernten" drückern
      Roboter sollten nun die Pflanzen ernten
 
-Es kann auch vor dem Starten der Simulation ein oder mehere Aufträge hinzugefügt werden. Diese werden dann nacheinander
-abgearbeitet.
+Es kann auch vor dem Starten der Simulation ein oder mehere Aufträge hinzugefügt werden.
+Diese werden dann nacheinander abgearbeitet.
 
 Unit- & Integrations- & Systemtests
 Die Unit Tests befinden sich unter src_test
