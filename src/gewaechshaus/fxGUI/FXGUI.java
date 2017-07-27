@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.logging.Level;
 
 /**
@@ -267,12 +268,17 @@ public class FXGUI extends Application {
         grid.add(sep, 3, 2);
         grid.add(simulationsGrid, 3, 3, 1, 2);
         grid.add(eigenschaftenGitter, 3, 5);
-
+        Random randomGenerator = new Random();
         // Pflanzen hinzufügen
         for (int i = 0; i < 1000; i++) {
             try {
-                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
-                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+                int randomInt = randomGenerator.nextInt(2);
+                if (randomInt % 2 == 0) {
+                    pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
+                } else {
+                    pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+                }
+
             } catch (Exception e) {
                 Logging.log(this.getClass().getName(), Level.WARNING, "Keine freie Pflanzenposition gefunden");
             }
