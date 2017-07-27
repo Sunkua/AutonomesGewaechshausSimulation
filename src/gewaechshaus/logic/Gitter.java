@@ -15,10 +15,16 @@ public class Gitter extends Observable implements Observer {
 	/**
 	 * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten
 	 * Gitterkoordinaten
-	 * 
-	 * Die Koordinaten des Gitters sehen beispielsweise so aus: x -> 0 1 2 3 y |
-	 * 0 1 2 3
-	 *
+	 * <p>
+     * Die Koordinaten des Gitters sehen beispielsweise so aus: x -> 0 1 2 3
+     * y
+     * |
+     * V
+     * 0
+     * 1
+     * 2
+     * 3
+     *
 	 * @param hoehe
 	 *            Reale Höhe des Gitters
 	 * @param breite
