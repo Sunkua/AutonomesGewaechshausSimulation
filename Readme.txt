@@ -14,7 +14,6 @@
 
 Erstellt von Jannik Best, Paul Grundmann, Benjamin Junker, Nick Teschner
 
-
 Ausführen
 1. Auführen /src/gewaechshaus/fxGUI/FXGUI.java
      Gui sollte starten
@@ -30,6 +29,11 @@ Ausführen
 
 Es kann auch vor dem Starten der Simulation ein oder mehere Aufträge hinzugefügt werden.
 Diese werden dann nacheinander abgearbeitet.
+
+In der Konstanten-Klasse können die Werte für z.B. die Maximal-Beladung des Roboters oder die kritische Ladeschwelle des
+Akkus definiert werden.
+Auch die Canvas-Skalierung und dessen Skalierungsfaktor können hier definiert werden, falls ein kleineres oder größeres
+Gewächshaus nicht mehr in die GUI passt.
 
 Unit- & Integrations- & Systemtests
 Die Unit Tests befinden sich unter src_test

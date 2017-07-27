@@ -10,7 +10,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -48,7 +47,7 @@ public class FXGUI extends Application {
         Uhr uhr = new Uhr(300);
         Roboterleitsystem leitSystem = new Roboterleitsystem(gitter, uhr);
         Auftragsgenerator auftragsgenerator = new Auftragsgenerator(pVerwaltung, leitSystem, uhr);
-        Position abladestelle = new Position(23, 23f);
+        Position abladestelle = new Position(23f, 23f);
         Position abladestelle2 = new Position(0f, 0f);
 
         gitter.toKarthesisch(abladestelle);

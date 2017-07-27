@@ -22,5 +22,5 @@ public class Konstanten {
 	public static int canvasDimensionX = 700;
 	public static int canvasDimensionY = 700;
 	// Kleiner == Größer
-	public static int skalierungsfaktor = 15;
+	public static int skalierungsfaktor = 20;
 }
