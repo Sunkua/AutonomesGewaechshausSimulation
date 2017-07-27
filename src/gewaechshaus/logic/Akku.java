@@ -93,6 +93,10 @@ public class Akku extends Observable {
 		}
 	}
 
+    public double getKritischeGrenze() {
+        return kritischeGrenze;
+    }
+
 	/**
 	 * Prüft ob die angegebene kritische Grenze innerhalb ihres
 	 * Gültigkeitsbereiches ist
