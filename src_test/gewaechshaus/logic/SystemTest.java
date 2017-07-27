@@ -109,10 +109,5 @@ public class SystemTest {
         assertTrue("Füllstand des Roboters muss mindestens > 0 sein", r.getFuellstand() > 0);
         assertTrue("Füllstand der Abladestation muss > 0 sein", abladestation.getFuellstand() > 0);
         assertTrue("Mindestens einmal muss geladen worden sein", ladenAuftragIstVorgekommen);
-
-		// Die Pflanze wurde in der Abladestation abgegeben
-		//assertEquals("Tomate wurde nicht geerntet - noch reife Tomate vorhanden", 0,
-		//		pVerwaltung.holePflanzenVonStatus(PflanzenStatus.eReif).size());
-
 	}
 }
