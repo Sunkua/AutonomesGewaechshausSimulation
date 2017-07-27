@@ -3,6 +3,9 @@ package gewaechshaus.logic;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Teilauftrag, aus dem die kompletten Aufträge zusammengesetzt werden
+ */
 public abstract class Unterauftrag extends Observable implements Observer {
 
 	protected Roboter roboter;
@@ -21,7 +24,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
 	/**
 	 * gibt den Status des Unterauftrags zurück
 	 *
-	 * @return
+	 * @return status
 	 */
 	public UnterauftragsStatus getStatus() {
 		return status;
@@ -40,7 +43,7 @@ public abstract class Unterauftrag extends Observable implements Observer {
 	/**
 	 * Gibt den Roboter zurück, der dem Unterauftrag zugewiesen ist
 	 *
-	 * @return
+	 * @return roboter
 	 */
 	public Roboter getRoboter() {
 		return roboter;

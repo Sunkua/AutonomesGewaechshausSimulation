@@ -6,6 +6,9 @@ import java.util.Observer;
 import java.util.UUID;
 import java.util.logging.Level;
 
+/** 
+ * Implementierung des Roboters und der Funktionalität
+ */
 public class Roboter extends Observable implements Observer {
 
 	private ArrayList<PflanzenArt> pflanzenContainer;
@@ -19,7 +22,7 @@ public class Roboter extends Observable implements Observer {
 	/**
 	 * Konstruktor für den Roboter
 	 *
-	 * @param roboterleitsystem
+	 * @param roboterleitsystem zu nutzendes Leitsystem
 	 */
 	public Roboter(Roboterleitsystem roboterleitsystem) {
 		pflanzenContainer = new ArrayList<>();
@@ -31,12 +34,20 @@ public class Roboter extends Observable implements Observer {
 		return unterauftrag;
 	}
 
+	/**
+	 * Setze den Auftrag und benachrichtige die Observer
+	 * @param unterauftrag zu vearbeitender Unterauftrag
+	 */
 	public void setUnterauftrag(Unterauftrag unterauftrag) {
 		this.unterauftrag = unterauftrag;
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * Gibt den Füllstand des Pflanzcontainers zurück
+	 * @return Container Füllstand
+	 */
 	public int getFuellstand() {
 		return pflanzenContainer.size();
 	}
@@ -250,8 +261,7 @@ public class Roboter extends Observable implements Observer {
 	/**
 	 * Update des Akkus
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Akku
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
@@ -268,7 +278,7 @@ public class Roboter extends Observable implements Observer {
 	/**
 	 * Gibt den aktuellen Füllstand des Roboters als String zurück
 	 *
-	 * @return
+	 * @return Füllstand als String
 	 */
 	public String getFüllstandString() {
 		// TODO Auto-generated method stub

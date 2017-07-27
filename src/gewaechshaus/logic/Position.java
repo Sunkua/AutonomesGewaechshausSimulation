@@ -61,7 +61,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Gibt die reale X-Koordinate als Fließkommawert zurück
 	 *
-	 * @return
+	 * @return Koordinate X
 	 */
 	public double getX() {
 		return x;
@@ -70,7 +70,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Setzt die reale X-Koordinate
 	 *
-	 * @param x
+	 * @param x X Zu setzener Wert
 	 */
 	public void setX(double x) {
 		this.x = x;
@@ -79,7 +79,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Gibt die reale Y-Koordinate zurück
 	 *
-	 * @return
+	 * @return Y-Koordinate
 	 */
 	public double getY() {
 		return y;
@@ -88,7 +88,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Setzt die reale Y-Koordinate
 	 *
-	 * @param y
+	 * @param y zu setzener Wert
 	 */
 	public void setY(double y) {
 		this.y = y;
@@ -97,7 +97,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Gibt die spaltenID (X-Koordinate) im Gitter zurück
 	 *
-	 * @return
+	 * @return Nummer der Spalte
 	 */
 	public int getSpaltenID() {
 		return spaltenID;
@@ -106,7 +106,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Setzt die spaltenID (X-Koordinate) im Gitter
 	 *
-	 * @param spaltenID
+	 * @param spaltenID zu setzende SpaltenID
 	 */
 	public void setSpaltenID(int spaltenID) {
 		this.spaltenID = spaltenID;
@@ -115,7 +115,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Gibt die reihenID (Y-Koordinate) im Gitter zurück
 	 *
-	 * @return
+	 * @return Reihen ID
 	 */
 	public int getReihenID() {
 		return reihenID;
@@ -124,7 +124,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Setzt die reihenID (Y-Koordinate) im Gitter
 	 *
-	 * @param reihenID
+	 * @param reihenID Zu setzende Reihen ID
 	 */
 	public void setReihenID(int reihenID) {
 		this.reihenID = reihenID;
@@ -169,8 +169,10 @@ public class Position implements Comparable<Position> {
 	 * Setzt die karthesischen Koordinaten bei einer Position, falls diese mit
 	 * Integern erstellt wurde
 	 *
-	 * @param maxBreite
-	 * @param maxHoehe
+	 * @param maxBreite Maximale Breite 
+	 * @param maxHoehe Maximale Höhe
+	 * @param maxSpalten Maximale Spalten
+	 * @param maxReihen Maximale Reihen
 	 */
 	public void gitterNachKarthesisch(double maxBreite, double maxHoehe, int maxSpalten, int maxReihen) {
 		// Prüfe ob Position mit Fließkommawerten initialisiert wurde
@@ -186,8 +188,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Überschriebener Komparator um Positionen vergleichen zu können
 	 *
-	 * @param o
-	 * @return
+	 * @param o Position
 	 */
 	@Override
 	public int compareTo(Position o) {
@@ -237,7 +238,7 @@ public class Position implements Comparable<Position> {
 	/**
 	 * Generiert einen HashCode aus den Attributen des Positionsobjektes
 	 *
-	 * @return
+	 * @return Hash Wert
 	 */
 	@Override
 	public int hashCode() {

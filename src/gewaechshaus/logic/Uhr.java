@@ -7,6 +7,9 @@ import java.util.logging.Level;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+/**
+ * Uhr zur Steuerung der Simulationsschritte
+ */
 public class Uhr extends java.util.Observable {
 
 	private int schrittZeit;

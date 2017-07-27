@@ -1,7 +1,5 @@
 package gewaechshaus.logic;
 
-import jdk.nashorn.internal.ir.Block;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -13,6 +11,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 
+/**
+ * Leitsystem der Roboter
+ */
 @XmlRootElement(namespace = "gewaechshaus.logic")
 public class Roboterleitsystem extends Observable implements Observer {
 
@@ -372,8 +373,7 @@ public class Roboterleitsystem extends Observable implements Observer {
 	/**
 	 * Update Routine
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Roboter, Auftrag oder Uhr
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
