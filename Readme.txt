@@ -23,9 +23,9 @@ Ausführen
 2.2 Wenn die Simulation automatisch ablaufen soll:
     Den Takt in ms im Feld neben "Timer Periodendauer setzen"-Button eintragen
     Entweder den Button Simulationsuhr starten klicken oder "Timer Periodendauer setzen" klicken
-2. Button "Timer Periodendauer setzten" drücken
+2. Button "Timer Periodendauer setzen" drücken
      Pflanzen sollten nun wachsen
-3. Button "Reife Pflanzen ernten" drückern
+3. Button "Reife Pflanzen ernten" drücken
      Roboter sollten nun die Pflanzen ernten
 
 Es kann auch vor dem Starten der Simulation ein oder mehere Aufträge hinzugefügt werden.
