@@ -14,6 +14,9 @@
 
 Erstellt von Jannik Best, Paul Grundmann, Benjamin Junker, Nick Teschner
 
+Vorbedingungen:
+Es wird ein lauffähige Java-Runtime vorausgesetzt incl. JavaFX-Libs
+
 Ausführen
 1. Auführen /src/gewaechshaus/fxGUI/FXGUI.java
      Gui sollte starten
