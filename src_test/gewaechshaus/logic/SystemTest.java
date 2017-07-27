@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.logging.Level;
+
 /**
  * Dieser Test simuliert den perfekten Ablauf. Zwei Pflanzen werden der
  * Pflanzenverwaltung hinzugefügt und wachsen Die Beladungsgrenze des Roboters
@@ -20,7 +22,8 @@ public class SystemTest {
 	Roboterleitsystem leitSystem;
 	Auftragsgenerator auftragsgenerator;
 	Abladestation abladestation;
-	Uhr uhr;
+    Ladestation ladestation;
+    Uhr uhr;
 
 	@Before
 	public void init() {
@@ -34,6 +37,7 @@ public class SystemTest {
 
 		Position abladestelle = new Position(11, 11);
 		abladestation = new Abladestation(abladestelle);
+        ladestation = new Ladestation(new Position(0, 11));
 
 		pVerwaltung.addObserver(leitSystem);
 		pVerwaltung.addObserver(gitter);
@@ -42,7 +46,8 @@ public class SystemTest {
 		uhr.addObserver(pVerwaltung);
 
 		leitSystem.abladestationHinzufuegen(abladestation);
-		leitSystem.roboterHinzufuegen(pVerwaltung);
+        leitSystem.ladestationHinzufuegen(ladestation);
+        leitSystem.roboterHinzufuegen(pVerwaltung);
 
 		abladestation.setAblagetyp(AblageTyp.eGut);
 		abladestation.leeren();
@@ -62,8 +67,8 @@ public class SystemTest {
 
 		// kritische Grenzen des Roboters setzen
 		Roboter r = leitSystem.getRoboter().get(0);
-		r.getAkku().setKritischeGrenze(80);
-		Konstanten.maximalerFuellstand = 1;
+        r.getAkku().setKritischeGrenze(90);
+        Konstanten.maximalerFuellstand = 1;
 
 		// Mache die Pflanze schwerer, damit sie weggebracht werden muss)
 		double Tomatengewicht = Konstanten.maximalerFuellstand + 1;
@@ -76,9 +81,11 @@ public class SystemTest {
 		// Bei 0.2 Wachstum pro Tick, bei 90 = reif, dann ist die Pflanze
 		// ausgewachsen
 		double maxTicks = 90 / Konstanten.WachstumTomate + 30;
+        boolean ladenAuftragIstVorgekommen = false;
 
-		while (pVerwaltung.holePflanzenVonStatus(PflanzenStatus.eUnreif).isEmpty() == false && a <= maxTicks) {
-			uhr.tick();
+        // Pflanzen reifen lassen
+        while (!pVerwaltung.holePflanzenVonStatus(PflanzenStatus.eUnreif).isEmpty() && a <= 500) {
+            uhr.tick();
 			a++;
 		}
 
@@ -89,10 +96,19 @@ public class SystemTest {
 		leitSystem.auftragHinzufuegen(auftragsgenerator.pflanzenVonStatusErnten(PflanzenStatus.eReif));
 
 		a = 0; // Safeguard, falls der Roboter nicht fährt.
-		while ((abladestation.getFuellstand() == 0.0) && (a < 100)) {
-			uhr.tick();
-			a++;
+        // Ernten, Abladen, Akku laden, Ernten
+        while ((abladestation.getFuellstand() == 0 || r.getFuellstand() == 0) && (a < 600)) {
+            uhr.tick();
+            if (r.getStatus().equals(RoboterStatus.eLädt)) {
+                ladenAuftragIstVorgekommen = true;
+            }
+            a++;
 		}
+        Logging.log(this.getClass().getName(), Level.INFO, "Test wurde nach: " + a + " Schritten beendet");
+
+        assertTrue("Füllstand des Roboters muss mindestens > 0 sein", r.getFuellstand() > 0);
+        assertTrue("Füllstand der Abladestation muss > 0 sein", abladestation.getFuellstand() > 0);
+        assertTrue("Mindestens einmal muss geladen worden sein", ladenAuftragIstVorgekommen);
 
 		// Die Pflanze wurde in der Abladestation abgegeben
 		assertEquals("Tomate wurde nicht geerntet - noch reife Tomate vorhanden", 0,
