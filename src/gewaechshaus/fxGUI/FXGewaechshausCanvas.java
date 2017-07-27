@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by sunku on 06.06.2017.
+ * Klasse zur Verwaltung der Zeichenfläche der GUI Created by sunku on
+ * 06.06.2017.
  */
 public class FXGewaechshausCanvas extends Canvas {
 	private Gitter gitter;
@@ -55,6 +56,9 @@ public class FXGewaechshausCanvas extends Canvas {
 
 	}
 
+	/**
+	 * Erstellt die Zeichenfläche und deren Inhalt
+	 */
 	public void paint() {
 
 		gc.setFill(Color.BLACK);

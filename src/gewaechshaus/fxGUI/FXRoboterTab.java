@@ -11,6 +11,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * Diese Klasse dient der Anzeige der Robotereigenschaften in einem eigenen Tab
+ * innerhalb der GUI
+ */
 public class FXRoboterTab extends Tab {
 
 	Roboterleitsystem roboterleitsystem;
@@ -56,10 +60,15 @@ public class FXRoboterTab extends Tab {
 		setContent(robotTable);
 	}
 
+	/**
+	 * Aktualisiert die Eigenschaften eines Robotersauf der Oberfläche
+	 * 
+	 * @param r
+	 *            zu aktualisierender Roboter
+	 */
 	public void UpdateData(Roboter r) {
 		for (RobotRecord rr : this.robotList) {
 			if (rr.getFieldName().equals(r.getID().toString())) {
-				// TODO Auftrag vom Leitsystem erfragen
 				rr.setFieldLadung(r.getLadestand());
 				rr.setFieldPosition(r.getPosition().toString());
 				rr.setFieldFüllstand(r.getFüllstandString());
@@ -70,6 +79,13 @@ public class FXRoboterTab extends Tab {
 		}
 	}
 
+	/**
+	 * Gibt den übergebenen Auftrag als lesbaren String zurück
+	 * 
+	 * @param uAuftrag
+	 *            zu wandelnder Auftrag
+	 * @return String mit textualem Auftrag
+	 */
 	private String unterauftragAlsString(Unterauftrag uAuftrag) {
 		if (uAuftrag == null) {
 			return "Kein aktueller Auftrag";
@@ -78,6 +94,9 @@ public class FXRoboterTab extends Tab {
 		}
 	}
 
+	/**
+	 * Datenhaltungsstruktur des Robotertabs
+	 */
 	public class RobotRecord {
 		private SimpleStringProperty fieldName;
 		private SimpleStringProperty fieldPosition;
@@ -98,6 +117,7 @@ public class FXRoboterTab extends Tab {
 			this.fieldFüllstand = new SimpleStringProperty(Füllstand);
 		}
 
+		// Getter und Setter
 		public String getFieldName() {
 			return fieldName.get();
 		}

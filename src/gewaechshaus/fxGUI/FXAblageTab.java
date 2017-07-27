@@ -10,6 +10,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * Diese Klasse dient der Darstellung des Übersichtstabs für die Ablagestationen
+ * in der GUI
+ */
 public class FXAblageTab extends Tab {
 
 	Roboterleitsystem roboterleitsystem;
@@ -46,10 +50,15 @@ public class FXAblageTab extends Tab {
 		setContent(abladeTable);
 	}
 
+	/**
+	 * Akutalisiert die betreffende Abladestation
+	 * 
+	 * @param a
+	 *            zu aktualiserende Ladestation
+	 */
 	public void UpdateData(Abladestation a) {
 		for (AblageRecord ar : this.abladeList) {
 			if (ar.getFieldName().equals(a.getID().toString())) {
-				// TODO Auftrag vom Leitsystem erfragen
 				ar.setFieldFüllstand(String.format("%.2f", a.getFuellstand()));
 				abladeTable.refresh();
 				break;
@@ -57,6 +66,9 @@ public class FXAblageTab extends Tab {
 		}
 	}
 
+	/**
+	 * Datenstruktur der Ablagestation im Tab
+	 */
 	public class AblageRecord {
 		private SimpleStringProperty fieldName;
 		private SimpleStringProperty fieldPosition;
@@ -67,6 +79,8 @@ public class FXAblageTab extends Tab {
 			this.fieldPosition = new SimpleStringProperty(position);
 			this.fieldFüllstand = new SimpleStringProperty(Füllstand);
 		}
+
+		// Es folgen einige Getter und Setter
 
 		public String getFieldName() {
 			return fieldName.get();
