@@ -141,15 +141,24 @@ public class FXGUI extends Application {
 			}
 		});
 		NummerFeld simulationsPeriode = new NummerFeld();
+        simulationsPeriode.setText("1");
 
 		timerStart.setOnAction(e -> uhr.startTimer());
 		timerStop.setOnAction(e -> uhr.stopTimer());
 		timerPeriodeAktualisieren.setOnAction(e -> {
-			int schrittZeit = Integer.parseInt(simulationsPeriode.getText());
-			if (schrittZeit > 0)
-				uhr.setSchrittZeit(schrittZeit);
-
-		});
+            if (!simulationsPeriode.getText().equals("")) {
+                int schrittZeit = Integer.parseInt(simulationsPeriode.getText());
+                if (schrittZeit > 0)
+                    uhr.setSchrittZeit(schrittZeit);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warnung");
+                alert.setHeaderText(null);
+                alert.setContentText(
+                        "Bitte geben Sie eine positive Zahl für den Takt ein");
+                alert.showAndWait();
+            }
+        });
 
 		simulationsGrid.add(timerStart, 0, 0);
 		simulationsGrid.add(timerStop, 1, 0);
@@ -264,7 +273,8 @@ public class FXGUI extends Application {
 			try {
 				// pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
 				pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eGurke);
-			} catch (Exception e) {
+                pVerwaltung.pflanzeHinzufuegen(PflanzenArt.eTomate);
+            } catch (Exception e) {
 				Logging.log(this.getClass().getName(), Level.WARNING, "Keine freie Pflanzenposition gefunden");
 			}
 		}
