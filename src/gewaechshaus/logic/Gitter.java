@@ -18,6 +18,7 @@ public class Gitter extends Observable implements Observer {
      * x -> 0 1 2 3
      * y
      * |
+     * V
      * 0
      * 1
      * 2
