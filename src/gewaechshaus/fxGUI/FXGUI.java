@@ -74,12 +74,12 @@ public class FXGUI extends Application {
             leitSystem.roboterHinzufuegen(pVerwaltung);
         }
 
-        FXEigenschaftenGUI eigenschaftsgrid = new FXEigenschaftenGUI(leitSystem);
+        FXEigenschaftenGUI eigenschaftenGitter = new FXEigenschaftenGUI(leitSystem);
         for (Roboter r : leitSystem.getRoboter()) {
-            r.addObserver(eigenschaftsgrid);
+            r.addObserver(eigenschaftenGitter);
         }
-        abladestation.addObserver(eigenschaftsgrid);
-        abladestation2.addObserver(eigenschaftsgrid);
+        abladestation.addObserver(eigenschaftenGitter);
+        abladestation2.addObserver(eigenschaftenGitter);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.TOP_LEFT);
         grid.setHgap(10);
@@ -263,7 +263,7 @@ public class FXGUI extends Application {
         Separator sep = new Separator();
         grid.add(sep, 3, 2);
         grid.add(simulationsGrid, 3, 3, 1, 2);
-        grid.add(eigenschaftsgrid, 3, 5);
+        grid.add(eigenschaftenGitter, 3, 5);
 
 
         // Pflanzen hinzufügen
