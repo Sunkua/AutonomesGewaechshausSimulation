@@ -3,6 +3,9 @@ package gewaechshaus.logic;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * 
+ */
 public class Gitter extends Observable implements Observer {
 
 	private final double gitterhoehe;

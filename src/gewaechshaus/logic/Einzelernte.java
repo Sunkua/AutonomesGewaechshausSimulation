@@ -170,8 +170,7 @@ public class Einzelernte extends Unterauftrag {
 	/**
 	 * Update-Methode des Observers. Wird bei jedem Schritt der Uhr gecalled
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Uhr
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

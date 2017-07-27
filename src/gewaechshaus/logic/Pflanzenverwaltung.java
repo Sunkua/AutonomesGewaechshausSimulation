@@ -225,7 +225,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 	private Runnable wachsenRunnableErstellen() {
 		return () -> {
 			for (Map.Entry<Position, Einzelpflanze> entry : pflanzenListe.entrySet()) {
-				entry.getValue().Wachse();
+				entry.getValue().wachse();
 			}
 			setChanged();
 			notifyObservers();
@@ -245,8 +245,7 @@ public class Pflanzenverwaltung extends Observable implements Observer {
 	 * Bei Clocktick wird ein Runnable erstellt, in die Queue eingefügt und das
 	 * nächste getriggert
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Uhr
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

@@ -30,7 +30,7 @@ public class AkkuLaden extends Unterauftrag {
 	/**
 	 * Berechnet die Zielposition
 	 *
-	 * @return
+	 * @return berechnete Zielposition
 	 */
 	private Position berechneZielPosition() {
 		List<Position> freieNachbarFelderVonAbladestation = roboterleitsystem
@@ -144,8 +144,7 @@ public class AkkuLaden extends Unterauftrag {
 	 * Bei jedem Tick soll ausführen aufgerufen werden, wenn der Unterauftrag
 	 * aktiv ist
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Uhr
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
