@@ -25,8 +25,8 @@ public class EinzelpflanzeTest {
 	@Test
 	public void erstelleEinzelpflanzeNichtNull() throws Exception {
 		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eReif);
-        assertFalse(einzelpflanze == null);
-    }
+		assertFalse(einzelpflanze == null);
+	}
 
 	@Test
 	public void setPflanzenStatusReif() {
@@ -77,14 +77,14 @@ public class EinzelpflanzeTest {
 	@Test
 	public void WachseTomate() {
 		einzelpflanze = new Einzelpflanze(PflanzenArt.eTomate, position, gewicht, PflanzenStatus.eUnreif);
-		einzelpflanze.Wachse();
+		einzelpflanze.wachse();
 		assertTrue(einzelpflanze.getReifestatus() == erwartetWachseTomate);
 	}
 
 	@Test
 	public void WachseGurke() {
 		einzelpflanze = new Einzelpflanze(PflanzenArt.eGurke, position, gewicht, PflanzenStatus.eUnreif);
-		einzelpflanze.Wachse();
+		einzelpflanze.wachse();
 		assertTrue(einzelpflanze.getReifestatus() == erwartetWachseGruke);
 	}
 }

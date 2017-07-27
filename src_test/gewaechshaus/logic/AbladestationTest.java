@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * @author benny
  *
@@ -18,6 +17,7 @@ public class AbladestationTest {
 
 	Position position = new Position(4, 4);
 	Abladestation abladestation;
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -35,13 +35,13 @@ public class AbladestationTest {
 	}
 
 	/**
-	 * Test method for {@link gewaechshaus.logic.Abladestation#Abladestation(gewaechshaus.logic.Position)}.
+	 * Test method for
+	 * {@link gewaechshaus.logic.Abladestation#Abladestation(gewaechshaus.logic.Position)}.
 	 */
 	@Test
 	public void testAbladestation() {
 		assertNotNull(abladestation);
 	}
-
 
 	/**
 	 * Test method for {@link gewaechshaus.logic.Abladestation#leeren()}.

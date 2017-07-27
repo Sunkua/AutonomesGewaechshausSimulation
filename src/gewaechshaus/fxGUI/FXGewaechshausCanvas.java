@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by sunku on 06.06.2017.
+ * Klasse zur Verwaltung der Zeichenfläche der GUI Created by sunku on
+ * 06.06.2017.
  */
 public class FXGewaechshausCanvas extends Canvas {
     private Gitter gitter;
@@ -27,11 +28,10 @@ public class FXGewaechshausCanvas extends Canvas {
     private Image abladeStationBild;
     private AnimationTimer animationsTimer;
 
-    public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe, Pflanzenverwaltung pflanzenverwaltung, Roboterleitsystem roboterleitsystem) {
-
+    public FXGewaechshausCanvas(int size, Gitter g, int breite, int hoehe, Pflanzenverwaltung pflanzenverwaltung,
+                                Roboterleitsystem roboterleitsystem) {
 
         super(breite, hoehe);
-
 
         animationsTimer = new AnimationTimer() {
             @Override
@@ -56,6 +56,9 @@ public class FXGewaechshausCanvas extends Canvas {
 
     }
 
+    /**
+     * Erstellt die Zeichenfläche und deren Inhalt
+     */
     public void paint() {
 
         gc.setFill(Color.BLACK);
@@ -81,11 +84,13 @@ public class FXGewaechshausCanvas extends Canvas {
             gc.setLineWidth(1);
             switch (pflanze.getValue().getArt()) {
                 case eTomate:
-                    gc.drawImage(tomatenBild, spalte * size + 2 + offset, reihe * size + 2 + offset, pflanzengröße, pflanzengröße);
-                    //gc.setFill(Color.RED);
+                    gc.drawImage(tomatenBild, spalte * size + 2 + offset, reihe * size + 2 + offset, pflanzengröße,
+                            pflanzengröße);
+                    // gc.setFill(Color.RED);
                     break;
                 case eGurke:
-                    gc.drawImage(gurkenBild, spalte * size + 2 + offset, reihe * size + 2 + offset, pflanzengröße, pflanzengröße);
+                    gc.drawImage(gurkenBild, spalte * size + 2 + offset, reihe * size + 2 + offset, pflanzengröße,
+                            pflanzengröße);
                     break;
             }
         }
@@ -93,28 +98,23 @@ public class FXGewaechshausCanvas extends Canvas {
         // Draw Roboter
         Set<Position> roboterPos = roboterleitsystem.getRoboterPositionen();
         for (Position p : roboterPos) {
-            // gc.setFill(Color.BLUE);
-            //gc.fillRect(p.getSpaltenID() * size, p.getReihenID() * size, size, size);
             gc.drawImage(wegBild, p.getSpaltenID() * size, p.getReihenID() * size, size, size);
             gc.drawImage(roboterBild, p.getSpaltenID() * size, p.getReihenID() * size, size, size);
         }
 
         for (Abladestation al : roboterleitsystem.getAbladestationen()) {
-            // gc.setFill(Color.SADDLEBROWN);
-            gc.drawImage(abladeStationBild, al.getPosition().getSpaltenID() * size, al.getPosition().getReihenID() * size, size, size);
-            //gc.fillRect(al.getPosition().getSpaltenID() * size, al.getPosition().getReihenID() * size, size, size);
+            gc.drawImage(abladeStationBild, al.getPosition().getSpaltenID() * size,
+                    al.getPosition().getReihenID() * size, size, size);
         }
 
         for (Ladestation ls : roboterleitsystem.getLadestationen()) {
-            //  gc.setFill(Color.YELLOW);
-            gc.drawImage(ladeStationBild, ls.getPosition().getSpaltenID() * size, ls.getPosition().getReihenID() * size, size, size);
-            //  gc.fillRect(ls.getGridPosition().getSpaltenID() * size, ls.getGridPosition().getReihenID() * size, size, size);
+            gc.drawImage(ladeStationBild, ls.getPosition().getSpaltenID() * size, ls.getPosition().getReihenID() * size,
+                    size, size);
         }
         for (Position p : gitter.getWege()) {
             gc.drawImage(wegBild, p.getSpaltenID() * size, p.getReihenID() * size, size, size);
         }
 
     }
-
 
 }
