@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,14 +22,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
+/**
+ * Einstiegspunkt, Verwaltung und Hauptklasse der GUI und des Gewächshauses
+ * selbst
+ */
 public class FXGUI extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Initialisiert die GUI und das gesamte Gewächshaus, inkl. Leitsystem,
+	 * Verwaltung, Robotern und Stationen
+	 */
 	@Override
 	public void start(Stage stage) {
-		// TODO Auto-generated method
 		// Breite und Höhe werden als fester Wert angenommen, der der Feldanzahl
 		// entspricht. Die richtigen Maße müssten
 		// relativ zur Feldanzahl bzw. Breite oder Höhe berechnet werden

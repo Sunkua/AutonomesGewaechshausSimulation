@@ -11,6 +11,9 @@ import javafx.scene.layout.GridPane;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Klasse zur Darstellung des Eigenschaftstabs in der GUI
+ */
 public class FXEigenschaftenGUI extends GridPane implements Observer {
 
 	TabPane tabPane;
@@ -18,7 +21,6 @@ public class FXEigenschaftenGUI extends GridPane implements Observer {
 	FXAblageTab ablageTab;
 
 	public FXEigenschaftenGUI(Roboterleitsystem r) {
-		// TODO Auto-generated constructor stub
 		super();
 		this.setAlignment(Pos.CENTER_LEFT);
 		this.setHgap(10);
@@ -37,6 +39,9 @@ public class FXEigenschaftenGUI extends GridPane implements Observer {
 		this.add(tabPane, 0, 1);
 	}
 
+	/**
+	 * Angepasste Updatemethode zur Aktualisierung der Daten
+	 */
 	@Override
 	public void update(Observable observable, Object o) {
 		if (observable instanceof Roboter) {
