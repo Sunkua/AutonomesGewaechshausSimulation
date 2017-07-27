@@ -5,13 +5,14 @@ package gewaechshaus.logic;
  * Berechnung eines Pfades von Punkt a nach Punkt b
  */
 public class KeinWegGefundenException extends Exception {
-	/**
-	 *
-	 */
+
+	
 	private static final long serialVersionUID = -4348278189646857624L;
 
+	/**
+	 * Stub zum Abfangen eines Aufrufs ohne Nachricht
+	 */
 	public KeinWegGefundenException() {
-
 	}
 
 	/**

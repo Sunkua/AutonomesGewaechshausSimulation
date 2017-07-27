@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 /**
- * 
+ * Realisierung einer Gitterstruktur für die Verwaltung von Koordinaten
  */
 public class Gitter extends Observable implements Observer {
 
@@ -15,7 +15,7 @@ public class Gitter extends Observable implements Observer {
 	/**
 	 * Erstellt ein Gitter-Koordinatensystem mit realen und interpolierten
 	 * Gitterkoordinaten
-	 * <p>
+	 * 
 	 * Die Koordinaten des Gitters sehen beispielsweise so aus: x -> 0 1 2 3 y |
 	 * 0 1 2 3
 	 *
@@ -357,14 +357,16 @@ public class Gitter extends Observable implements Observer {
 	}
 
 	/**
-	 * @return Gibt die Höhe des Grids in Kästcheneinheiten zurück
+	 * Gibt die Höhe des Grids in Kästcheneinheiten zurück 
+	 * @return Höhe
 	 */
 	public int getHoehe() {
 		return gitter[0].length;
 	}
 
 	/**
-	 * @return Gibt die Breite des Grids in Kästcheneinheiten zurück
+	 * Gibt die Breite des Grids in Kästcheneinheiten zurück
+	 * @return Breite
 	 */
 	public int getBreite() {
 		return gitter.length;
@@ -396,6 +398,10 @@ public class Gitter extends Observable implements Observer {
 		}
 	}
 
+	/**
+	 * Rückgabe der möglichen Pfadpositionen
+	 * @return Positionen der Pfade
+	 */
 	public ArrayList<Position> getWege() {
 		ArrayList<Position> positionen = new ArrayList<>();
 		for (int x = 0; x < this.getBreite(); x++) {
@@ -454,8 +460,7 @@ public class Gitter extends Observable implements Observer {
 	/**
 	 * Aktualisiert das Grid abhängig vom triggernden Subjekt
 	 *
-	 * @param o
-	 * @param arg
+	 * @param o Pflanzverwaltung oder Roboterleitsystem
 	 */
 	@Override
 	public void update(Observable o, Object arg) {

@@ -2,6 +2,9 @@ package gewaechshaus.logic;
 
 import java.util.logging.Level;
 
+/**
+ * Klasse zur Implementierung von Koordinaten im Kontext unseres Gitters
+ */
 public class Position implements Comparable<Position> {
 
 	private int spaltenID;

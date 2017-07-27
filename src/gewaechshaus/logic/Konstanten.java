@@ -4,7 +4,7 @@ package gewaechshaus.logic;
  * Sammelklasse für Konstanten zur einfacheren Manipulation der Simulation
  */
 public class Konstanten {
-	// TODO: bring this into a config file:
+
 	public static double AkkuEntladungNormal = -0.001;
 	public static double AkkuEntladungBeschäftigt = -0.2;
 	public static double AkkuAufladung = 0.5;
@@ -21,6 +21,6 @@ public class Konstanten {
 	// Skalierung und Auflösung des Canvas
 	public static int canvasDimensionX = 700;
 	public static int canvasDimensionY = 700;
-	// Kleiner == größer
+	// Kleiner == Größer
 	public static int skalierungsfaktor = 15;
 }

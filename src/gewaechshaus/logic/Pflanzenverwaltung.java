@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+/**
+ * Klasse zur Verwaltung der einzelnen Pflanzen
+ */
 @XmlRootElement(namespace = "gewaechshaus.logic")
 public class Pflanzenverwaltung extends Observable implements Observer {
 

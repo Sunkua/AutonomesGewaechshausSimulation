@@ -23,6 +23,7 @@ public class Logging {
 	 */
 	private Logging() throws IOException {
 		logger = Logger.getLogger("Gewaechshaus");
+		// Hier wird der Name der Logfile definiert!
 		fileHandler = new FileHandler("Log.txt");
 		fileHandler.setFormatter(new SimpleFormatter());
 		logger.addHandler(fileHandler);

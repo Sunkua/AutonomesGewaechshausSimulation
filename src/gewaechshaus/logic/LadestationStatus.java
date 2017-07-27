@@ -1,7 +1,7 @@
 package gewaechshaus.logic;
 
 /**
- * Created by Paul Grundmann on 02.07.2017.
+ * Enum zur Verwaltung des Ladestationsstatus
  */
 public enum LadestationStatus {
 	frei, besetzt

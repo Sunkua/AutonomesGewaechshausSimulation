@@ -1,7 +1,7 @@
 package gewaechshaus.logic;
 
 /**
- * Definiert die Art der Pflanze.
+ * Enum zur Definition der Art der Pflanze.
  */
 public enum PflanzenArt {
 	eTomate, eGurke;
