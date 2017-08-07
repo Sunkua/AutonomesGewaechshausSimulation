@@ -1,6 +1,6 @@
 # Autonomous Greenhouse Simulation
 
-The Autonomous Greenhouse Simulation is a simulation of a greenhouse. In the greenhouse are some roboters which can harvest the plants. The roboters are controlled by a unit called the "Roboterleitsystem" or in english robot-control-system. (Has to be translated to english)
+The Autonomous Greenhouse Simulation is a simulation of a greenhouse. In the greenhouse are some robots which can harvest the plants. The robots are controlled by a unit called the "Roboterleitsystem" or in english robot-control-system. (Has to be translated to english)
 
 
 ### Background
